@@ -1,0 +1,405 @@
+{{ 'theme-ml-custom.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .hero-slider-ml {
+    position: relative;
+    overflow: hidden;
+    background: {{ section.settings.background_color }};
+  }
+
+  .hero-slider-ml__wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .hero-slider-ml__slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .hero-slide-ml {
+    min-width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 400px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-slide-ml {
+      min-height: 500px;
+    }
+  }
+
+  .hero-slide-ml__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .hero-slide-ml__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+    z-index: 1;
+  }
+
+  .hero-slide-ml__content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+
+  @media (min-width: 768px) {
+    .hero-slide-ml__content {
+      padding: var(--spacing-3xl);
+    }
+  }
+
+  .hero-slide-ml__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-ml-white);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+  }
+
+  @media (min-width: 768px) {
+    .hero-slide-ml__title {
+      font-size: var(--font-size-4xl);
+    }
+  }
+
+  .hero-slide-ml__text {
+    font-size: var(--font-size-lg);
+    color: var(--color-ml-white);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.6;
+  }
+
+  .hero-slide-ml__button {
+    display: inline-flex;
+  }
+
+  .hero-slider-ml__controls {
+    position: absolute;
+    bottom: var(--spacing-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--spacing-sm);
+    z-index: 10;
+  }
+
+  .hero-slider-ml__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    padding: 0;
+  }
+
+  .hero-slider-ml__dot--active {
+    background: var(--color-ml-orange);
+    width: 32px;
+    border-radius: var(--radius-full);
+  }
+
+  .hero-slider-ml__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-slider-ml__arrow:hover {
+    background: var(--color-ml-white);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero-slider-ml__arrow--prev {
+    left: var(--spacing-md);
+  }
+
+  .hero-slider-ml__arrow--next {
+    right: var(--spacing-md);
+  }
+
+  @media (max-width: 767px) {
+    .hero-slider-ml__arrow {
+      width: 40px;
+      height: 40px;
+    }
+  }
+</style>
+
+<div class="hero-slider-ml">
+  <div class="hero-slider-ml__wrapper" id="heroSliderML">
+    <div class="hero-slider-ml__slides" id="heroSlidesML">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'slide' -%}
+            <div class="hero-slide-ml" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                <img
+                  srcset="
+                    {{ block.settings.image | image_url: width: 600 }} 600w,
+                    {{ block.settings.image | image_url: width: 1200 }} 1200w,
+                    {{ block.settings.image | image_url: width: 1800 }} 1800w
+                  "
+                  src="{{ block.settings.image | image_url: width: 1200 }}"
+                  alt="{{ block.settings.title | escape }}"
+                  class="hero-slide-ml__image"
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                >
+              {%- else -%}
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+              {%- endif -%}
+
+              {%- if block.settings.show_overlay -%}
+                <div class="hero-slide-ml__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+              {%- endif -%}
+
+              <div class="container-ml">
+                <div class="hero-slide-ml__content" style="text-align: {{ block.settings.text_alignment }};">
+                  {%- if block.settings.title != blank -%}
+                    <h2 class="hero-slide-ml__title">{{ block.settings.title }}</h2>
+                  {%- endif -%}
+
+                  {%- if block.settings.text != blank -%}
+                    <p class="hero-slide-ml__text">{{ block.settings.text }}</p>
+                  {%- endif -%}
+
+                  {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                    <a href="{{ block.settings.button_link }}" class="btn-ml-primary hero-slide-ml__button">
+                      {{ block.settings.button_label }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      <button class="hero-slider-ml__arrow hero-slider-ml__arrow--prev" onclick="moveSlide(-1)" aria-label="Anterior">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+
+      <button class="hero-slider-ml__arrow hero-slider-ml__arrow--next" onclick="moveSlide(1)" aria-label="Siguiente">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+
+      <div class="hero-slider-ml__controls" id="heroDotsML">
+        {%- for block in section.blocks -%}
+          <button
+            class="hero-slider-ml__dot{% if forloop.first %} hero-slider-ml__dot--active{% endif %}"
+            onclick="goToSlide({{ forloop.index0 }})"
+            aria-label="Ir a slide {{ forloop.index }}"
+          ></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function() {
+    let currentSlide = 0;
+    const totalSlides = {{ section.blocks.size }};
+    const autoplayInterval = {{ section.settings.autoplay_speed | times: 1000 }};
+    let autoplayTimer;
+
+    function updateSlider() {
+      const slides = document.getElementById('heroSlidesML');
+      const dots = document.querySelectorAll('.hero-slider-ml__dot');
+
+      if (slides) {
+        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('hero-slider-ml__dot--active', index === currentSlide);
+      });
+    }
+
+    window.moveSlide = function(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      updateSlider();
+      resetAutoplay();
+    };
+
+    window.goToSlide = function(index) {
+      currentSlide = index;
+      updateSlider();
+      resetAutoplay();
+    };
+
+    function startAutoplay() {
+      {% if section.settings.enable_autoplay %}
+        autoplayTimer = setInterval(() => {
+          moveSlide(1);
+        }, autoplayInterval);
+      {% endif %}
+    }
+
+    function resetAutoplay() {
+      {% if section.settings.enable_autoplay %}
+        clearInterval(autoplayTimer);
+        startAutoplay();
+      {% endif %}
+    }
+
+    // Iniciar autoplay al cargar
+    startAutoplay();
+
+    // Pausar autoplay cuando el usuario interactúa
+    const slider = document.getElementById('heroSliderML');
+    if (slider) {
+      slider.addEventListener('mouseenter', () => {
+        clearInterval(autoplayTimer);
+      });
+
+      slider.addEventListener('mouseleave', () => {
+        startAutoplay();
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Slider ML",
+  "class": "hero-slider-ml-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Activar reproducción automática",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Velocidad de reproducción",
+      "default": 5
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen de fondo"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overlay",
+          "label": "Mostrar capa oscura",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "unit": "%",
+          "label": "Opacidad de la capa",
+          "default": 50
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Descubre nuestras ofertas"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texto",
+          "default": "Las mejores ofertas en productos de calidad"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Alineación del texto",
+          "options": [
+            { "value": "left", "label": "Izquierda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Texto del botón",
+          "default": "Comprar ahora"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Enlace del botón"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Slider ML",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Descubre nuestras ofertas",
+            "text": "Las mejores ofertas en productos de calidad",
+            "button_label": "Ver ofertas"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

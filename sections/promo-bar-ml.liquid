@@ -1,0 +1,187 @@
+{{ 'theme-ml-custom.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .promo-bar-ml {
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    padding: 10px 0;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+    z-index: 100;
+  }
+
+  .promo-bar-ml__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .promo-bar-ml__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .promo-bar-ml__text {
+    font-weight: 500;
+  }
+
+  .promo-bar-ml__link {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 600;
+    transition: opacity var(--transition-fast);
+  }
+
+  .promo-bar-ml__link:hover {
+    opacity: 0.8;
+  }
+
+  .promo-bar-ml__close {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 8px;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+  }
+
+  .promo-bar-ml__close:hover {
+    opacity: 1;
+  }
+
+  .promo-bar-ml.hidden {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .promo-bar-ml {
+      font-size: 12px;
+      padding: 8px 40px 8px 8px;
+    }
+
+    .promo-bar-ml__close {
+      right: 8px;
+    }
+  }
+</style>
+
+{%- if section.settings.enable_promo_bar -%}
+  <div class="promo-bar-ml" id="promoBarML">
+    <div class="promo-bar-ml__content container-ml">
+      {%- if section.settings.show_icon -%}
+        <svg class="promo-bar-ml__icon" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+        </svg>
+      {%- endif -%}
+
+      <span class="promo-bar-ml__text">
+        {{ section.settings.promo_text }}
+      </span>
+
+      {%- if section.settings.promo_link != blank -%}
+        <a href="{{ section.settings.promo_link }}" class="promo-bar-ml__link">
+          {{ section.settings.link_text }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_close_button -%}
+        <button class="promo-bar-ml__close" aria-label="Cerrar" onclick="closePromoBar()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script>
+    function closePromoBar() {
+      const promoBar = document.getElementById('promoBarML');
+      if (promoBar) {
+        promoBar.classList.add('hidden');
+        // Guardar en localStorage para no mostrar nuevamente
+        localStorage.setItem('promoBarClosed', 'true');
+      }
+    }
+
+    // Verificar si ya fue cerrado
+    document.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('promoBarClosed') === 'true') {
+        const promoBar = document.getElementById('promoBarML');
+        if (promoBar) {
+          promoBar.classList.add('hidden');
+        }
+      }
+    });
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Barra Promocional ML",
+  "class": "promo-bar-ml-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_promo_bar",
+      "label": "Mostrar barra promocional",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Texto promocional",
+      "default": "¡Envío gratis en compras superiores a $50.000!"
+    },
+    {
+      "type": "url",
+      "id": "promo_link",
+      "label": "Enlace (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Texto del enlace",
+      "default": "Ver más"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Mostrar ícono",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_button",
+      "label": "Mostrar botón de cerrar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#FFE600"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color del texto",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Barra Promocional ML"
+    }
+  ]
+}
+{% endschema %}

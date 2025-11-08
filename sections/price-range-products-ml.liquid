@@ -1,0 +1,277 @@
+{{ 'theme-ml-custom.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .price-range-section-ml {
+    background: {{ section.settings.background_color }};
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .price-range-section-ml__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .price-range-section-ml__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-ml-gray-darkest);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .price-range-section-ml__badge {
+    background: var(--color-ml-orange);
+    color: var(--color-ml-white);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .price-range-section-ml__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  @media (min-width: 768px) {
+    .price-range-section-ml__grid {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--spacing-lg);
+    }
+  }
+
+  .price-range-section-ml__view-all {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+  }
+</style>
+
+<div class="price-range-section-ml">
+  <div class="container-ml">
+    <div class="price-range-section-ml__header">
+      <h2 class="price-range-section-ml__title">
+        {{ section.settings.title }}
+        <span class="price-range-section-ml__badge">
+          {{ section.settings.price_badge | money_without_trailing_zeros }}
+        </span>
+      </h2>
+
+      {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+        <a href="{{ collections[section.settings.collection].url }}" class="btn-ml-link">
+          Ver todos →
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="price-range-section-ml__grid">
+      {%- liquid
+        assign target_collection = collections[section.settings.collection]
+        assign max_price_cents = section.settings.max_price | times: 100
+        assign products_shown = 0
+        assign max_products = section.settings.products_to_show
+      -%}
+
+      {%- if target_collection != blank -%}
+        {%- for product in target_collection.products limit: 50 -%}
+          {%- if products_shown >= max_products -%}
+            {%- break -%}
+          {%- endif -%}
+
+          {%- if product.price <= max_price_cents -%}
+            {%- assign products_shown = products_shown | plus: 1 -%}
+            <div class="product-card-ml">
+              <a href="{{ product.url }}" class="product-card-ml__image-wrapper">
+                {%- if product.featured_image -%}
+                  <img
+                    srcset="
+                      {{ product.featured_image | image_url: width: 200 }} 200w,
+                      {{ product.featured_image | image_url: width: 400 }} 400w
+                    "
+                    src="{{ product.featured_image | image_url: width: 200 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="product-card-ml__image"
+                    loading="lazy"
+                    width="200"
+                    height="200"
+                  >
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'product-card-ml__image' }}
+                {%- endif -%}
+
+                {%- if product.compare_at_price > product.price -%}
+                  {%- assign discount_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                  <span class="product-card-ml__badge">
+                    -{{ discount_percentage }}%
+                  </span>
+                {%- endif -%}
+              </a>
+
+              <a href="{{ product.url }}" style="text-decoration: none;">
+                <h3 class="product-card-ml__title">{{ product.title }}</h3>
+              </a>
+
+              <div class="product-card-ml__price-wrapper">
+                <span class="product-card-ml__price">
+                  {{ product.price | money_without_trailing_zeros }}
+                </span>
+
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="product-card-ml__price-original">
+                    {{ product.compare_at_price | money_without_trailing_zeros }}
+                  </span>
+                  {%- assign discount_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+                  <span class="product-card-ml__discount">
+                    {{ discount_percentage }}% OFF
+                  </span>
+                {%- endif -%}
+              </div>
+
+              {%- if section.settings.show_shipping_tag -%}
+                <div class="product-card-ml__shipping">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+                  </svg>
+                  Envío gratis
+                </div>
+              {%- endif -%}
+
+              <button class="product-card-ml__quick-add btn-ml-primary" onclick="quickAddProduct('{{ product.variants.first.id }}', '{{ product.title | escape }}')">
+                Agregar al carrito
+              </button>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Mostrar productos de ejemplo si no hay colección seleccionada {%- endcomment -%}
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <div class="product-card-ml">
+            <div class="product-card-ml__image-wrapper">
+              {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'product-card-ml__image' }}
+            </div>
+            <h3 class="product-card-ml__title">Producto de ejemplo {{ forloop.index }}</h3>
+            <div class="product-card-ml__price-wrapper">
+              <span class="product-card-ml__price">{{ section.settings.price_badge | money_without_trailing_zeros }}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+      <div class="price-range-section-ml__view-all">
+        <a href="{{ collections[section.settings.collection].url }}" class="btn-ml-secondary">
+          {{ section.settings.view_all_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  function quickAddProduct(variantId, productTitle) {
+    // Agregar al carrito vía AJAX
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: 1
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Actualizar el contador del carrito
+      fetch('/cart.js')
+        .then(res => res.json())
+        .then(cart => {
+          const cartBubble = document.querySelector('.cart-count-bubble span');
+          if (cartBubble) {
+            cartBubble.textContent = cart.item_count;
+          }
+
+          // Mostrar mensaje de éxito
+          alert('✓ ' + productTitle + ' agregado al carrito');
+        });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error al agregar el producto al carrito');
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Productos por Precio ML",
+  "class": "price-range-products-ml-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título de la sección",
+      "default": "Menos de"
+    },
+    {
+      "type": "number",
+      "id": "price_badge",
+      "label": "Precio máximo",
+      "default": 50000,
+      "info": "Productos con precio menor o igual a este valor"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección",
+      "info": "Selecciona la colección de la cual filtrar productos"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "label": "Productos a mostrar",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_tag",
+      "label": "Mostrar etiqueta 'Envío gratis'",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Mostrar botón 'Ver todo'",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Texto del botón",
+      "default": "Ver todos los productos"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#F5F5F5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Productos por Precio ML"
+    }
+  ]
+}
+{% endschema %}

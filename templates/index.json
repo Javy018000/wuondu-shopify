@@ -9,76 +9,249 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "promo_bar_ml": {
+      "type": "promo-bar-ml",
+      "settings": {
+        "enable_promo_bar": true,
+        "promo_text": "¡Envío gratis en compras superiores a $50.000!",
+        "promo_link": "/collections/all",
+        "link_text": "Ver productos",
+        "show_icon": true,
+        "show_close_button": true,
+        "background_color": "#FFE600",
+        "text_color": "#000000"
+      }
+    },
+    "hero_slider_ml": {
+      "type": "hero-slider-ml",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_1": {
+          "type": "slide",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "show_overlay": true,
+            "overlay_opacity": 40,
+            "title": "Descubre nuestras ofertas",
+            "text": "Las mejores ofertas en productos de calidad para ti",
+            "text_alignment": "left",
+            "button_label": "Ver ofertas",
+            "button_link": "/collections/all"
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide_2": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "show_overlay": true,
+            "overlay_opacity": 40,
+            "title": "Nuevos productos",
+            "text": "Explora nuestra nueva colección",
+            "text_alignment": "left",
+            "button_label": "Ver novedades",
+            "button_link": "/collections/all"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "slide_1",
+        "slide_2"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "enable_autoplay": true,
+        "autoplay_speed": 5,
+        "background_color": "#000000"
+      }
+    },
+    "categories_ml": {
+      "type": "categories-ml",
+      "blocks": {
+        "category_1": {
+          "type": "category",
+          "settings": {
+            "category_name": "Electrónica",
+            "category_link": "/collections/all",
+            "icon_type": "electronics"
+          }
+        },
+        "category_2": {
+          "type": "category",
+          "settings": {
+            "category_name": "Moda",
+            "category_link": "/collections/all",
+            "icon_type": "fashion"
+          }
+        },
+        "category_3": {
+          "type": "category",
+          "settings": {
+            "category_name": "Hogar",
+            "category_link": "/collections/all",
+            "icon_type": "home"
+          }
+        },
+        "category_4": {
+          "type": "category",
+          "settings": {
+            "category_name": "Deportes",
+            "category_link": "/collections/all",
+            "icon_type": "sports"
+          }
+        },
+        "category_5": {
+          "type": "category",
+          "settings": {
+            "category_name": "Juguetes",
+            "category_link": "/collections/all",
+            "icon_type": "toys"
+          }
+        },
+        "category_6": {
+          "type": "category",
+          "settings": {
+            "category_name": "Belleza",
+            "category_link": "/collections/all",
+            "icon_type": "beauty"
+          }
+        }
+      },
+      "block_order": [
+        "category_1",
+        "category_2",
+        "category_3",
+        "category_4",
+        "category_5",
+        "category_6"
+      ],
+      "settings": {
+        "title": "Categorías destacadas",
+        "subtitle": "Encuentra lo que buscas",
+        "background_color": "#FFFFFF",
+        "show_view_all": false
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "collection": "all",
+        "products_to_show": 8,
+        "title": "Productos destacados",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
         "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
+        "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "quick_add": "none",
         "columns_mobile": "2",
-        "padding_top": 44,
+        "swipe_on_mobile": false,
+        "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "price_range_ml": {
+      "type": "price-range-products-ml",
+      "settings": {
+        "title": "Menos de",
+        "price_badge": 50000,
+        "collection": "all",
+        "products_to_show": 8,
+        "show_shipping_tag": true,
+        "show_view_all": true,
+        "view_all_text": "Ver todos los productos",
+        "background_color": "#F5F5F5"
+      }
+    },
+    "benefits_ml": {
+      "type": "benefits-ml",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shipping",
+            "title": "Envío gratis",
+            "description": "En compras superiores a $50.000"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "payment",
+            "title": "Pago seguro",
+            "description": "Múltiples métodos de pago disponibles"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "security",
+            "title": "Compra protegida",
+            "description": "Garantía en todos los productos"
+          }
+        },
+        "benefit_4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "returns",
+            "title": "Devoluciones fáciles",
+            "description": "30 días para devoluciones sin costo"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "benefit_4"
+      ],
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Suscríbete a nuestro newsletter",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Recibe las mejores ofertas y novedades directamente en tu correo</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "promo_bar_ml",
+    "hero_slider_ml",
+    "categories_ml",
+    "featured_collection",
+    "price_range_ml",
+    "benefits_ml",
+    "newsletter"
   ]
 }

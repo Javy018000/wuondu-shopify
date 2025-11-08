@@ -1,0 +1,234 @@
+{{ 'theme-ml-custom.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .categories-section-ml {
+    background: {{ section.settings.background_color }};
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .categories-section-ml__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .categories-section-ml__title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-ml-gray-darkest);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .categories-section-ml__subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-ml-gray);
+  }
+
+  @media (max-width: 767px) {
+    .categories-section-ml__title {
+      font-size: var(--font-size-2xl);
+    }
+  }
+</style>
+
+<div class="categories-section-ml">
+  <div class="container-ml">
+    {%- if section.settings.title != blank -%}
+      <div class="categories-section-ml__header">
+        <h2 class="categories-section-ml__title">{{ section.settings.title }}</h2>
+        {%- if section.settings.subtitle != blank -%}
+          <p class="categories-section-ml__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="categories-ml">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'category' -%}
+            <a href="{{ block.settings.category_link }}" class="category-card-ml" {{ block.shopify_attributes }}>
+              <div class="category-card-ml__icon">
+                {%- if block.settings.category_image != blank -%}
+                  <img
+                    src="{{ block.settings.category_image | image_url: width: 64 }}"
+                    alt="{{ block.settings.category_name }}"
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  {%- case block.settings.icon_type -%}
+                    {%- when 'electronics' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h3l-1 1v2h12v-2l-1-1h3c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H4V5h16v11z"/>
+                      </svg>
+                    {%- when 'fashion' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                      </svg>
+                    {%- when 'home' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                      </svg>
+                    {%- when 'sports' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                      </svg>
+                    {%- when 'toys' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M12 12c0-3 2.5-5.5 5.5-5.5S23 9 23 12H12zm0 0c0 3-2.5 5.5-5.5 5.5S1 15 1 12h11zm0 0c-3 0-5.5-2.5-5.5-5.5S9 1 12 1v11zm0 0c3 0 5.5 2.5 5.5 5.5S15 23 12 23V12z"/>
+                      </svg>
+                    {%- when 'beauty' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                      </svg>
+                    {%- when 'books' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+                      </svg>
+                    {%- when 'food' -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
+                      </svg>
+                    {%- else -%}
+                      <svg fill="currentColor" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                      </svg>
+                  {%- endcase -%}
+                {%- endif -%}
+              </div>
+              <h3 class="category-card-ml__title">{{ block.settings.category_name }}</h3>
+            </a>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.show_view_all -%}
+      <div style="text-align: center; margin-top: var(--spacing-xl);">
+        <a href="{{ section.settings.view_all_link }}" class="btn-ml-secondary">
+          {{ section.settings.view_all_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Categorías ML",
+  "class": "categories-ml-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Categorías destacadas"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Encuentra lo que buscas"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Mostrar botón 'Ver todo'",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Enlace 'Ver todo'"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Texto del botón",
+      "default": "Ver todas las categorías"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categoría",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Nombre de la categoría",
+          "default": "Electrónica"
+        },
+        {
+          "type": "url",
+          "id": "category_link",
+          "label": "Enlace a la categoría"
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Tipo de ícono",
+          "options": [
+            { "value": "electronics", "label": "Electrónica" },
+            { "value": "fashion", "label": "Moda" },
+            { "value": "home", "label": "Hogar" },
+            { "value": "sports", "label": "Deportes" },
+            { "value": "toys", "label": "Juguetes" },
+            { "value": "beauty", "label": "Belleza" },
+            { "value": "books", "label": "Libros" },
+            { "value": "food", "label": "Alimentos" },
+            { "value": "other", "label": "Otro" }
+          ],
+          "default": "electronics"
+        },
+        {
+          "type": "image_picker",
+          "id": "category_image",
+          "label": "Imagen personalizada (opcional)",
+          "info": "Si se carga una imagen, reemplaza el ícono"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categorías ML",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Electrónica",
+            "icon_type": "electronics"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Moda",
+            "icon_type": "fashion"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Hogar",
+            "icon_type": "home"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_name": "Deportes",
+            "icon_type": "sports"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
