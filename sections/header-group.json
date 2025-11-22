@@ -35,28 +35,22 @@
         "enable_language_selector": false
       }
     },
-    "header": {
-      "type": "header",
+    "header-ml": {
+      "type": "header-ml",
       "settings": {
-        "logo_position": "middle-left",
-        "mobile_logo_position": "center",
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
-        "color_scheme": "scheme-1",
-        "menu_color_scheme": "scheme-1",
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "enable_customer_avatar": true,
-        "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
+        "search_placeholder": "Buscar productos, marcas y más...",
+        "show_account_links": true,
+        "show_register_link": true,
+        "show_orders_link": true,
+        "show_categories_menu": true,
+        "categories_text": "Categorías",
+        "megamenu": "main-menu",
+        "menu": "footer"
       }
     }
   },
   "order": [
     "announcement-bar",
-    "header"
+    "header-ml"
   ]
 }
