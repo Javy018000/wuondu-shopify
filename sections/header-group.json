@@ -1,56 +1,19 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement-bar-0": {
-          "type": "announcement",
-          "settings": {
-            "text": "Welcome to our store",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement-bar-0"
-      ],
-      "settings": {
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "color_scheme": "scheme-1",
-        "show_line_separator": true,
-        "show_social": false,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      }
-    },
     "header-ml": {
       "type": "header-ml",
       "settings": {
+        "show_announcement": true,
+        "announcement_text": "Envío gratis en compras superiores a $50.000",
+        "announcement_link": "",
         "search_placeholder": "Buscar productos, marcas y más...",
-        "show_account_links": true,
-        "show_register_link": true,
-        "show_orders_link": true,
-        "show_categories_menu": true,
-        "categories_text": "Categorías",
-        "megamenu": "main-menu",
-        "menu": "footer"
+        "menu": "main-menu"
       }
     }
   },
   "order": [
-    "announcement-bar",
     "header-ml"
   ]
 }

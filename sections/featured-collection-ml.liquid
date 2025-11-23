@@ -1,0 +1,267 @@
+{{ 'product-card-ml.css' | asset_url | stylesheet_tag }}
+
+<div class="featured-collection-ml section-{{ section.id }}-padding">
+  <div class="page-width">
+    {%- comment -%} Encabezado de la sección {%- endcomment -%}
+    {%- if section.settings.title != blank -%}
+      <div class="featured-collection-ml__header">
+        <h2 class="featured-collection-ml__title">{{ section.settings.title }}</h2>
+        {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+          <a href="{{ collections[section.settings.collection].url }}" class="featured-collection-ml__view-all">
+            Ver todos
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Grid de productos {%- endcomment -%}
+    {%- liquid
+      assign collection_to_show = collections[section.settings.collection]
+      assign products_to_show = section.settings.products_to_show | at_most: 12
+    -%}
+
+    {%- if collection_to_show != blank and collection_to_show.products_count > 0 -%}
+      <div class="products-grid-ml">
+        {%- for product in collection_to_show.products limit: products_to_show -%}
+          <div class="products-grid-ml__item">
+            {% render 'card-product-ml',
+              card_product: product,
+              section_id: section.id,
+              show_secondary_image: section.settings.show_secondary_image,
+              show_discount_badge: section.settings.show_discount_badge,
+              show_free_shipping_badge: section.settings.show_free_shipping_badge,
+              free_shipping_threshold: section.settings.free_shipping_threshold,
+              lazy_load: true
+            %}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Botón "Ver todos" en mobile {%- endcomment -%}
+      {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+        <div class="featured-collection-ml__view-all-mobile">
+          <a href="{{ collections[section.settings.collection].url }}" class="featured-collection-ml__view-all-button">
+            Ver todos los productos
+          </a>
+        </div>
+      {%- endif -%}
+
+    {%- else -%}
+      {%- comment -%} Placeholder cuando no hay productos {%- endcomment -%}
+      <div class="products-grid-ml">
+        {%- for i in (1..products_to_show) -%}
+          <div class="products-grid-ml__item">
+            {% render 'card-product-ml', section_id: section.id %}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .featured-collection-ml {
+    padding: 40px 0;
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .featured-collection-ml__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .featured-collection-ml__title {
+    font-size: 26px;
+    font-weight: 400;
+    color: #333;
+    margin: 0;
+  }
+
+  .featured-collection-ml__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #3483FA;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: gap 0.2s ease;
+  }
+
+  .featured-collection-ml__view-all:hover {
+    gap: 8px;
+  }
+
+  .featured-collection-ml__view-all svg {
+    flex-shrink: 0;
+  }
+
+  .featured-collection-ml__view-all-mobile {
+    display: none;
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .featured-collection-ml__view-all-button {
+    display: inline-block;
+    padding: 12px 32px;
+    background: #fff;
+    color: #3483FA;
+    border: 1px solid #3483FA;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .featured-collection-ml__view-all-button:hover {
+    background: #3483FA;
+    color: #fff;
+  }
+
+  @media (max-width: 749px) {
+    .featured-collection-ml {
+      padding: 32px 0;
+    }
+
+    .featured-collection-ml__header {
+      margin-bottom: 20px;
+    }
+
+    .featured-collection-ml__title {
+      font-size: 22px;
+    }
+
+    .featured-collection-ml__view-all {
+      display: none;
+    }
+
+    .featured-collection-ml__view-all-mobile {
+      display: block;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Productos Destacados ML",
+  "tag": "section",
+  "class": "featured-collection-ml-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título de la sección",
+      "default": "Productos destacados"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección",
+      "info": "Selecciona la colección de productos a mostrar"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Productos a mostrar",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Opciones de visualización"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Mostrar segunda imagen en hover",
+      "default": true,
+      "info": "Muestra la segunda imagen del producto al pasar el mouse"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Mostrar botón 'Ver todos'",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Badges de descuento"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount_badge",
+      "label": "Mostrar badge de descuento (%OFF)",
+      "default": true,
+      "info": "Muestra el porcentaje de descuento cuando el producto tiene precio de comparación"
+    },
+    {
+      "type": "header",
+      "content": "Envío gratis"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_free_shipping_badge",
+      "label": "Mostrar badge de envío gratis",
+      "default": true,
+      "info": "Muestra el badge solo en productos que superen el umbral"
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Precio mínimo para envío gratis (en centavos)",
+      "default": 5000000,
+      "info": "Ejemplo: 5000000 = $50.000 COP (50.000 x 100 centavos)"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado de la sección"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Productos Destacados ML",
+      "settings": {
+        "title": "Productos destacados",
+        "products_to_show": 8,
+        "show_secondary_image": true,
+        "show_discount_badge": true,
+        "show_free_shipping_badge": true,
+        "free_shipping_threshold": 5000000
+      }
+    }
+  ]
+}
+{% endschema %}

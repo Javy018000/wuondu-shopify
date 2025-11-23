@@ -9,19 +9,6 @@
  */
 {
   "sections": {
-    "promo_bar_ml": {
-      "type": "promo-bar-ml",
-      "settings": {
-        "enable_promo_bar": true,
-        "promo_text": "¡Envío gratis en compras superiores a $50.000!",
-        "promo_link": "/collections/all",
-        "link_text": "Ver productos",
-        "show_icon": true,
-        "show_close_button": true,
-        "background_color": "#FFE600",
-        "text_color": "#000000"
-      }
-    },
     "hero_slider_ml": {
       "type": "hero-slider-ml",
       "blocks": {
@@ -246,7 +233,6 @@
     }
   },
   "order": [
-    "promo_bar_ml",
     "hero_slider_ml",
     "categories_ml",
     "featured_collection",

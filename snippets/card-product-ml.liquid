@@ -1,0 +1,214 @@
+{% comment %}
+  Renders a Mercado Libre style product card with enhanced visuals
+
+  Accepts all the same parameters as card-product.liquid, plus:
+  - show_discount_badge: {Boolean} Show percentage discount badge (default: true)
+  - show_free_shipping_badge: {Boolean} Show free shipping badge (default: false)
+  - free_shipping_threshold: {Number} Minimum price for free shipping in cents
+
+  Usage:
+  {% render 'card-product-ml',
+    card_product: product,
+    show_discount_badge: true,
+    show_free_shipping_badge: true,
+    free_shipping_threshold: 5000000
+  %}
+{% endcomment %}
+
+{%- unless skip_styles -%}
+  {{ 'product-card-ml.css' | asset_url | stylesheet_tag }}
+{%- endunless -%}
+
+{%- if card_product and card_product != empty -%}
+  {%- liquid
+    assign ratio = 1
+    if card_product.featured_media and media_aspect_ratio == 'portrait'
+      assign ratio = 0.8
+    elsif card_product.featured_media and media_aspect_ratio == 'adapt'
+      assign ratio = card_product.featured_media.aspect_ratio
+    endif
+    if ratio == 0 or ratio == null
+      assign ratio = 1
+    endif
+
+    assign discount_percentage = 0
+    if card_product.compare_at_price > card_product.price and card_product.available
+      assign price_diff = card_product.compare_at_price | minus: card_product.price
+      assign discount_percentage = price_diff | times: 100.0 | divided_by: card_product.compare_at_price | round
+    endif
+
+    assign has_free_shipping = false
+    if show_free_shipping_badge and free_shipping_threshold and card_product.price >= free_shipping_threshold
+      assign has_free_shipping = true
+    endif
+  -%}
+
+  <div class="product-card-ml-wrapper">
+    <div class="product-card-ml">
+      {%- comment -%} Badges superiores {%- endcomment -%}
+      <div class="product-card-ml__badges">
+        {%- if show_discount_badge and discount_percentage > 0 -%}
+          <span class="product-card-ml__badge product-card-ml__badge--discount">
+            {{ discount_percentage }}% OFF
+          </span>
+        {%- endif -%}
+
+        {%- if has_free_shipping -%}
+          <span class="product-card-ml__badge product-card-ml__badge--shipping">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            Envío gratis
+          </span>
+        {%- endif -%}
+
+        {%- if card_product.available == false -%}
+          <span class="product-card-ml__badge product-card-ml__badge--sold-out">
+            Agotado
+          </span>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Imagen del producto {%- endcomment -%}
+      <div class="product-card-ml__image-wrapper">
+        <a href="{{ card_product.url }}" class="product-card-ml__image-link">
+          {%- if card_product.featured_media -%}
+            <img
+              srcset="
+                {%- if card_product.featured_media.width >= 165 -%}{{ card_product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                {%- if card_product.featured_media.width >= 360 -%}{{ card_product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                {%- if card_product.featured_media.width >= 533 -%}{{ card_product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
+              "
+              src="{{ card_product.featured_media | image_url: width: 360 }}"
+              sizes="(min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+              alt="{{ card_product.featured_media.alt | escape }}"
+              class="product-card-ml__image"
+              loading="{% if lazy_load == false %}eager{% else %}lazy{% endif %}"
+              width="{{ card_product.featured_media.width }}"
+              height="{{ card_product.featured_media.height }}"
+            >
+
+            {%- comment -%} Segunda imagen en hover {%- endcomment -%}
+            {%- if card_product.media[1] != null and show_secondary_image -%}
+              <img
+                srcset="
+                  {%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if card_product.media[1].width >= 360 -%}{{ card_product.media[1] | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if card_product.media[1].width >= 533 -%}{{ card_product.media[1] | image_url: width: 533 }} 533w,{%- endif -%}
+                  {{ card_product.media[1] | image_url }} {{ card_product.media[1].width }}w
+                "
+                src="{{ card_product.media[1] | image_url: width: 360 }}"
+                sizes="(min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                alt="{{ card_product.media[1].alt | escape }}"
+                class="product-card-ml__image product-card-ml__image--secondary"
+                loading="lazy"
+                width="{{ card_product.media[1].width }}"
+                height="{{ card_product.media[1].height }}"
+              >
+            {%- endif -%}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'product-card-ml__image product-card-ml__image--placeholder' }}
+          {%- endif -%}
+        </a>
+      </div>
+
+      {%- comment -%} Información del producto {%- endcomment -%}
+      <div class="product-card-ml__content">
+        {%- comment -%} Título {%- endcomment -%}
+        <h3 class="product-card-ml__title">
+          <a href="{{ card_product.url }}" class="product-card-ml__title-link">
+            {{ card_product.title | escape }}
+          </a>
+        </h3>
+
+        {%- comment -%} Precio {%- endcomment -%}
+        <div class="product-card-ml__price-wrapper">
+          {%- if card_product.compare_at_price > card_product.price and card_product.available -%}
+            <div class="product-card-ml__price-compare">
+              <s class="product-card-ml__price-original">{{ card_product.compare_at_price | money }}</s>
+            </div>
+          {%- endif -%}
+
+          <div class="product-card-ml__price-current-wrapper">
+            <span class="product-card-ml__price-current">
+              {{ card_product.price | money }}
+            </span>
+          </div>
+
+          {%- if has_free_shipping -%}
+            <div class="product-card-ml__shipping-text">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Llega gratis</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Botón de agregar al carrito (aparece en hover) {%- endcomment -%}
+        <div class="product-card-ml__quick-add">
+          {%- if card_product.available -%}
+            {%- assign product_form_id = 'quick-add-ml-' | append: section_id | append: '-' | append: card_product.id -%}
+
+            {%- if card_product.variants.size > 1 -%}
+              {%- comment -%} Producto con variantes - abrir modal {%- endcomment -%}
+              <a href="{{ card_product.url }}" class="product-card-ml__add-button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                Ver opciones
+              </a>
+            {%- else -%}
+              {%- comment -%} Producto simple - agregar directo {%- endcomment -%}
+              <product-form data-section-id="{{ section.id }}">
+                {%- form 'product', card_product, id: product_form_id, class: 'product-card-ml__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                  <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}" class="product-variant-id">
+                  <button
+                    type="submit"
+                    name="add"
+                    class="product-card-ml__add-button"
+                    aria-label="Agregar {{ card_product.title | escape }} al carrito"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="9" cy="21" r="1"></circle>
+                      <circle cx="20" cy="21" r="1"></circle>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    Agregar al carrito
+                  </button>
+                {%- endform -%}
+              </product-form>
+            {%- endif -%}
+          {%- else -%}
+            <button class="product-card-ml__add-button product-card-ml__add-button--disabled" disabled>
+              Agotado
+            </button>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- else -%}
+  {%- comment -%} Placeholder cuando no hay producto {%- endcomment -%}
+  <div class="product-card-ml-wrapper">
+    <div class="product-card-ml">
+      <div class="product-card-ml__image-wrapper">
+        {{ 'product-1' | placeholder_svg_tag: 'product-card-ml__image product-card-ml__image--placeholder' }}
+      </div>
+      <div class="product-card-ml__content">
+        <h3 class="product-card-ml__title">
+          <a class="product-card-ml__title-link">{{ 'onboarding.product_title' | t }}</a>
+        </h3>
+        <div class="product-card-ml__price-wrapper">
+          <span class="product-card-ml__price-current">$99.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
