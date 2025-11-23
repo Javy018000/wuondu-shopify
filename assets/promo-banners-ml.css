@@ -1,0 +1,314 @@
+/* ============================================
+ * PROMO BANNERS ML - Banners Promocionales
+ * Estilo Mercado Libre con diseño de cupón
+ * ============================================ */
+
+.promo-banners-ml {
+  width: 100%;
+}
+
+.promo-banners-ml__container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ========== Banner Individual ========== */
+.promo-banner {
+  position: relative;
+  display: block;
+  padding: 20px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.promo-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== Estilos de Colores ========== */
+.promo-banner--primary {
+  background: linear-gradient(135deg, #FF6600 0%, #FF8533 100%);
+  color: #fff;
+}
+
+.promo-banner--success {
+  background: linear-gradient(135deg, #00A650 0%, #00C368 100%);
+  color: #fff;
+}
+
+.promo-banner--info {
+  background: linear-gradient(135deg, #3483FA 0%, #5A9FFF 100%);
+  color: #fff;
+}
+
+.promo-banner--warning {
+  background: linear-gradient(135deg, #FFE600 0%, #FFF066 100%);
+  color: #333;
+}
+
+.promo-banner--danger {
+  background: linear-gradient(135deg, #FF3B3B 0%, #FF6B6B 100%);
+  color: #fff;
+}
+
+/* ========== Contenido del Banner ========== */
+.promo-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ========== Icono ========== */
+.promo-banner__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.promo-banner:hover .promo-banner__icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.promo-banner__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* En banners warning (amarillo), el icono es más oscuro */
+.promo-banner--warning .promo-banner__icon {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* ========== Texto ========== */
+.promo-banner__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.promo-banner__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.promo-banner__subtitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* En banners warning, el subtitle es más oscuro */
+.promo-banner--warning .promo-banner__subtitle {
+  opacity: 0.7;
+}
+
+/* ========== Flecha ========== */
+.promo-banner__arrow {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.promo-banner:hover .promo-banner__arrow {
+  transform: translateX(4px);
+}
+
+.promo-banner__arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ========== Bordes tipo Cupón ========== */
+.promo-banner__coupon-edges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.promo-banner__coupon-edge {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.promo-banner__coupon-edge--left {
+  left: -10px;
+}
+
+.promo-banner__coupon-edge--right {
+  right: -10px;
+}
+
+/* Línea punteada vertical (opcional - decorativa) */
+.promo-banner__coupon-edges::before {
+  content: '';
+  position: absolute;
+  right: 80px;
+  top: 10%;
+  bottom: 10%;
+  width: 2px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 50%
+  );
+  background-size: 2px 8px;
+  opacity: 0.5;
+  display: none; /* Oculto por defecto, se puede activar */
+}
+
+/* ========== Patrón de fondo (opcional) ========== */
+.promo-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 749px) {
+  .promo-banner {
+    padding: 16px 20px;
+  }
+
+  .promo-banner__content {
+    gap: 12px;
+  }
+
+  .promo-banner__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .promo-banner__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .promo-banner__title {
+    font-size: 15px;
+  }
+
+  .promo-banner__subtitle {
+    font-size: 13px;
+  }
+
+  .promo-banner__arrow {
+    width: 28px;
+    height: 28px;
+  }
+
+  .promo-banner__arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .promo-banner__coupon-edge {
+    width: 16px;
+    height: 16px;
+  }
+
+  .promo-banner__coupon-edge--left {
+    left: -8px;
+  }
+
+  .promo-banner__coupon-edge--right {
+    right: -8px;
+  }
+
+  /* Reducir efecto hover en móvil */
+  .promo-banner:hover {
+    transform: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ========== Animación de entrada (opcional) ========== */
+@media (prefers-reduced-motion: no-preference) {
+  .promo-banner {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .promo-banner:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  .promo-banner:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== Variante: Banner compacto ========== */
+.promo-banner--compact {
+  padding: 12px 20px;
+}
+
+.promo-banner--compact .promo-banner__icon {
+  width: 36px;
+  height: 36px;
+}
+
+.promo-banner--compact .promo-banner__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.promo-banner--compact .promo-banner__title {
+  font-size: 16px;
+}
+
+/* ========== Grid de 2 columnas (opcional para desktop) ========== */
+@media (min-width: 990px) {
+  .promo-banners-ml__container--grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
