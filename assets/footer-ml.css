@@ -1,0 +1,383 @@
+/* ============================================
+ * FOOTER ML - Footer tipo Mercado Libre
+ * Footer completo con menús, redes sociales y métodos de pago
+ * ============================================ */
+
+.footer-ml {
+  background: #fff;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* ========== Sección Principal ========== */
+.footer-ml__main {
+  padding: 48px 0 32px;
+  background: #fff;
+}
+
+.footer-ml__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+@media (min-width: 990px) {
+  .footer-ml__grid {
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+  }
+}
+
+/* ========== Columnas ========== */
+.footer-ml__column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ========== Logo ========== */
+.footer-ml__logo {
+  margin-bottom: 8px;
+}
+
+.footer-ml__logo img {
+  max-width: 150px;
+  height: auto;
+}
+
+.footer-ml__logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FF6600;
+  margin: 0;
+}
+
+/* ========== Texto Sobre Nosotros ========== */
+.footer-ml__about {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #666;
+}
+
+.footer-ml__about p {
+  margin: 0;
+}
+
+/* ========== Heading de columnas ========== */
+.footer-ml__heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+/* ========== Menús ========== */
+.footer-ml__menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-ml__menu-item {
+  margin: 0;
+}
+
+.footer-ml__menu-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.footer-ml__menu-link:hover {
+  color: #3483FA;
+}
+
+/* ========== Redes Sociales ========== */
+.footer-ml__social {
+  margin-top: 8px;
+}
+
+.footer-ml__social-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-ml__social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-ml__social-icon:hover {
+  background: #FF6600;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-ml__social-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ========== Sección Inferior (Pago y Copyright) ========== */
+.footer-ml__bottom {
+  background: #f5f5f5;
+  padding: 24px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.footer-ml__bottom-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* ========== Métodos de Pago ========== */
+.footer-ml__payment {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-ml__payment-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-ml__payment-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.footer-ml__payment-icon {
+  height: 28px;
+  width: auto;
+  padding: 4px 8px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+}
+
+/* ========== Insignia de Seguridad ========== */
+.footer-ml__security {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e5e5e5;
+}
+
+.footer-ml__security svg {
+  color: #00A650;
+  flex-shrink: 0;
+}
+
+.footer-ml__security-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-ml__security-text strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.footer-ml__security-text span {
+  font-size: 12px;
+  color: #666;
+}
+
+/* ========== Copyright ========== */
+.footer-ml__copyright {
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-ml__copyright p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.footer-ml__policy-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  justify-content: center;
+}
+
+.footer-ml__policy-links a {
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-ml__policy-links a:hover {
+  color: #3483FA;
+}
+
+.footer-ml__policy-links a:not(:last-child)::after {
+  content: '•';
+  margin-left: 20px;
+  color: #ccc;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 989px) {
+  .footer-ml__main {
+    padding: 36px 0 24px;
+  }
+
+  .footer-ml__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-ml__bottom-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .footer-ml__payment,
+  .footer-ml__security {
+    width: 100%;
+  }
+
+  .footer-ml__copyright {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .footer-ml__policy-links {
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-ml__policy-links a:not(:last-child)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 749px) {
+  .footer-ml__main {
+    padding: 32px 0 20px;
+  }
+
+  .footer-ml__grid {
+    gap: 28px;
+  }
+
+  .footer-ml__bottom {
+    padding: 20px 0;
+  }
+
+  .footer-ml__payment-icons {
+    gap: 6px;
+  }
+
+  .footer-ml__payment-icon {
+    height: 24px;
+    padding: 3px 6px;
+  }
+
+  .footer-ml__security {
+    padding: 10px 16px;
+  }
+
+  .footer-ml__security svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ========== Dark Mode Support (opcional) ========== */
+@media (prefers-color-scheme: dark) {
+  .footer-ml {
+    background: #1a1a1a;
+    border-top-color: #333;
+  }
+
+  .footer-ml__main {
+    background: #1a1a1a;
+  }
+
+  .footer-ml__logo-text {
+    color: #FF8533;
+  }
+
+  .footer-ml__about,
+  .footer-ml__menu-link,
+  .footer-ml__copyright p,
+  .footer-ml__policy-links a {
+    color: #aaa;
+  }
+
+  .footer-ml__heading,
+  .footer-ml__security-text strong {
+    color: #fff;
+  }
+
+  .footer-ml__menu-link:hover,
+  .footer-ml__policy-links a:hover {
+    color: #5A9FFF;
+  }
+
+  .footer-ml__bottom {
+    background: #0f0f0f;
+    border-top-color: #333;
+  }
+
+  .footer-ml__bottom-content {
+    border-bottom-color: #333;
+  }
+
+  .footer-ml__social-icon {
+    background: #2a2a2a;
+    color: #aaa;
+  }
+
+  .footer-ml__social-icon:hover {
+    background: #FF6600;
+    color: #fff;
+  }
+
+  .footer-ml__payment-icon,
+  .footer-ml__security {
+    background: #2a2a2a;
+    border-color: #333;
+  }
+
+  .footer-ml__security-text span {
+    color: #888;
+  }
+}

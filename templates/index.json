@@ -12,39 +12,104 @@
     "hero_slider_ml": {
       "type": "hero-slider-ml",
       "blocks": {
-        "slide_1": {
+        "slide_AXpzNz": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/hombre-destapando-un-paquete-lleno-de-productos-interesante-muy-emocionado.png",
             "show_overlay": true,
-            "overlay_opacity": 40,
+            "overlay_opacity": 50,
+            "show_badge": false,
+            "badge_text": "NUEVO",
+            "badge_style": "new",
             "title": "Descubre nuestras ofertas",
             "text": "Las mejores ofertas en productos de calidad para ti",
             "text_alignment": "left",
             "button_label": "Ver ofertas",
-            "button_link": "/collections/all"
+            "button_link": "",
+            "button_label_2": "",
+            "button_link_2": ""
+          }
+        },
+        "slide_AJEk4E": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/mujer-coreana-modelo-probando-sus-nuevos-productos-de-belleza-de-buena-calidad.png",
+            "show_overlay": true,
+            "overlay_opacity": 50,
+            "show_badge": false,
+            "badge_text": "NUEVO",
+            "badge_style": "new",
+            "title": "Descubre nuestras ofertas",
+            "text": "Las mejores ofertas en productos de calidad para ti",
+            "text_alignment": "left",
+            "button_label": "Ver ofertas",
+            "button_link": "",
+            "button_label_2": "",
+            "button_link_2": ""
+          }
+        },
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ni-o-de-8-a-os-jugando-con-su-hermana-de-10-a-os-coreanos-con-sus-nuevos-juguetes.png",
+            "show_overlay": true,
+            "overlay_opacity": 40,
+            "show_badge": false,
+            "badge_text": "NUEVO",
+            "badge_style": "new",
+            "title": "Descubre nuestras ofertas",
+            "text": "Las mejores ofertas en productos de calidad para ti",
+            "text_alignment": "left",
+            "button_label": "Ver ofertas",
+            "button_link": "/collections/all",
+            "button_label_2": "",
+            "button_link_2": ""
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/esposo-y-esposa-coreanos-realizan-tareas-del-hogar-con-sus-nuevos-productos.png",
             "show_overlay": true,
             "overlay_opacity": 40,
+            "show_badge": false,
+            "badge_text": "NUEVO",
+            "badge_style": "new",
             "title": "Nuevos productos",
             "text": "Explora nuestra nueva colección",
             "text_alignment": "left",
             "button_label": "Ver novedades",
-            "button_link": "/collections/all"
+            "button_link": "/collections/all",
+            "button_label_2": "",
+            "button_link_2": ""
           }
         }
       },
       "block_order": [
+        "slide_AXpzNz",
+        "slide_AJEk4E",
         "slide_1",
         "slide_2"
       ],
       "settings": {
         "enable_autoplay": true,
-        "autoplay_speed": 5,
-        "background_color": "#000000"
+        "autoplay_speed": 8
+      }
+    },
+    "featured_collection_ml_GF3aXe": {
+      "type": "featured-collection-ml",
+      "name": "Productos Destacados ML",
+      "settings": {
+        "title": "Productos destacados",
+        "collection": "tecnologia",
+        "products_to_show": 6,
+        "show_secondary_image": true,
+        "show_view_all": true,
+        "show_discount_badge": true,
+        "show_free_shipping_badge": true,
+        "free_shipping_threshold": 5000000,
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "categories_ml": {
@@ -54,7 +119,7 @@
           "type": "category",
           "settings": {
             "category_name": "Electrónica",
-            "category_link": "/collections/all",
+            "category_link": "shopify://collections/tecnologia",
             "icon_type": "electronics"
           }
         },
@@ -97,6 +162,14 @@
             "category_link": "/collections/all",
             "icon_type": "beauty"
           }
+        },
+        "category_mTNnQh": {
+          "type": "category",
+          "settings": {
+            "category_name": "Otros",
+            "category_link": "",
+            "icon_type": "other"
+          }
         }
       },
       "block_order": [
@@ -105,38 +178,70 @@
         "category_3",
         "category_4",
         "category_5",
-        "category_6"
+        "category_6",
+        "category_mTNnQh"
       ],
       "settings": {
         "title": "Categorías destacadas",
         "subtitle": "Encuentra lo que buscas",
-        "background_color": "#FFFFFF",
-        "show_view_all": false
+        "background_color": "#ffffff",
+        "show_view_all": false,
+        "view_all_link": "",
+        "view_all_text": "Ver todas las categorías"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "featured_collection_ml_bydy3z": {
+      "type": "featured-collection-ml",
+      "name": "Productos Destacados ML",
       "settings": {
-        "collection": "all",
-        "products_to_show": 8,
         "title": "Productos destacados",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
+        "collection": "hogar",
+        "products_to_show": 8,
         "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
+        "show_view_all": true,
+        "show_discount_badge": true,
+        "show_free_shipping_badge": true,
+        "free_shipping_threshold": 5000000,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "promo_banners_ml_Fq6Fc7": {
+      "type": "promo-banners-ml",
+      "blocks": {
+        "banner_h9hG4r": {
+          "type": "banner",
+          "settings": {
+            "style": "success",
+            "show_icon": true,
+            "icon": "shipping",
+            "title": "Envío gratis en compras superiores a $50.000",
+            "subtitle": "",
+            "link": "",
+            "show_arrow": true,
+            "show_coupon_border": true
+          }
+        },
+        "banner_tar6np": {
+          "type": "banner",
+          "settings": {
+            "style": "danger",
+            "show_icon": true,
+            "icon": "fire",
+            "title": "20% OFF en toda la tienda - Solo por hoy",
+            "subtitle": "Usa el cupón: SUPER20",
+            "link": "",
+            "show_arrow": true,
+            "show_coupon_border": true
+          }
+        }
+      },
+      "block_order": [
+        "banner_h9hG4r",
+        "banner_tar6np"
+      ],
+      "name": "Banners Promocionales ML",
+      "settings": {
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -151,7 +256,7 @@
         "show_shipping_tag": true,
         "show_view_all": true,
         "view_all_text": "Ver todos los productos",
-        "background_color": "#F5F5F5"
+        "background_color": "#f5f5f5"
       }
     },
     "benefits_ml": {
@@ -234,8 +339,10 @@
   },
   "order": [
     "hero_slider_ml",
+    "featured_collection_ml_GF3aXe",
     "categories_ml",
-    "featured_collection",
+    "featured_collection_ml_bydy3z",
+    "promo_banners_ml_Fq6Fc7",
     "price_range_ml",
     "benefits_ml",
     "newsletter"
