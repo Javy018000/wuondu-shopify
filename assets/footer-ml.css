@@ -96,6 +96,36 @@
   color: #3483FA;
 }
 
+/* ========== WhatsApp ========== */
+.footer-ml__whatsapp {
+  margin-top: 4px;
+}
+
+.footer-ml__whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #25D366 0%, #20BA5A 100%);
+  color: #fff;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.footer-ml__whatsapp-button:hover {
+  background: linear-gradient(135deg, #20BA5A 0%, #1DA851 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+.footer-ml__whatsapp-button svg {
+  flex-shrink: 0;
+}
+
 /* ========== Redes Sociales ========== */
 .footer-ml__social {
   margin-top: 8px;

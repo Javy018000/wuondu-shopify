@@ -44,6 +44,9 @@
       "settings": {
         "show_logo": true,
         "about_text": "<p>Somos tu tienda de confianza con los mejores productos y precios del mercado.</p>",
+        "show_whatsapp": true,
+        "whatsapp_number": "350 6691132",
+        "whatsapp_text": "Chatea con nosotros",
         "show_social": true,
         "show_payment_icons": true,
         "show_security_badge": true,
