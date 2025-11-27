@@ -66,6 +66,7 @@
         "description",
         "share"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
@@ -99,10 +100,69 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "product_page_ml_Lg8xNV": {
+      "type": "product-page-ml",
+      "blocks": {
+        "media_logo_nKXhPr": {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "The Wall Street Journal"
+          }
+        },
+        "media_logo_MV8jNB": {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "The Economist"
+          }
+        },
+        "media_logo_xLrLrR": {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "Bloomberg"
+          }
+        },
+        "media_logo_mixnGa": {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "Fortune"
+          }
+        }
+      },
+      "block_order": [
+        "media_logo_nKXhPr",
+        "media_logo_MV8jNB",
+        "media_logo_xLrLrR",
+        "media_logo_mixnGa"
+      ],
+      "name": "Producto ML",
+      "settings": {
+        "show_media_logos": true,
+        "media_label": "Destacado en",
+        "show_vendor": true,
+        "show_badge": false,
+        "badge_text": "NUEVO",
+        "show_rating": true,
+        "rating_count": "1,234",
+        "show_sold": true,
+        "sold_count": "5,000+",
+        "show_installments": true,
+        "installments_count": 12,
+        "button_text": "Comprar ahora",
+        "show_shipping_info": true,
+        "shipping_title": "Envío gratis a todo el país",
+        "shipping_text": "Conoce los tiempos y las formas de envío.",
+        "show_guarantee": true,
+        "guarantee_title": "Compra Protegida",
+        "guarantee_text": "Recibe el producto que esperabas o te devolvemos tu dinero.",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "main",
+    "product_page_ml_Lg8xNV",
     "related-products"
   ]
 }

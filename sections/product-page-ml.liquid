@@ -1,9 +1,36 @@
 {{ 'product-page-ml.css' | asset_url | stylesheet_tag }}
 
+<style>
+  @media screen and (max-width: 989px) {
+    .product-ml-layout { flex-direction: column !important; }
+    .product-ml-gallery {
+      flex: none !important;
+      width: 100% !important;
+      max-width: 600px !important;
+      margin: 0 auto !important;
+      position: static !important;
+    }
+    .product-ml-gallery-main { width: 100% !important; height: auto !important; aspect-ratio: 1 !important; }
+    .product-ml-gallery-main img { width: 100% !important; height: 100% !important; }
+    .product-ml-gallery-thumbs { grid-template-columns: repeat(6, 1fr) !important; }
+    .product-ml-gallery-thumb { width: 100% !important; height: auto !important; aspect-ratio: 1 !important; }
+    .product-ml-gallery-thumb img { width: 100% !important; height: 100% !important; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-ml-gallery { max-width: 100% !important; }
+    .product-ml-gallery-thumbs { grid-template-columns: repeat(4, 1fr) !important; }
+  }
+</style>
+
 {%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_image = current_variant.featured_image | default: product.featured_image -%}
 
 <div class="product-page-ml section-{{ section.id }}-padding">
-  {%- comment -%} Carrusel de logos de medios - Destacado en {%- endcomment -%}
+  <div class="page-width">
+    {%- render 'breadcrumbs-ml' -%}
+  </div>
+
   {%- if section.settings.show_media_logos -%}
     <div class="product-ml__media-strip">
       <div class="page-width">
@@ -16,10 +43,8 @@
                   {%- if block.settings.logo != blank -%}
                     <img
                       src="{{ block.settings.logo | image_url: width: 200 }}"
-                      alt="{{ block.settings.logo_alt }}"
+                      alt="{{ block.settings.logo_alt | escape }}"
                       loading="lazy"
-                      width="120"
-                      height="40"
                     >
                   {%- else -%}
                     <span class="product-ml__media-text">{{ block.settings.logo_alt }}</span>
@@ -27,17 +52,14 @@
                 </div>
               {%- endif -%}
             {%- endfor -%}
-            {%- comment -%} Duplicar para loop infinito {%- endcomment -%}
             {%- for block in section.blocks -%}
               {%- if block.type == 'media_logo' -%}
                 <div class="product-ml__media-item">
                   {%- if block.settings.logo != blank -%}
                     <img
                       src="{{ block.settings.logo | image_url: width: 200 }}"
-                      alt="{{ block.settings.logo_alt }}"
+                      alt="{{ block.settings.logo_alt | escape }}"
                       loading="lazy"
-                      width="120"
-                      height="40"
                     >
                   {%- else -%}
                     <span class="product-ml__media-text">{{ block.settings.logo_alt }}</span>
@@ -51,56 +73,57 @@
     </div>
   {%- endif -%}
 
-  {%- comment -%} Layout principal del producto {%- endcomment -%}
   <div class="page-width">
-    <div class="product-ml__container">
-      {%- comment -%} Galería de imágenes {%- endcomment -%}
-      <div class="product-ml__gallery">
-        <div class="product-ml__main-image">
-          {%- if current_variant.featured_image != blank -%}
+    <div class="product-ml-layout" style="display: flex; gap: 60px; margin-top: 40px;">
+
+      {%- comment -%} COLUMNA IZQUIERDA - GALERÍA {%- endcomment -%}
+      <div class="product-ml-gallery" style="flex: 0 0 550px; width: 550px; position: sticky; top: 20px; align-self: flex-start; height: fit-content;">
+
+        {%- comment -%} Imagen principal {%- endcomment -%}
+        <div class="product-ml-gallery-main" style="width: 550px; height: 550px; position: relative; overflow: hidden; background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; margin-bottom: 20px;">
+          {%- if product_image != blank -%}
             <img
-              src="{{ current_variant.featured_image | image_url: width: 800 }}"
-              alt="{{ current_variant.featured_image.alt | escape }}"
+              src="{{ product_image | image_url: width: 800 }}"
+              alt="{{ product_image.alt | escape }}"
               id="product-ml-main-image"
-              width="800"
-              height="800"
-            >
-          {%- elsif product.featured_image != blank -%}
-            <img
-              src="{{ product.featured_image | image_url: width: 800 }}"
-              alt="{{ product.featured_image.alt | escape }}"
-              id="product-ml-main-image"
-              width="800"
-              height="800"
+              loading="eager"
+              style="position: absolute !important; top: 0 !important; left: 0 !important; width: 550px !important; height: 550px !important; object-fit: cover !important; object-position: center !important; display: block !important;"
             >
           {%- else -%}
-            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
           {%- endif -%}
         </div>
 
+        {%- comment -%} Miniaturas {%- endcomment -%}
         {%- if product.images.size > 1 -%}
-          <div class="product-ml__thumbnails">
+          <div class="product-ml-gallery-thumbs" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
             {%- for image in product.images limit: 6 -%}
               <button
-                class="product-ml__thumbnail{% if forloop.first %} active{% endif %}"
-                data-image="{{ image | image_url: width: 800 }}"
+                class="product-ml__thumbnail product-ml-gallery-thumb{% if forloop.first %} active{% endif %}"
+                data-image-src="{{ image | image_url: width: 800 }}"
+                data-image-alt="{{ image.alt | escape }}"
                 type="button"
                 aria-label="Ver imagen {{ forloop.index }}"
+                style="width: 85px; height: 85px; position: relative; overflow: hidden; background: #fff; border: 2px solid {% if forloop.first %}#3483fa{% else %}#e5e5e5{% endif %}; border-radius: 6px; cursor: pointer; padding: 0;"
               >
                 <img
-                  src="{{ image | image_url: width: 100 }}"
+                  src="{{ image | image_url: width: 120 }}"
                   alt="{{ image.alt | escape }}"
-                  width="60"
-                  height="60"
+                  loading="lazy"
+                  style="position: absolute !important; top: 0 !important; left: 0 !important; width: 85px !important; height: 85px !important; object-fit: cover !important; object-position: center !important; display: block !important;"
                 >
               </button>
             {%- endfor -%}
           </div>
         {%- endif -%}
+
       </div>
 
-      {%- comment -%} Información del producto {%- endcomment -%}
-      <div class="product-ml__info">
+      {%- comment -%} COLUMNA DERECHA - INFORMACIÓN {%- endcomment -%}
+      <div style="flex: 1; min-width: 0;">
+        <div class="product-ml__info">
         {%- if section.settings.show_badge and section.settings.badge_text != blank -%}
           <div class="product-ml__badge">{{ section.settings.badge_text }}</div>
         {%- endif -%}
@@ -110,33 +133,28 @@
         {%- if product.vendor != blank and section.settings.show_vendor -%}
           <div class="product-ml__vendor">
             <span class="product-ml__vendor-label">Marca:</span>
-            <a href="{{ product.vendor | url_for_vendor }}" class="product-ml__vendor-link">
-              {{ product.vendor }}
-            </a>
+            <a href="{{ product.vendor | url_for_vendor }}" class="product-ml__vendor-link">{{ product.vendor }}</a>
           </div>
         {%- endif -%}
 
-        {%- comment -%} Rating y ventas {%- endcomment -%}
         <div class="product-ml__meta">
           {%- if section.settings.show_rating -%}
             <div class="product-ml__rating">
-              <div class="product-ml__stars">
+              <div class="product-ml__stars" role="img" aria-label="5 de 5 estrellas">
                 {%- for i in (1..5) -%}
-                  <svg class="product-ml__star" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700">
+                  <svg class="product-ml__star" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700" aria-hidden="true">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                   </svg>
                 {%- endfor -%}
               </div>
-              <span class="product-ml__rating-count">{{ section.settings.rating_count }} calificaciones</span>
+              <span class="product-ml__rating-count">({{ section.settings.rating_count }})</span>
             </div>
           {%- endif -%}
-
           {%- if section.settings.show_sold -%}
             <span class="product-ml__sold">{{ section.settings.sold_count }} vendidos</span>
           {%- endif -%}
         </div>
 
-        {%- comment -%} Precio {%- endcomment -%}
         <div class="product-ml__price-wrapper">
           {%- if current_variant.compare_at_price > current_variant.price -%}
             <div class="product-ml__price-old">
@@ -146,7 +164,7 @@
           {%- endif -%}
 
           <div class="product-ml__price-current">
-            <span class="product-ml__price-amount" id="product-ml-price">{{ current_variant.price | money }}</span>
+            <span class="product-ml__price-amount" id="product-ml-price-{{ section.id }}">{{ current_variant.price | money }}</span>
             {%- if current_variant.compare_at_price > current_variant.price -%}
               {%- assign discount = current_variant.compare_at_price | minus: current_variant.price -%}
               {%- assign discount_percent = discount | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
@@ -164,54 +182,51 @@
           {%- endif -%}
         </div>
 
-        {%- comment -%} Selector de variantes {%- endcomment -%}
-        {%- unless product.has_only_default_variant -%}
-          <div class="product-ml__variants">
-            {%- for option in product.options_with_values -%}
-              <div class="product-ml__variant-group">
-                <label class="product-ml__variant-label">{{ option.name }}:</label>
-                <div class="product-ml__variant-options">
-                  {%- for value in option.values -%}
-                    <input
-                      type="radio"
-                      name="option-{{ option.position }}"
-                      value="{{ value | escape }}"
-                      id="option-{{ option.position }}-{{ forloop.index }}"
-                      class="product-ml__variant-input"
-                      {% if option.selected_value == value %}checked{% endif %}
-                    >
-                    <label
-                      for="option-{{ option.position }}-{{ forloop.index }}"
-                      class="product-ml__variant-button"
-                    >
-                      {{ value }}
-                    </label>
-                  {%- endfor -%}
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-ml-form-{{ section.id }}">
+          {%- unless product.has_only_default_variant -%}
+            <div class="product-ml__variants">
+              {%- for option in product.options_with_values -%}
+                <div class="product-ml__variant-group">
+                  <label class="product-ml__variant-label">{{ option.name }}:</label>
+                  <div class="product-ml__variant-options">
+                    {%- for value in option.values -%}
+                      <input
+                        type="radio"
+                        name="option-{{ option.position }}"
+                        value="{{ value | escape }}"
+                        id="option-{{ section.id }}-{{ option.position }}-{{ forloop.index }}"
+                        class="product-ml__variant-input"
+                        data-option-position="{{ option.position }}"
+                        {% if option.selected_value == value %}checked{% endif %}
+                      >
+                      <label for="option-{{ section.id }}-{{ option.position }}-{{ forloop.index }}" class="product-ml__variant-button">
+                        {{ value }}
+                      </label>
+                    {%- endfor -%}
+                  </div>
                 </div>
-              </div>
-            {%- endfor -%}
-          </div>
-        {%- endunless -%}
+              {%- endfor -%}
+            </div>
+          {%- endunless -%}
 
-        {%- comment -%} Cantidad y botón de compra {%- endcomment -%}
-        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-ml-form">
-          <input type="hidden" name="id" value="{{ current_variant.id }}" id="product-ml-variant-id">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" id="product-ml-variant-id-{{ section.id }}">
 
           <div class="product-ml__quantity-wrapper">
-            <label for="quantity-ml" class="product-ml__quantity-label">Cantidad:</label>
+            <label for="quantity-ml-{{ section.id }}" class="product-ml__quantity-label">Cantidad:</label>
             <div class="product-ml__quantity">
-              <button type="button" class="product-ml__quantity-btn" data-action="decrease">-</button>
+              <button type="button" class="product-ml__quantity-btn" data-action="decrease" aria-label="Disminuir cantidad">-</button>
               <input
                 type="number"
                 name="quantity"
-                id="quantity-ml"
+                id="quantity-ml-{{ section.id }}"
                 value="1"
                 min="1"
                 class="product-ml__quantity-input"
+                aria-label="Cantidad"
               >
-              <button type="button" class="product-ml__quantity-btn" data-action="increase">+</button>
+              <button type="button" class="product-ml__quantity-btn" data-action="increase" aria-label="Aumentar cantidad">+</button>
             </div>
-            <span class="product-ml__stock">
+            <span class="product-ml__stock" id="product-ml-stock-{{ section.id }}">
               {%- if current_variant.available -%}
                 ({{ current_variant.inventory_quantity | default: '10+' }} disponibles)
               {%- else -%}
@@ -224,6 +239,7 @@
             <button
               type="submit"
               class="product-ml__buy-button"
+              id="product-ml-buy-button-{{ section.id }}"
               {% unless current_variant.available %}disabled{% endunless %}
             >
               {%- if current_variant.available -%}
@@ -235,11 +251,10 @@
           </div>
         </form>
 
-        {%- comment -%} Garantía y envío {%- endcomment -%}
         {%- if section.settings.show_shipping_info -%}
           <div class="product-ml__shipping">
             <div class="product-ml__shipping-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
               </svg>
               <div class="product-ml__shipping-text">
@@ -247,10 +262,9 @@
                 <p>{{ section.settings.shipping_text }}</p>
               </div>
             </div>
-
             {%- if section.settings.show_guarantee -%}
               <div class="product-ml__shipping-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
                 <div class="product-ml__shipping-text">
@@ -262,78 +276,160 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%} Descripción {%- endcomment -%}
         {%- if product.description != blank -%}
           <div class="product-ml__description">
-            <h3 class="product-ml__description-title">Descripción</h3>
-            <div class="product-ml__description-content">
-              {{ product.description }}
-            </div>
+            <h2 class="product-ml__description-title">Descripción</h2>
+            <div class="product-ml__description-content">{{ product.description }}</div>
           </div>
         {%- endif -%}
+        </div>
       </div>
+
     </div>
   </div>
 </div>
 
 <script>
-  // Galería de imágenes
-  document.querySelectorAll('.product-ml__thumbnail').forEach(thumb => {
-    thumb.addEventListener('click', function() {
-      const mainImage = document.getElementById('product-ml-main-image');
-      mainImage.src = this.dataset.image;
+(function() {
+  const sectionId = '{{ section.id }}';
+  const productData = {{ product.variants | json }};
 
-      document.querySelectorAll('.product-ml__thumbnail').forEach(t => t.classList.remove('active'));
+  // Galería de imágenes
+  const thumbnails = document.querySelectorAll('.product-ml__thumbnail');
+  const mainImage = document.getElementById('product-ml-main-image');
+
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', function() {
+      if (!mainImage) return;
+
+      mainImage.src = this.dataset.imageSrc;
+      if (this.dataset.imageAlt) mainImage.alt = this.dataset.imageAlt;
+
+      thumbnails.forEach(t => {
+        t.classList.remove('active');
+        t.style.borderColor = '#e5e5e5';
+      });
       this.classList.add('active');
+      this.style.borderColor = '#3483fa';
     });
   });
 
   // Cantidad
-  document.querySelectorAll('.product-ml__quantity-btn').forEach(btn => {
+  const quantityBtns = document.querySelectorAll('.product-ml__quantity-btn');
+  const quantityInput = document.getElementById('quantity-ml-' + sectionId);
+
+  quantityBtns.forEach(btn => {
     btn.addEventListener('click', function() {
-      const input = document.getElementById('quantity-ml');
-      const currentValue = parseInt(input.value);
+      if (!quantityInput) return;
+      const currentValue = parseInt(quantityInput.value) || 1;
 
       if (this.dataset.action === 'increase') {
-        input.value = currentValue + 1;
+        quantityInput.value = currentValue + 1;
       } else if (this.dataset.action === 'decrease' && currentValue > 1) {
-        input.value = currentValue - 1;
+        quantityInput.value = currentValue - 1;
       }
     });
   });
 
   // Variantes
-  document.querySelectorAll('.product-ml__variant-input').forEach(input => {
+  const variantInputs = document.querySelectorAll('.product-ml__variant-input');
+  const variantIdInput = document.getElementById('product-ml-variant-id-' + sectionId);
+  const priceElement = document.getElementById('product-ml-price-' + sectionId);
+  const stockElement = document.getElementById('product-ml-stock-' + sectionId);
+  const buyButton = document.getElementById('product-ml-buy-button-' + sectionId);
+
+  function getSelectedOptions() {
+    const options = {};
+    variantInputs.forEach(input => {
+      if (input.checked) {
+        options[input.dataset.optionPosition] = input.value;
+      }
+    });
+    const result = [];
+    for (let i = 1; i <= 3; i++) {
+      if (options[i]) result.push(options[i]);
+    }
+    return result;
+  }
+
+  function findMatchingVariant(selectedOptions) {
+    return productData.find(variant => {
+      return selectedOptions.every((option, index) => variant.options[index] === option);
+    });
+  }
+
+  function updateProductInfo(variant) {
+    if (!variant) return;
+
+    if (variantIdInput) variantIdInput.value = variant.id;
+
+    if (priceElement && variant.price) {
+      const formattedPrice = new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency: '{{ cart.currency.iso_code }}'
+      }).format(variant.price / 100);
+      priceElement.textContent = formattedPrice;
+    }
+
+    if (buyButton && stockElement) {
+      if (variant.available) {
+        buyButton.disabled = false;
+        buyButton.textContent = '{{ section.settings.button_text | default: "Comprar ahora" }}';
+        stockElement.textContent = `(${variant.inventory_quantity || '10+'} disponibles)`;
+      } else {
+        buyButton.disabled = true;
+        buyButton.textContent = 'Sin stock';
+        stockElement.textContent = '(Sin stock)';
+      }
+    }
+
+    if (variant.featured_image && mainImage) {
+      mainImage.src = variant.featured_image.src;
+      if (variant.featured_image.alt) mainImage.alt = variant.featured_image.alt;
+    }
+  }
+
+  variantInputs.forEach(input => {
     input.addEventListener('change', function() {
-      const form = document.getElementById('product-ml-form');
-      const formData = new FormData(form);
-
-      // Aquí podrías agregar lógica para actualizar el precio y la imagen según la variante seleccionada
-      // Por simplicidad, esto es un placeholder
-      console.log('Variante seleccionada:', this.value);
+      const selectedOptions = getSelectedOptions();
+      const matchingVariant = findMatchingVariant(selectedOptions);
+      if (matchingVariant) updateProductInfo(matchingVariant);
     });
   });
 
-  // Formulario de agregar al carrito
-  document.getElementById('product-ml-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+  // Formulario
+  const form = document.getElementById('product-ml-form-' + sectionId);
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const buyButton = this.querySelector('.product-ml__buy-button');
+      const originalText = buyButton ? buyButton.textContent : '';
 
-    const formData = new FormData(this);
+      if (buyButton) {
+        buyButton.disabled = true;
+        buyButton.textContent = 'Agregando...';
+      }
 
-    fetch('/cart/add.js', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Actualizar el contador del carrito
-      window.location.href = '/cart';
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Hubo un error al agregar el producto al carrito');
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = '/cart';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Hubo un error al agregar el producto al carrito');
+        if (buyButton) {
+          buyButton.disabled = false;
+          buyButton.textContent = originalText;
+        }
+      });
     });
-  });
+  }
+})();
 </script>
 
 {% schema %}
@@ -355,7 +451,7 @@
     {
       "type": "text",
       "id": "media_label",
-      "label": "Etiqueta de medios",
+      "label": "Etiqueta",
       "default": "Destacado en"
     },
     {
@@ -512,7 +608,7 @@
           "type": "text",
           "id": "logo_alt",
           "label": "Texto alternativo",
-          "default": "The Wall Street Journal"
+          "default": "Nombre del medio"
         }
       ]
     }

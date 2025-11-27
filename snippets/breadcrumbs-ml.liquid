@@ -1,0 +1,37 @@
+{%- comment -%}
+  Breadcrumbs Mercado Libre
+{%- endcomment -%}
+
+{%- unless template == 'index' or template == 'cart' -%}
+  <nav class="breadcrumbs-ml" aria-label="Breadcrumb">
+    <ol class="breadcrumbs-ml__list">
+      <li class="breadcrumbs-ml__item">
+        <a href="{{ routes.root_url }}" class="breadcrumbs-ml__link">Inicio</a>
+        <span class="breadcrumbs-ml__separator">&gt;</span>
+      </li>
+
+      {%- if collection -%}
+        <li class="breadcrumbs-ml__item">
+          <a href="{{ collection.url }}" class="breadcrumbs-ml__link">{{ collection.title }}</a>
+          <span class="breadcrumbs-ml__separator">&gt;</span>
+        </li>
+      {%- elsif product.collections.size > 0 -%}
+        {%- assign primary_collection = product.collections.first -%}
+        <li class="breadcrumbs-ml__item">
+          <a href="{{ primary_collection.url }}" class="breadcrumbs-ml__link">{{ primary_collection.title }}</a>
+          <span class="breadcrumbs-ml__separator">&gt;</span>
+        </li>
+      {%- endif -%}
+
+      {%- if product -%}
+        <li class="breadcrumbs-ml__item breadcrumbs-ml__item--current">
+          <span class="breadcrumbs-ml__current">{{ product.title }}</span>
+        </li>
+      {%- elsif page -%}
+        <li class="breadcrumbs-ml__item breadcrumbs-ml__item--current">
+          <span class="breadcrumbs-ml__current">{{ page.title }}</span>
+        </li>
+      {%- endif -%}
+    </ol>
+  </nav>
+{%- endunless -%}
