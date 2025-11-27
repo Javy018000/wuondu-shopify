@@ -1,0 +1,552 @@
+{{ 'product-page-ml.css' | asset_url | stylesheet_tag }}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="product-page-ml section-{{ section.id }}-padding">
+  {%- comment -%} Carrusel de logos de medios - Destacado en {%- endcomment -%}
+  {%- if section.settings.show_media_logos -%}
+    <div class="product-ml__media-strip">
+      <div class="page-width">
+        <p class="product-ml__media-label">{{ section.settings.media_label }}</p>
+        <div class="product-ml__media-carousel">
+          <div class="product-ml__media-track">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'media_logo' -%}
+                <div class="product-ml__media-item" {{ block.shopify_attributes }}>
+                  {%- if block.settings.logo != blank -%}
+                    <img
+                      src="{{ block.settings.logo | image_url: width: 200 }}"
+                      alt="{{ block.settings.logo_alt }}"
+                      loading="lazy"
+                      width="120"
+                      height="40"
+                    >
+                  {%- else -%}
+                    <span class="product-ml__media-text">{{ block.settings.logo_alt }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- comment -%} Duplicar para loop infinito {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'media_logo' -%}
+                <div class="product-ml__media-item">
+                  {%- if block.settings.logo != blank -%}
+                    <img
+                      src="{{ block.settings.logo | image_url: width: 200 }}"
+                      alt="{{ block.settings.logo_alt }}"
+                      loading="lazy"
+                      width="120"
+                      height="40"
+                    >
+                  {%- else -%}
+                    <span class="product-ml__media-text">{{ block.settings.logo_alt }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Layout principal del producto {%- endcomment -%}
+  <div class="page-width">
+    <div class="product-ml__container">
+      {%- comment -%} Galería de imágenes {%- endcomment -%}
+      <div class="product-ml__gallery">
+        <div class="product-ml__main-image">
+          {%- if current_variant.featured_image != blank -%}
+            <img
+              src="{{ current_variant.featured_image | image_url: width: 800 }}"
+              alt="{{ current_variant.featured_image.alt | escape }}"
+              id="product-ml-main-image"
+              width="800"
+              height="800"
+            >
+          {%- elsif product.featured_image != blank -%}
+            <img
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              id="product-ml-main-image"
+              width="800"
+              height="800"
+            >
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        {%- if product.images.size > 1 -%}
+          <div class="product-ml__thumbnails">
+            {%- for image in product.images limit: 6 -%}
+              <button
+                class="product-ml__thumbnail{% if forloop.first %} active{% endif %}"
+                data-image="{{ image | image_url: width: 800 }}"
+                type="button"
+                aria-label="Ver imagen {{ forloop.index }}"
+              >
+                <img
+                  src="{{ image | image_url: width: 100 }}"
+                  alt="{{ image.alt | escape }}"
+                  width="60"
+                  height="60"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Información del producto {%- endcomment -%}
+      <div class="product-ml__info">
+        {%- if section.settings.show_badge and section.settings.badge_text != blank -%}
+          <div class="product-ml__badge">{{ section.settings.badge_text }}</div>
+        {%- endif -%}
+
+        <h1 class="product-ml__title">{{ product.title }}</h1>
+
+        {%- if product.vendor != blank and section.settings.show_vendor -%}
+          <div class="product-ml__vendor">
+            <span class="product-ml__vendor-label">Marca:</span>
+            <a href="{{ product.vendor | url_for_vendor }}" class="product-ml__vendor-link">
+              {{ product.vendor }}
+            </a>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Rating y ventas {%- endcomment -%}
+        <div class="product-ml__meta">
+          {%- if section.settings.show_rating -%}
+            <div class="product-ml__rating">
+              <div class="product-ml__stars">
+                {%- for i in (1..5) -%}
+                  <svg class="product-ml__star" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                {%- endfor -%}
+              </div>
+              <span class="product-ml__rating-count">{{ section.settings.rating_count }} calificaciones</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_sold -%}
+            <span class="product-ml__sold">{{ section.settings.sold_count }} vendidos</span>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Precio {%- endcomment -%}
+        <div class="product-ml__price-wrapper">
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <div class="product-ml__price-old">
+              <span class="product-ml__price-old-label">Antes:</span>
+              <span class="product-ml__price-old-amount">{{ current_variant.compare_at_price | money }}</span>
+            </div>
+          {%- endif -%}
+
+          <div class="product-ml__price-current">
+            <span class="product-ml__price-amount" id="product-ml-price">{{ current_variant.price | money }}</span>
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              {%- assign discount = current_variant.compare_at_price | minus: current_variant.price -%}
+              {%- assign discount_percent = discount | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
+              <span class="product-ml__discount-badge">{{ discount_percent }}% OFF</span>
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.show_installments -%}
+            <div class="product-ml__installments">
+              en <strong>{{ section.settings.installments_count }}x</strong>
+              <span class="product-ml__installment-amount">
+                {{ current_variant.price | divided_by: section.settings.installments_count | money }}
+              </span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Selector de variantes {%- endcomment -%}
+        {%- unless product.has_only_default_variant -%}
+          <div class="product-ml__variants">
+            {%- for option in product.options_with_values -%}
+              <div class="product-ml__variant-group">
+                <label class="product-ml__variant-label">{{ option.name }}:</label>
+                <div class="product-ml__variant-options">
+                  {%- for value in option.values -%}
+                    <input
+                      type="radio"
+                      name="option-{{ option.position }}"
+                      value="{{ value | escape }}"
+                      id="option-{{ option.position }}-{{ forloop.index }}"
+                      class="product-ml__variant-input"
+                      {% if option.selected_value == value %}checked{% endif %}
+                    >
+                    <label
+                      for="option-{{ option.position }}-{{ forloop.index }}"
+                      class="product-ml__variant-button"
+                    >
+                      {{ value }}
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        {%- comment -%} Cantidad y botón de compra {%- endcomment -%}
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-ml-form">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" id="product-ml-variant-id">
+
+          <div class="product-ml__quantity-wrapper">
+            <label for="quantity-ml" class="product-ml__quantity-label">Cantidad:</label>
+            <div class="product-ml__quantity">
+              <button type="button" class="product-ml__quantity-btn" data-action="decrease">-</button>
+              <input
+                type="number"
+                name="quantity"
+                id="quantity-ml"
+                value="1"
+                min="1"
+                class="product-ml__quantity-input"
+              >
+              <button type="button" class="product-ml__quantity-btn" data-action="increase">+</button>
+            </div>
+            <span class="product-ml__stock">
+              {%- if current_variant.available -%}
+                ({{ current_variant.inventory_quantity | default: '10+' }} disponibles)
+              {%- else -%}
+                (Sin stock)
+              {%- endif -%}
+            </span>
+          </div>
+
+          <div class="product-ml__actions">
+            <button
+              type="submit"
+              class="product-ml__buy-button"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {%- if current_variant.available -%}
+                {{ section.settings.button_text | default: 'Comprar ahora' }}
+              {%- else -%}
+                Sin stock
+              {%- endif -%}
+            </button>
+          </div>
+        </form>
+
+        {%- comment -%} Garantía y envío {%- endcomment -%}
+        {%- if section.settings.show_shipping_info -%}
+          <div class="product-ml__shipping">
+            <div class="product-ml__shipping-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+              </svg>
+              <div class="product-ml__shipping-text">
+                <strong>{{ section.settings.shipping_title }}</strong>
+                <p>{{ section.settings.shipping_text }}</p>
+              </div>
+            </div>
+
+            {%- if section.settings.show_guarantee -%}
+              <div class="product-ml__shipping-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <div class="product-ml__shipping-text">
+                  <strong>{{ section.settings.guarantee_title }}</strong>
+                  <p>{{ section.settings.guarantee_text }}</p>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Descripción {%- endcomment -%}
+        {%- if product.description != blank -%}
+          <div class="product-ml__description">
+            <h3 class="product-ml__description-title">Descripción</h3>
+            <div class="product-ml__description-content">
+              {{ product.description }}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Galería de imágenes
+  document.querySelectorAll('.product-ml__thumbnail').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+      const mainImage = document.getElementById('product-ml-main-image');
+      mainImage.src = this.dataset.image;
+
+      document.querySelectorAll('.product-ml__thumbnail').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Cantidad
+  document.querySelectorAll('.product-ml__quantity-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const input = document.getElementById('quantity-ml');
+      const currentValue = parseInt(input.value);
+
+      if (this.dataset.action === 'increase') {
+        input.value = currentValue + 1;
+      } else if (this.dataset.action === 'decrease' && currentValue > 1) {
+        input.value = currentValue - 1;
+      }
+    });
+  });
+
+  // Variantes
+  document.querySelectorAll('.product-ml__variant-input').forEach(input => {
+    input.addEventListener('change', function() {
+      const form = document.getElementById('product-ml-form');
+      const formData = new FormData(form);
+
+      // Aquí podrías agregar lógica para actualizar el precio y la imagen según la variante seleccionada
+      // Por simplicidad, esto es un placeholder
+      console.log('Variante seleccionada:', this.value);
+    });
+  });
+
+  // Formulario de agregar al carrito
+  document.getElementById('product-ml-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Actualizar el contador del carrito
+      window.location.href = '/cart';
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Hubo un error al agregar el producto al carrito');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Producto ML",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Carrusel de Medios"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media_logos",
+      "label": "Mostrar logos de medios",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "media_label",
+      "label": "Etiqueta de medios",
+      "default": "Destacado en"
+    },
+    {
+      "type": "header",
+      "content": "Información del Producto"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Mostrar marca",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Mostrar insignia",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Texto de insignia",
+      "default": "NUEVO"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Mostrar calificación",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Número de calificaciones",
+      "default": "1,234"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sold",
+      "label": "Mostrar cantidad vendida",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sold_count",
+      "label": "Cantidad vendida",
+      "default": "5,000+"
+    },
+    {
+      "type": "header",
+      "content": "Precio y Cuotas"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_installments",
+      "label": "Mostrar cuotas",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "installments_count",
+      "label": "Número de cuotas",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Botón de Compra"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto del botón",
+      "default": "Comprar ahora"
+    },
+    {
+      "type": "header",
+      "content": "Envío y Garantía"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_info",
+      "label": "Mostrar información de envío",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_title",
+      "label": "Título de envío",
+      "default": "Envío gratis a todo el país"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Texto de envío",
+      "default": "Conoce los tiempos y las formas de envío."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee",
+      "label": "Mostrar garantía",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "guarantee_title",
+      "label": "Título de garantía",
+      "default": "Compra Protegida"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Texto de garantía",
+      "default": "Recibe el producto que esperabas o te devolvemos tu dinero."
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "media_logo",
+      "name": "Logo de Medio",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+        {
+          "type": "text",
+          "id": "logo_alt",
+          "label": "Texto alternativo",
+          "default": "The Wall Street Journal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Producto ML",
+      "blocks": [
+        {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "The Wall Street Journal"
+          }
+        },
+        {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "The Economist"
+          }
+        },
+        {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "Bloomberg"
+          }
+        },
+        {
+          "type": "media_logo",
+          "settings": {
+            "logo_alt": "Fortune"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
