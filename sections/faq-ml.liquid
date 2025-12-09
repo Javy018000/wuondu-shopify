@@ -1,0 +1,175 @@
+{{ 'faq-ml.css' | asset_url | stylesheet_tag }}
+
+<div class="faq-ml section-{{ section.id }}-padding">
+  <div class="page-width">
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="faq-ml__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="faq-ml__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+
+    <div class="faq-ml__accordion">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'question' -%}
+          <div class="faq-ml__item" {{ block.shopify_attributes }}>
+            <button
+              class="faq-ml__question"
+              type="button"
+              aria-expanded="false"
+              data-faq-toggle
+            >
+              <span class="faq-ml__question-text">{{ block.settings.question }}</span>
+              <svg class="faq-ml__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path class="faq-ml__icon-horizontal" d="M5 10h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path class="faq-ml__icon-vertical" d="M10 5v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <div class="faq-ml__answer" data-faq-answer>
+              <div class="faq-ml__answer-content">
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  const faqToggles = document.querySelectorAll('[data-faq-toggle]');
+
+  faqToggles.forEach(toggle => {
+    toggle.addEventListener('click', function() {
+      const item = this.closest('.faq-ml__item');
+      const answer = item.querySelector('[data-faq-answer]');
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+      // Cerrar todos los demás items
+      faqToggles.forEach(otherToggle => {
+        if (otherToggle !== toggle) {
+          const otherItem = otherToggle.closest('.faq-ml__item');
+          const otherAnswer = otherItem.querySelector('[data-faq-answer]');
+          otherToggle.setAttribute('aria-expanded', 'false');
+          otherItem.classList.remove('is-active');
+          otherAnswer.style.maxHeight = '0';
+        }
+      });
+
+      // Toggle el item actual
+      if (isExpanded) {
+        this.setAttribute('aria-expanded', 'false');
+        item.classList.remove('is-active');
+        answer.style.maxHeight = '0';
+      } else {
+        this.setAttribute('aria-expanded', 'true');
+        item.classList.add('is-active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Preguntas Frecuentes ML",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Preguntas frecuentes"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtítulo"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Pregunta",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Pregunta",
+          "default": "¿Pregunta ejemplo?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Respuesta",
+          "default": "<p>Respuesta ejemplo</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Preguntas Frecuentes ML",
+      "settings": {
+        "heading": "¿Con qué telefónos es compatible?"
+      },
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "¿Tenéis una tienda a Blanconita?",
+            "answer": "<p>Sí, tenemos tienda física en Blanconita. Puedes visitarnos de lunes a sábado de 9:00 a 18:00.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "¿Dónde puede usar esto fondos?",
+            "answer": "<p>Puedes usar nuestros productos en cualquier lugar. Son compatibles con la mayoría de dispositivos.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué tan seguro es?",
+            "answer": "<p>Muy seguro. Todos nuestros productos pasan por estrictos controles de calidad y cuentan con garantía.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué dice contiene en?",
+            "answer": "<p>El paquete incluye el producto principal, manual de instrucciones y accesorios necesarios.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

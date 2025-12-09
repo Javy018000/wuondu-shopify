@@ -1,0 +1,172 @@
+/* ===============================================
+   TABLA COMPARATIVA MERCADO LIBRE
+   =============================================== */
+
+.comparison-ml {
+  background: #fff;
+}
+
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top | default: 60 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+}
+
+.comparison-ml__heading {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.comparison-ml__subtitle {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+  margin: 0 auto 40px auto;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.comparison-ml__table-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.comparison-ml__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.comparison-ml__table thead tr {
+  background: #f5f5f5;
+}
+
+.comparison-ml__table th {
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comparison-ml__header-empty {
+  width: 50%;
+  text-align: left;
+}
+
+.comparison-ml__header-us {
+  width: 25%;
+  background: #FFC107;
+  color: #000;
+}
+
+.comparison-ml__header-others {
+  width: 25%;
+}
+
+.comparison-ml__table tbody tr {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.comparison-ml__table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.comparison-ml__table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.comparison-ml__feature-name {
+  padding: 16px;
+  font-size: 14px;
+  color: #333;
+  text-align: left;
+  font-weight: 400;
+}
+
+.comparison-ml__cell-us,
+.comparison-ml__cell-others {
+  padding: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.comparison-ml__cell-us {
+  background: rgba(255, 193, 7, 0.1);
+}
+
+.comparison-ml__check,
+.comparison-ml__cross {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ===============================================
+   RESPONSIVE - TABLET
+   =============================================== */
+@media screen and (max-width: 989px) {
+  .comparison-ml__heading {
+    font-size: 28px;
+  }
+
+  .comparison-ml__subtitle {
+    font-size: 15px;
+  }
+
+  .comparison-ml__table th,
+  .comparison-ml__feature-name,
+  .comparison-ml__cell-us,
+  .comparison-ml__cell-others {
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+}
+
+/* ===============================================
+   RESPONSIVE - MÓVIL
+   =============================================== */
+@media screen and (max-width: 749px) {
+  .comparison-ml__heading {
+    font-size: 24px;
+  }
+
+  .comparison-ml__subtitle {
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .comparison-ml__table-wrapper {
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+
+  .comparison-ml__table th {
+    font-size: 11px;
+    padding: 10px 6px;
+  }
+
+  .comparison-ml__feature-name {
+    font-size: 12px;
+    padding: 12px 8px;
+  }
+
+  .comparison-ml__cell-us,
+  .comparison-ml__cell-others {
+    padding: 12px 6px;
+  }
+
+  .comparison-ml__check,
+  .comparison-ml__cross {
+    width: 20px;
+    height: 20px;
+  }
+}
