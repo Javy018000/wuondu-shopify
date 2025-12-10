@@ -153,6 +153,7 @@
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.7s ease 0.3s;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .hero-slide--active .hero-slide__title {
@@ -182,6 +183,7 @@
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.7s ease 0.4s;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 3px 12px rgba(0, 0, 0, 0.3);
 }
 
 .hero-slide--active .hero-slide__text {
@@ -214,26 +216,48 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 14px 32px;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: 16px 36px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 700;
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
   border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.5s;
+}
+
+.hero-button:hover::before {
+  left: 100%;
 }
 
 .hero-button--primary {
-  background: #FF6600;
+  background: linear-gradient(135deg, #FF6600 0%, #E85D00 100%);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
 }
 
 .hero-button--primary:hover {
-  background: #E85D00;
-  box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #E85D00 0%, #CC5200 100%);
+  box-shadow: 0 8px 28px rgba(255, 102, 0, 0.5);
+  transform: translateY(-3px);
+}
+
+.hero-button--primary:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255, 102, 0, 0.4);
 }
 
 .hero-button--primary:hover .hero-button__icon {
@@ -241,15 +265,22 @@
 }
 
 .hero-button--secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.15);
   color: #fff;
   border-color: #fff;
+  backdrop-filter: blur(10px);
 }
 
 .hero-button--secondary:hover {
   background: #fff;
   color: #FF6600;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+}
+
+.hero-button--secondary:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
 }
 
 .hero-button__icon {

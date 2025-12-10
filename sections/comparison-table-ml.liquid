@@ -18,7 +18,7 @@
   {%- assign has_product_features = true -%}
 {%- endif -%}
 
-<div class="comparison-ml section-{{ section.id }}-padding">
+<div class="comparison-ml section-{{ section.id }}-padding section-bg-{{ section.settings.background_style }}">
   <div class="page-width">
 
     {%- if section.settings.heading != blank -%}
@@ -51,8 +51,8 @@
                 <td class="comparison-ml__cell-us">
                   {%- if feature.us_has_feature.value == true -%}
                     <svg class="comparison-ml__check" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="10" fill="#FFC107"/>
-                      <path d="M9 12l2 2 4-4" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <circle cx="12" cy="12" r="10" fill="#FF6600"/>
+                      <path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   {%- else -%}
                     <svg class="comparison-ml__cross" width="24" height="24" viewBox="0 0 24 24">
@@ -83,8 +83,8 @@
                   <td class="comparison-ml__cell-us">
                     {%- if block.settings.us_has_feature -%}
                       <svg class="comparison-ml__check" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" fill="#FFC107"/>
-                        <path d="M9 12l2 2 4-4" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="12" r="10" fill="#FF6600"/>
+                        <path d="M9 12l2 2 4-4" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
                     {%- else -%}
                       <svg class="comparison-ml__cross" width="24" height="24" viewBox="0 0 24 24">
@@ -121,6 +121,10 @@
   "class": "section",
   "settings": [
     {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "T�tulo",
@@ -143,6 +147,30 @@
       "id": "column_others_title",
       "label": "T�tulo columna otros",
       "default": "Otros"
+    },
+    {
+      "type": "header",
+      "content": "Estilo de secci�n"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "Estilo de fondo",
+      "options": [
+        {
+          "value": "white",
+          "label": "Blanco"
+        },
+        {
+          "value": "gray",
+          "label": "Gris claro"
+        },
+        {
+          "value": "orange-light",
+          "label": "Naranja suave"
+        }
+      ],
+      "default": "gray"
     },
     {
       "type": "range",

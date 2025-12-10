@@ -11,7 +11,10 @@
       "Bash(cat:*)",
       "Bash(dir /S /B \"c:\\Users\\javi1\\OneDrive\\Documentos\\VSC-projects\\shopify-proyectos\\Mi Tema Wuondu\\sections\\benefits-ml.liquid\")",
       "Bash(dir /S /B \"c:\\Users\\javi1\\OneDrive\\Documentos\\VSC-projects\\shopify-proyectos\\Mi Tema Wuondu\\templates\")",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(shopify theme list:*)",
+      "Bash(move comparison-table-ml.css comparison-table-ml.css.liquid)",
+      "Bash(move:*)"
     ],
     "deny": [],
     "ask": []

@@ -17,7 +17,7 @@
   {%- assign has_product_faqs = true -%}
 {%- endif -%}
 
-<div class="faq-ml section-{{ section.id }}-padding">
+<div class="faq-ml section-{{ section.id }}-padding section-bg-{{ section.settings.background_style }}">
   <div class="page-width">
 
     {%- if section.settings.heading != blank -%}
@@ -134,6 +134,30 @@
       "type": "textarea",
       "id": "subtitle",
       "label": "Subt�tulo"
+    },
+    {
+      "type": "header",
+      "content": "Estilo de secci�n"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "Estilo de fondo",
+      "options": [
+        {
+          "value": "white",
+          "label": "Blanco"
+        },
+        {
+          "value": "gray",
+          "label": "Gris claro"
+        },
+        {
+          "value": "orange-light",
+          "label": "Naranja suave"
+        }
+      ],
+      "default": "white"
     },
     {
       "type": "range",
