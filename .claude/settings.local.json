@@ -9,7 +9,9 @@
       "Bash(del \"c:\\Users\\javi1\\OneDrive\\Documentos\\VSC-projects\\shopify-proyectos\\Mi Tema Wuondu\\sections\\hero-slider-ml.liquid.backup\")",
       "Bash(shopify theme push:*)",
       "Bash(cat:*)",
-      "Bash(dir /S /B \"c:\\Users\\javi1\\OneDrive\\Documentos\\VSC-projects\\shopify-proyectos\\Mi Tema Wuondu\\sections\\benefits-ml.liquid\")"
+      "Bash(dir /S /B \"c:\\Users\\javi1\\OneDrive\\Documentos\\VSC-projects\\shopify-proyectos\\Mi Tema Wuondu\\sections\\benefits-ml.liquid\")",
+      "Bash(dir /S /B \"c:\\Users\\javi1\\OneDrive\\Documentos\\VSC-projects\\shopify-proyectos\\Mi Tema Wuondu\\templates\")",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

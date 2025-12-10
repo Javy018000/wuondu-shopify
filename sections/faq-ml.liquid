@@ -1,5 +1,22 @@
 {{ 'faq-ml.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  Esta secciÃ³n puede usar metafields del producto para mostrar FAQs especÃ­ficas.
+  Si no hay metafields, usa los bloques de la secciÃ³n como fallback.
+
+  Metafield esperado: product.metafields.custom.faq_items
+  Tipo: list.metaobject_reference (con metaobject de tipo 'faq_item')
+  Campos del metaobject:
+  - question (single_line_text_field)
+  - answer (multi_line_text_field)
+{%- endcomment -%}
+
+{%- assign product_faqs = product.metafields.custom.faq_items.value -%}
+{%- assign has_product_faqs = false -%}
+{%- if product_faqs != blank and product_faqs.size > 0 -%}
+  {%- assign has_product_faqs = true -%}
+{%- endif -%}
+
 <div class="faq-ml section-{{ section.id }}-padding">
   <div class="page-width">
 
@@ -12,16 +29,17 @@
     {%- endif -%}
 
     <div class="faq-ml__accordion">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'question' -%}
-          <div class="faq-ml__item" {{ block.shopify_attributes }}>
+      {%- if has_product_faqs -%}
+        {%- comment -%} Mostrar FAQs del producto desde metafields {%- endcomment -%}
+        {%- for faq_item in product_faqs -%}
+          <div class="faq-ml__item">
             <button
               class="faq-ml__question"
               type="button"
               aria-expanded="false"
               data-faq-toggle
             >
-              <span class="faq-ml__question-text">{{ block.settings.question }}</span>
+              <span class="faq-ml__question-text">{{ faq_item.question.value }}</span>
               <svg class="faq-ml__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path class="faq-ml__icon-horizontal" d="M5 10h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 <path class="faq-ml__icon-vertical" d="M10 5v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -29,12 +47,37 @@
             </button>
             <div class="faq-ml__answer" data-faq-answer>
               <div class="faq-ml__answer-content">
-                {{ block.settings.answer }}
+                {{ faq_item.answer.value | newline_to_br }}
               </div>
             </div>
           </div>
-        {%- endif -%}
-      {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Mostrar FAQs de los bloques de la secciÃ³n (fallback) {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'question' -%}
+            <div class="faq-ml__item" {{ block.shopify_attributes }}>
+              <button
+                class="faq-ml__question"
+                type="button"
+                aria-expanded="false"
+                data-faq-toggle
+              >
+                <span class="faq-ml__question-text">{{ block.settings.question }}</span>
+                <svg class="faq-ml__icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path class="faq-ml__icon-horizontal" d="M5 10h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path class="faq-ml__icon-vertical" d="M10 5v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <div class="faq-ml__answer" data-faq-answer>
+                <div class="faq-ml__answer-content">
+                  {{ block.settings.answer }}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
     </div>
 
   </div>
@@ -50,7 +93,7 @@
       const answer = item.querySelector('[data-faq-answer]');
       const isExpanded = this.getAttribute('aria-expanded') === 'true';
 
-      // Cerrar todos los demás items
+      // Cerrar todos los demï¿½s items
       faqToggles.forEach(otherToggle => {
         if (otherToggle !== toggle) {
           const otherItem = otherToggle.closest('.faq-ml__item');
@@ -84,13 +127,13 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Título",
+      "label": "Tï¿½tulo",
       "default": "Preguntas frecuentes"
     },
     {
       "type": "textarea",
       "id": "subtitle",
-      "label": "Subtítulo"
+      "label": "Subtï¿½tulo"
     },
     {
       "type": "range",
@@ -122,7 +165,7 @@
           "type": "text",
           "id": "question",
           "label": "Pregunta",
-          "default": "¿Pregunta ejemplo?"
+          "default": "ï¿½Pregunta ejemplo?"
         },
         {
           "type": "richtext",
@@ -137,34 +180,34 @@
     {
       "name": "Preguntas Frecuentes ML",
       "settings": {
-        "heading": "¿Con qué telefónos es compatible?"
+        "heading": "ï¿½Con quï¿½ telefï¿½nos es compatible?"
       },
       "blocks": [
         {
           "type": "question",
           "settings": {
-            "question": "¿Tenéis una tienda a Blanconita?",
-            "answer": "<p>Sí, tenemos tienda física en Blanconita. Puedes visitarnos de lunes a sábado de 9:00 a 18:00.</p>"
+            "question": "ï¿½Tenï¿½is una tienda a Blanconita?",
+            "answer": "<p>Sï¿½, tenemos tienda fï¿½sica en Blanconita. Puedes visitarnos de lunes a sï¿½bado de 9:00 a 18:00.</p>"
           }
         },
         {
           "type": "question",
           "settings": {
-            "question": "¿Dónde puede usar esto fondos?",
-            "answer": "<p>Puedes usar nuestros productos en cualquier lugar. Son compatibles con la mayoría de dispositivos.</p>"
+            "question": "ï¿½Dï¿½nde puede usar esto fondos?",
+            "answer": "<p>Puedes usar nuestros productos en cualquier lugar. Son compatibles con la mayorï¿½a de dispositivos.</p>"
           }
         },
         {
           "type": "question",
           "settings": {
-            "question": "¿Qué tan seguro es?",
-            "answer": "<p>Muy seguro. Todos nuestros productos pasan por estrictos controles de calidad y cuentan con garantía.</p>"
+            "question": "ï¿½Quï¿½ tan seguro es?",
+            "answer": "<p>Muy seguro. Todos nuestros productos pasan por estrictos controles de calidad y cuentan con garantï¿½a.</p>"
           }
         },
         {
           "type": "question",
           "settings": {
-            "question": "¿Qué dice contiene en?",
+            "question": "ï¿½Quï¿½ dice contiene en?",
             "answer": "<p>El paquete incluye el producto principal, manual de instrucciones y accesorios necesarios.</p>"
           }
         }

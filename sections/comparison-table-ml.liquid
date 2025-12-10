@@ -1,5 +1,23 @@
 {{ 'comparison-table-ml.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  Esta secciÃ³n puede usar metafields del producto para mostrar caracterÃ­sticas especÃ­ficas.
+  Si no hay metafields, usa los bloques de la secciÃ³n como fallback.
+
+  Metafield esperado: product.metafields.custom.comparison_features
+  Tipo: list.metaobject_reference (con metaobject de tipo 'comparison_feature')
+  Campos del metaobject:
+  - feature_name (single_line_text_field)
+  - us_has_feature (boolean)
+  - others_have_feature (boolean)
+{%- endcomment -%}
+
+{%- assign product_features = product.metafields.custom.comparison_features.value -%}
+{%- assign has_product_features = false -%}
+{%- if product_features != blank and product_features.size > 0 -%}
+  {%- assign has_product_features = true -%}
+{%- endif -%}
+
 <div class="comparison-ml section-{{ section.id }}-padding">
   <div class="page-width">
 
@@ -25,12 +43,13 @@
           </tr>
         </thead>
         <tbody>
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'feature' -%}
-              <tr {{ block.shopify_attributes }}>
-                <td class="comparison-ml__feature-name">{{ block.settings.feature_name }}</td>
+          {%- if has_product_features -%}
+            {%- comment -%} Mostrar caracterÃ­sticas del producto desde metafields {%- endcomment -%}
+            {%- for feature in product_features -%}
+              <tr>
+                <td class="comparison-ml__feature-name">{{ feature.feature_name.value }}</td>
                 <td class="comparison-ml__cell-us">
-                  {%- if block.settings.us_has_feature -%}
+                  {%- if feature.us_has_feature.value == true -%}
                     <svg class="comparison-ml__check" width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <circle cx="12" cy="12" r="10" fill="#FFC107"/>
                       <path d="M9 12l2 2 4-4" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -42,7 +61,7 @@
                   {%- endif -%}
                 </td>
                 <td class="comparison-ml__cell-others">
-                  {%- if block.settings.others_have_feature -%}
+                  {%- if feature.others_have_feature.value == true -%}
                     <svg class="comparison-ml__check" width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <circle cx="12" cy="12" r="10" fill="#e0e0e0"/>
                       <path d="M9 12l2 2 4-4" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -54,8 +73,41 @@
                   {%- endif -%}
                 </td>
               </tr>
-            {%- endif -%}
-          {%- endfor -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- comment -%} Mostrar caracterÃ­sticas de los bloques de la secciÃ³n (fallback) {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'feature' -%}
+                <tr {{ block.shopify_attributes }}>
+                  <td class="comparison-ml__feature-name">{{ block.settings.feature_name }}</td>
+                  <td class="comparison-ml__cell-us">
+                    {%- if block.settings.us_has_feature -%}
+                      <svg class="comparison-ml__check" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" fill="#FFC107"/>
+                        <path d="M9 12l2 2 4-4" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    {%- else -%}
+                      <svg class="comparison-ml__cross" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    {%- endif -%}
+                  </td>
+                  <td class="comparison-ml__cell-others">
+                    {%- if block.settings.others_have_feature -%}
+                      <svg class="comparison-ml__check" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" fill="#e0e0e0"/>
+                        <path d="M9 12l2 2 4-4" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    {%- else -%}
+                      <svg class="comparison-ml__cross" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    {%- endif -%}
+                  </td>
+                </tr>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
         </tbody>
       </table>
     </div>
@@ -65,31 +117,31 @@
 
 {% schema %}
 {
-  "name": "Comparación ML",
+  "name": "Comparaciï¿½n ML",
   "class": "section",
   "settings": [
     {
       "type": "text",
       "id": "heading",
-      "label": "Título",
+      "label": "Tï¿½tulo",
       "default": "Nosotros vs Otros"
     },
     {
       "type": "textarea",
       "id": "subtitle",
-      "label": "Subtítulo",
-      "default": "Compara y descubre por qué somos la mejor opción"
+      "label": "Subtï¿½tulo",
+      "default": "Compara y descubre por quï¿½ somos la mejor opciï¿½n"
     },
     {
       "type": "text",
       "id": "column_us_title",
-      "label": "Título columna nuestra",
+      "label": "Tï¿½tulo columna nuestra",
       "default": "Control de Gatillo"
     },
     {
       "type": "text",
       "id": "column_others_title",
-      "label": "Título columna otros",
+      "label": "Tï¿½tulo columna otros",
       "default": "Otros"
     },
     {
@@ -116,24 +168,24 @@
   "blocks": [
     {
       "type": "feature",
-      "name": "Característica",
+      "name": "Caracterï¿½stica",
       "settings": [
         {
           "type": "text",
           "id": "feature_name",
-          "label": "Nombre de la característica",
-          "default": "Gatillos mecánicos de alta precisión"
+          "label": "Nombre de la caracterï¿½stica",
+          "default": "Gatillos mecï¿½nicos de alta precisiï¿½n"
         },
         {
           "type": "checkbox",
           "id": "us_has_feature",
-          "label": "Nosotros tenemos esta característica",
+          "label": "Nosotros tenemos esta caracterï¿½stica",
           "default": true
         },
         {
           "type": "checkbox",
           "id": "others_have_feature",
-          "label": "Otros tienen esta característica",
+          "label": "Otros tienen esta caracterï¿½stica",
           "default": false
         }
       ]
@@ -141,10 +193,10 @@
   ],
   "presets": [
     {
-      "name": "Comparación ML",
+      "name": "Comparaciï¿½n ML",
       "settings": {
         "heading": "Nosotros vs Otros",
-        "subtitle": "El Control Gamepad Móvil M-06 te ofrece por completo la experiencia. Es como tener una consola en la palma de tus manos.",
+        "subtitle": "El Control Gamepad Mï¿½vil M-06 te ofrece por completo la experiencia. Es como tener una consola en la palma de tus manos.",
         "column_us_title": "CONTROL DE GATILLO",
         "column_others_title": "Otros"
       },
@@ -152,7 +204,7 @@
         {
           "type": "feature",
           "settings": {
-            "feature_name": "Gatillos mecánicos de alta precisión",
+            "feature_name": "Gatillos mecï¿½nicos de alta precisiï¿½n",
             "us_has_feature": true,
             "others_have_feature": false
           }
@@ -160,7 +212,7 @@
         {
           "type": "feature",
           "settings": {
-            "feature_name": "Diseño ergonómico y liga gamepad",
+            "feature_name": "Diseï¿½o ergonï¿½mico y liga gamepad",
             "us_has_feature": true,
             "others_have_feature": false
           }
@@ -184,7 +236,7 @@
         {
           "type": "feature",
           "settings": {
-            "feature_name": "Sin batería, sin recargas de sílica",
+            "feature_name": "Sin baterï¿½a, sin recargas de sï¿½lica",
             "us_has_feature": true,
             "others_have_feature": false
           }

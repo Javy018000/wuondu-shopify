@@ -83,24 +83,6 @@
         "padding_bottom": 12
       }
     },
-    "related-products": {
-      "type": "related-products",
-      "settings": {
-        "heading": "You may also like",
-        "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "padding_top": 36,
-        "padding_bottom": 28
-      }
-    },
     "product_page_ml_Lg8xNV": {
       "type": "product-page-ml",
       "blocks": {
@@ -158,11 +140,138 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "comparison_table_ml_wM4jdN": {
+      "type": "comparison-table-ml",
+      "blocks": {
+        "feature_cpCnJ6": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "{{ product.metafields.custom.prueba_metadato_titulo.value }}",
+            "us_has_feature": true,
+            "others_have_feature": false
+          }
+        },
+        "feature_eWGY7c": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "{{ product.metafields.custom.comparacion_item_2.value }}",
+            "us_has_feature": true,
+            "others_have_feature": false
+          }
+        },
+        "feature_RVnnHn": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "{{ product.metafields.custom.comparacion_item_3.value }}",
+            "us_has_feature": true,
+            "others_have_feature": false
+          }
+        },
+        "feature_GUqDdP": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "{{ product.metafields.custom.comparacion_item_4.value }}",
+            "us_has_feature": true,
+            "others_have_feature": false
+          }
+        },
+        "feature_t9eezw": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "{{ product.metafields.custom.comparacion_item_5.value }}",
+            "us_has_feature": true,
+            "others_have_feature": false
+          }
+        }
+      },
+      "block_order": [
+        "feature_cpCnJ6",
+        "feature_eWGY7c",
+        "feature_RVnnHn",
+        "feature_GUqDdP",
+        "feature_t9eezw"
+      ],
+      "name": "Comparaci�n ML",
+      "settings": {
+        "heading": "Nosotros vs Otros",
+        "subtitle": "",
+        "column_us_title": "CONTROL DE GATILLO",
+        "column_others_title": "Otros",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "faq_ml_gF8QG9": {
+      "type": "faq-ml",
+      "blocks": {
+        "question_M9WQtd": {
+          "type": "question",
+          "settings": {
+            "question": "{{ product.metafields.custom.faq_item_1.value }}",
+            "answer": "<p>S�, tenemos tienda f�sica en Blanconita. Puedes visitarnos de lunes a s�bado de 9:00 a 18:00.</p>"
+          }
+        },
+        "question_tGqijP": {
+          "type": "question",
+          "settings": {
+            "question": "{{ product.metafields.custom.comparacion_item_2.value }}",
+            "answer": "<p>Puedes usar nuestros productos en cualquier lugar. Son compatibles con la mayor�a de dispositivos.</p>"
+          }
+        },
+        "question_QAjEqb": {
+          "type": "question",
+          "settings": {
+            "question": "{{ product.metafields.custom.comparacion_item_3.value }}",
+            "answer": "<p>Muy seguro. Todos nuestros productos pasan por estrictos controles de calidad y cuentan con garant�a.</p>"
+          }
+        },
+        "question_qTm8iy": {
+          "type": "question",
+          "settings": {
+            "question": "{{ product.metafields.custom.comparacion_item_4.value }}",
+            "answer": "<p>El paquete incluye el producto principal, manual de instrucciones y accesorios necesarios.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_M9WQtd",
+        "question_tGqijP",
+        "question_QAjEqb",
+        "question_qTm8iy"
+      ],
+      "name": "Preguntas Frecuentes ML",
+      "settings": {
+        "heading": "Preguntas frecuentes",
+        "subtitle": "",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
     }
   },
   "order": [
     "main",
     "product_page_ml_Lg8xNV",
+    "comparison_table_ml_wM4jdN",
+    "faq_ml_gF8QG9",
     "related-products"
   ]
 }
