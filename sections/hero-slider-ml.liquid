@@ -1,4 +1,5 @@
 {{ 'hero-slider-ml-enhanced.css' | asset_url | stylesheet_tag }}
+{{ 'theme-ml-visual-enhancements.css' | asset_url | stylesheet_tag }}
 
 <div class="hero-slider-ml-enhanced">
   <div class="hero-slider__wrapper" id="heroSliderML">
@@ -43,7 +44,7 @@
                     </span>
                   {%- endif -%}
 
-                  {%- comment -%} Título con animación {%- endcomment -%}
+                  {%- comment -%} Tï¿½tulo con animaciï¿½n {%- endcomment -%}
                   {%- if block.settings.title != blank -%}
                     <h2 class="hero-slide__title">{{ block.settings.title }}</h2>
                   {%- endif -%}
@@ -53,7 +54,7 @@
                     <p class="hero-slide__text">{{ block.settings.text }}</p>
                   {%- endif -%}
 
-                  {%- comment -%} Botones de acción {%- endcomment -%}
+                  {%- comment -%} Botones de acciï¿½n {%- endcomment -%}
                   {%- if block.settings.button_label != blank or block.settings.button_label_2 != blank -%}
                     <div class="hero-slide__buttons">
                       {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
@@ -66,7 +67,7 @@
                         </a>
                       {%- endif -%}
 
-                      {%- comment -%} Botón secundario opcional {%- endcomment -%}
+                      {%- comment -%} Botï¿½n secundario opcional {%- endcomment -%}
                       {%- if block.settings.button_label_2 != blank and block.settings.button_link_2 != blank -%}
                         <a href="{{ block.settings.button_link_2 }}" class="hero-button hero-button--secondary">
                           {{ block.settings.button_label_2 }}
@@ -83,7 +84,7 @@
 
     {%- comment -%} Controles del slider {%- endcomment -%}
     {%- if section.blocks.size > 1 -%}
-      {%- comment -%} Flechas de navegación {%- endcomment -%}
+      {%- comment -%} Flechas de navegaciï¿½n {%- endcomment -%}
       <button class="hero-slider__arrow hero-slider__arrow--prev" onclick="moveSlide(-1)" aria-label="Slide anterior">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <polyline points="15 18 9 12 15 6"></polyline>
@@ -127,7 +128,7 @@
       const dots = document.querySelectorAll('.hero-slider__dot');
       const slides = document.querySelectorAll('.hero-slide');
 
-      // Actualizar transformación del slider
+      // Actualizar transformaciï¿½n del slider
       if (slidesContainer) {
         slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
       }
@@ -137,7 +138,7 @@
         dot.classList.toggle('hero-slider__dot--active', index === currentSlide);
       });
 
-      // Agregar clases de animación al slide actual
+      // Agregar clases de animaciï¿½n al slide actual
       slides.forEach((slide, index) => {
         if (index === currentSlide) {
           slide.classList.add('hero-slide--active');
@@ -203,7 +204,7 @@
         });
       }
 
-      // Soporte para gestos táctiles
+      // Soporte para gestos tï¿½ctiles
       let touchStartX = 0;
       let touchEndX = 0;
 
@@ -238,7 +239,7 @@
     {
       "type": "checkbox",
       "id": "enable_autoplay",
-      "label": "Activar reproducción automática",
+      "label": "Activar reproducciï¿½n automï¿½tica",
       "default": true
     },
     {
@@ -248,7 +249,7 @@
       "max": 10,
       "step": 1,
       "unit": "s",
-      "label": "Velocidad de reproducción",
+      "label": "Velocidad de reproducciï¿½n",
       "default": 5
     }
   ],
@@ -312,19 +313,19 @@
         {
           "type": "text",
           "id": "title",
-          "label": "Título",
+          "label": "Tï¿½tulo",
           "default": "Descubre nuestras ofertas"
         },
         {
           "type": "textarea",
           "id": "text",
-          "label": "Descripción",
+          "label": "Descripciï¿½n",
           "default": "Las mejores ofertas en productos de calidad para ti"
         },
         {
           "type": "select",
           "id": "text_alignment",
-          "label": "Alineación del texto",
+          "label": "Alineaciï¿½n del texto",
           "options": [
             { "value": "left", "label": "Izquierda" },
             { "value": "center", "label": "Centro" },
@@ -334,32 +335,32 @@
         },
         {
           "type": "header",
-          "content": "Botón principal"
+          "content": "Botï¿½n principal"
         },
         {
           "type": "text",
           "id": "button_label",
-          "label": "Texto del botón",
+          "label": "Texto del botï¿½n",
           "default": "Ver ofertas"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "Enlace del botón"
+          "label": "Enlace del botï¿½n"
         },
         {
           "type": "header",
-          "content": "Botón secundario (opcional)"
+          "content": "Botï¿½n secundario (opcional)"
         },
         {
           "type": "text",
           "id": "button_label_2",
-          "label": "Texto del botón secundario"
+          "label": "Texto del botï¿½n secundario"
         },
         {
           "type": "url",
           "id": "button_link_2",
-          "label": "Enlace del botón secundario"
+          "label": "Enlace del botï¿½n secundario"
         }
       ]
     }

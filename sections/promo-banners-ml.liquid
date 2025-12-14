@@ -1,4 +1,5 @@
 {{ 'promo-banners-ml.css' | asset_url | stylesheet_tag }}
+{{ 'theme-ml-visual-enhancements.css' | asset_url | stylesheet_tag }}
 
 <style>
   .promo-banners-ml {
@@ -117,7 +118,10 @@
   }
 </style>
 
-<div class="promo-banners-ml">
+<!-- Separador decorativo -->
+<div class="section-wave-divider section-wave-divider--white"></div>
+
+<div class="promo-banners-ml section-promo-banners-ml">
   <div class="promo-banners-ml__container">
     {%- for block in section.blocks -%}
       {%- if block.type == 'banner' -%}
@@ -224,11 +228,11 @@
           "options": [
             {
               "value": "success",
-              "label": "Éxito (Verde)"
+              "label": "ï¿½xito (Verde)"
             },
             {
               "value": "info",
-              "label": "Información (Azul)"
+              "label": "Informaciï¿½n (Azul)"
             },
             {
               "value": "warning",
@@ -244,17 +248,17 @@
         {
           "type": "checkbox",
           "id": "show_icon",
-          "label": "Mostrar ícono",
+          "label": "Mostrar ï¿½cono",
           "default": true
         },
         {
           "type": "select",
           "id": "icon",
-          "label": "Ícono",
+          "label": "ï¿½cono",
           "options": [
             {
               "value": "shipping",
-              "label": "Envío"
+              "label": "Envï¿½o"
             },
             {
               "value": "fire",
@@ -270,7 +274,7 @@
             },
             {
               "value": "info",
-              "label": "Información"
+              "label": "Informaciï¿½n"
             }
           ],
           "default": "shipping"
@@ -278,13 +282,13 @@
         {
           "type": "text",
           "id": "title",
-          "label": "Título",
-          "default": "Envío gratis en compras superiores a $50.000"
+          "label": "Tï¿½tulo",
+          "default": "Envï¿½o gratis en compras superiores a $50.000"
         },
         {
           "type": "text",
           "id": "subtitle",
-          "label": "Subtítulo"
+          "label": "Subtï¿½tulo"
         },
         {
           "type": "url",
@@ -300,7 +304,7 @@
         {
           "type": "checkbox",
           "id": "show_coupon_border",
-          "label": "Mostrar borde de cupón en subtítulo",
+          "label": "Mostrar borde de cupï¿½n en subtï¿½tulo",
           "default": true
         }
       ]
@@ -315,7 +319,7 @@
           "settings": {
             "style": "success",
             "icon": "shipping",
-            "title": "Envío gratis en compras superiores a $50.000"
+            "title": "Envï¿½o gratis en compras superiores a $50.000"
           }
         }
       ]

@@ -1,0 +1,705 @@
+/* ============================================
+ * MEJORAS VISUALES - TEMA MERCADO LIBRE
+ * Fondos, patrones, decoraciones y efectos
+ * ============================================ */
+
+/* ============================================
+   FONDOS ALTERNADOS ENTRE SECCIONES
+   ============================================ */
+
+/* Hero Slider - Gradiente suave */
+.hero-slider-ml-enhanced {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%);
+  position: relative;
+}
+
+/* Categorías - Fondo naranja muy suave con patrón */
+.section-categories-ml {
+  background-color: #FFF9F5;
+  background-image: radial-gradient(circle, rgba(255,102,0,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  padding: 60px 0;
+  position: relative;
+}
+
+/* Productos destacados - Fondo blanco limpio */
+.section-featured-products-ml {
+  background: #FFFFFF;
+  padding: 60px 0;
+}
+
+/* Banners promocionales - Gradiente suave con efectos radiales */
+.section-promo-banners-ml {
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255,102,0,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(52,131,250,0.05) 0%, transparent 50%),
+    linear-gradient(180deg, #FFF9F5 0%, #FFFFFF 100%);
+  padding: 60px 0;
+  position: relative;
+}
+
+/* Price Range - Fondo gris muy suave */
+.section-price-range-ml {
+  background: linear-gradient(180deg, #F8F8F8 0%, #F5F5F5 100%);
+  padding: 60px 0;
+}
+
+/* Benefits - Patrón de líneas diagonales sutiles */
+.section-benefits-ml {
+  background-color: #F8F8F8;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255,102,0,0.02) 10px,
+    rgba(255,102,0,0.02) 20px
+  );
+  padding: 60px 0;
+  border-top: 1px solid #EBEBEB;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+/* Newsletter - Gradiente naranja atractivo */
+.section-newsletter-ml {
+  background: linear-gradient(135deg, #FF6600 0%, #FF8533 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Agregar patrón de fondo al newsletter */
+.section-newsletter-ml::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ============================================
+   SEPARADORES DECORATIVOS ENTRE SECCIONES
+   ============================================ */
+
+/* Ola decorativa SVG */
+.section-wave-divider {
+  width: 100%;
+  height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23FFF9F5'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: -1px;
+}
+
+.section-wave-divider--white {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+}
+
+.section-wave-divider--gray {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23F8F8F8'/%3E%3C/svg%3E");
+}
+
+.section-wave-divider--bottom {
+  transform: rotate(180deg);
+  margin-top: 0;
+  margin-bottom: -1px;
+}
+
+/* Línea decorativa con punto central */
+.section-divider-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,102,0,0.3) 50%, transparent 100%);
+  margin: 60px 0;
+  position: relative;
+}
+
+.section-divider-line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: #FF6600;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(255,102,0,0.3);
+}
+
+/* ============================================
+   MEJORAS EN HERO SLIDER
+   ============================================ */
+
+/* Patrón de puntos sutil en el overlay */
+.hero-slide__overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Efecto de brillo en botones del hero */
+.hero-button--primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-button--primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+  transform: rotate(45deg);
+  animation: hero-button-shine 3s infinite;
+}
+
+@keyframes hero-button-shine {
+  0%, 100% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   TARJETAS DE PRODUCTOS MEJORADAS
+   ============================================ */
+
+/* Sombra más suave y profesional */
+.product-card-ml {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  border: 1px solid #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo sutil al hover */
+.product-card-ml::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(45deg, transparent 40%, rgba(255,102,0,0.08) 50%, transparent 60%);
+  transition: all 0.6s;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.product-card-ml:hover::after {
+  top: -50%;
+  left: -50%;
+  opacity: 1;
+}
+
+.product-card-ml:hover {
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    0 4px 32px rgba(255, 102, 0, 0.10);
+  border-color: rgba(255, 102, 0, 0.2);
+}
+
+/* ============================================
+   CATEGORÍAS MÁS DINÁMICAS
+   ============================================ */
+
+.category-card-ml {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: #fff;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Gradiente de fondo animado al hover */
+.category-card-ml::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #FFE5CC 0%, #FFE8DC 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+
+.category-card-ml:hover::before {
+  opacity: 1;
+}
+
+.category-card-ml:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: #FF6600;
+  box-shadow:
+    0 8px 24px rgba(255, 102, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Asegurar que el contenido esté por encima del fondo */
+.category-card-ml__icon,
+.category-card-ml__title {
+  position: relative;
+  z-index: 1;
+}
+
+/* Icono con efecto de pulso suave */
+@keyframes category-icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.category-card-ml:hover .category-card-ml__icon {
+  animation: category-icon-pulse 2s infinite;
+}
+
+/* ============================================
+   HEADER CON EFECTOS DINÁMICOS
+   ============================================ */
+
+/* Sombra dinámica al hacer scroll */
+.ml-header.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Efecto de brillo en el logo */
+.ml-logo-link {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.ml-logo-link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: logo-shine 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes logo-shine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* ============================================
+   FOOTER MEJORADO
+   ============================================ */
+
+.footer-ml {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8F8F8 100%);
+  position: relative;
+}
+
+/* Ola decorativa arriba del footer */
+.footer-ml::before {
+  content: '';
+  position: absolute;
+  top: -59px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* ============================================
+   BOTÓN DE WHATSAPP MEJORADO
+   ============================================ */
+
+.footer-ml__whatsapp-button {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de pulso en el botón de WhatsApp */
+.footer-ml__whatsapp-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.footer-ml__whatsapp-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Animación de pulso constante */
+@keyframes whatsapp-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+  }
+}
+
+.footer-ml__whatsapp-button {
+  animation: whatsapp-pulse 2s infinite;
+}
+
+/* ============================================
+   BANNERS PROMOCIONALES MEJORADOS
+   ============================================ */
+
+/* Efecto de brillo más pronunciado */
+.promo-banner::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.promo-banner:hover::after {
+  opacity: 1;
+  animation: banner-shine 1s;
+}
+
+@keyframes banner-shine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* ============================================
+   BENEFITS CARDS MEJORADOS
+   ============================================ */
+
+.benefit-card-ml {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.benefit-card-ml::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,102,0,0.05), transparent);
+  transition: left 0.5s;
+}
+
+.benefit-card-ml:hover::before {
+  left: 100%;
+}
+
+.benefit-card-ml:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   MICRO-ANIMACIONES AL SCROLL (SUTILES Y PREMIUM)
+   ============================================ */
+
+/* Estado inicial - elementos ocultos */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estado visible - suave y elegante */
+.scroll-animate.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variaciones para diferentes elementos */
+.product-card-ml.scroll-animate {
+  transform: translateY(15px) scale(0.98);
+}
+
+.product-card-ml.scroll-animate.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+.category-card-ml.scroll-animate {
+  transform: translateY(20px);
+  transition-duration: 0.6s;
+}
+
+.benefit-card-ml.scroll-animate {
+  transform: translateX(-20px);
+  transition-duration: 0.7s;
+}
+
+.benefit-card-ml.scroll-animate.is-visible {
+  transform: translateX(0);
+}
+
+/* Headers con entrada más dramática */
+.featured-collection-ml__header.scroll-animate,
+.categories-ml__header.scroll-animate {
+  transform: translateY(30px);
+  transition-duration: 1s;
+}
+
+/* Animación antigua para compatibilidad */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-on-scroll {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+/* Delays escalonados para múltiples elementos */
+.animate-on-scroll:nth-child(1) { animation-delay: 0.1s; }
+.animate-on-scroll:nth-child(2) { animation-delay: 0.2s; }
+.animate-on-scroll:nth-child(3) { animation-delay: 0.3s; }
+.animate-on-scroll:nth-child(4) { animation-delay: 0.4s; }
+.animate-on-scroll:nth-child(5) { animation-delay: 0.5s; }
+.animate-on-scroll:nth-child(6) { animation-delay: 0.6s; }
+
+/* ============================================
+   MEJORAS EN SOMBRAS GLOBALES
+   ============================================ */
+
+/* Sombras más suaves y naturales */
+.card-shadow-soft {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.card-shadow-hover {
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.08),
+    0 4px 32px rgba(255, 102, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+
+@media (max-width: 749px) {
+  /* Reducir altura de olas en móvil */
+  .section-wave-divider {
+    height: 40px;
+  }
+
+  /* Reducir espaciado en secciones */
+  .section-categories-ml,
+  .section-featured-products-ml,
+  .section-promo-banners-ml,
+  .section-price-range-ml,
+  .section-benefits-ml {
+    padding: 40px 0;
+  }
+
+  /* Desactivar algunas animaciones en móvil para mejor rendimiento */
+  .hero-button--primary::after,
+  .ml-logo-link::after {
+    display: none;
+  }
+
+  /* Simplificar patrones de fondo en móvil */
+  .section-categories-ml {
+    background-size: 20px 20px;
+  }
+}
+
+/* ============================================
+   ACCESIBILIDAD - REDUCIR MOVIMIENTO
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hero-button--primary::after,
+  .ml-logo-link::after,
+  .promo-banner::after {
+    display: none;
+  }
+}
+
+/* ============================================
+   CAMBIOS DE ESCALA - ROMPER MONOTONÍA
+   ============================================ */
+
+/* Sección con MUCHO espacio - crea respiro */
+.section-breathing-space {
+  padding: 100px 0;
+}
+
+@media (min-width: 990px) {
+  .section-breathing-space {
+    padding: 140px 0;
+  }
+}
+
+/* Título GRANDE - cambio de escala dramático */
+.section-title-hero {
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+  margin-bottom: 60px;
+}
+
+@media (min-width: 750px) {
+  .section-title-hero {
+    font-size: 52px;
+    margin-bottom: 80px;
+  }
+}
+
+@media (min-width: 990px) {
+  .section-title-hero {
+    font-size: 64px;
+    margin-bottom: 100px;
+  }
+}
+
+/* Sección compacta - contraste con las amplias */
+.section-compact {
+  padding: 40px 0;
+}
+
+/* ============================================
+   SEPARADORES CON INTENCIÓN EMOCIONAL
+   ============================================ */
+
+/* Separador flotante - crea profundidad */
+.section-floating-divider {
+  position: relative;
+  height: 80px;
+  margin: -40px 0;
+  z-index: 10;
+}
+
+.section-floating-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1000px;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,102,0,0.1) 20%,
+    rgba(255,102,0,0.3) 50%,
+    rgba(255,102,0,0.1) 80%,
+    transparent 100%
+  );
+}
+
+/* Separador con sombra suave - transición visual */
+.section-shadow-divider {
+  position: relative;
+  height: 100px;
+}
+
+.section-shadow-divider::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(0,0,0,0.02) 50%,
+    transparent 100%
+  );
+}
+
+/* Bloque que "invade" la siguiente sección - rompe la monotonía */
+.section-overlap-bottom {
+  position: relative;
+  z-index: 2;
+  margin-bottom: -60px;
+}
+
+@media (min-width: 990px) {
+  .section-overlap-bottom {
+    margin-bottom: -80px;
+  }
+}
+
+/* ============================================
+   UTILIDADES DE ESPACIADO
+   ============================================ */
+
+.section-spacing-top-sm { padding-top: 30px; }
+.section-spacing-top-md { padding-top: 50px; }
+.section-spacing-top-lg { padding-top: 70px; }
+.section-spacing-top-xl { padding-top: 100px; }
+
+.section-spacing-bottom-sm { padding-bottom: 30px; }
+.section-spacing-bottom-md { padding-bottom: 50px; }
+.section-spacing-bottom-lg { padding-bottom: 70px; }
+.section-spacing-bottom-xl { padding-bottom: 100px; }
+
+@media (min-width: 750px) {
+  .section-spacing-top-sm { padding-top: 40px; }
+  .section-spacing-top-md { padding-top: 60px; }
+  .section-spacing-top-lg { padding-top: 80px; }
+  .section-spacing-top-xl { padding-top: 120px; }
+
+  .section-spacing-bottom-sm { padding-bottom: 40px; }
+  .section-spacing-bottom-md { padding-bottom: 60px; }
+  .section-spacing-bottom-lg { padding-bottom: 80px; }
+  .section-spacing-bottom-xl { padding-bottom: 120px; }
+}

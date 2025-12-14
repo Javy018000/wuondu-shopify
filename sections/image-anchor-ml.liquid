@@ -1,0 +1,456 @@
+{{ 'theme-ml-visual-enhancements.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  SECCIÓN ANCLA - Punto de descanso visual
+  Rompe el ritmo de productos con una imagen emocional + frase
+{%- endcomment -%}
+
+<div class="image-anchor-ml" style="
+  background-color: {{ section.settings.background_color }};
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+">
+  <div class="page-width">
+    <div class="image-anchor-ml__container image-anchor-ml__container--{{ section.settings.layout }}">
+
+      {%- comment -%} Imagen con efecto parallax {%- endcomment -%}
+      <div class="image-anchor-ml__media">
+        {%- if section.settings.image != blank -%}
+          <div class="image-anchor-ml__image-wrapper">
+            <img
+              srcset="
+                {{ section.settings.image | image_url: width: 600 }} 600w,
+                {{ section.settings.image | image_url: width: 900 }} 900w,
+                {{ section.settings.image | image_url: width: 1200 }} 1200w,
+                {{ section.settings.image | image_url: width: 1600 }} 1600w
+              "
+              sizes="(min-width: 990px) 50vw, 100vw"
+              src="{{ section.settings.image | image_url: width: 900 }}"
+              alt="{{ section.settings.image.alt | escape }}"
+              class="image-anchor-ml__image"
+              loading="lazy"
+            >
+            {%- if section.settings.show_overlay -%}
+              <div class="image-anchor-ml__overlay"></div>
+            {%- endif -%}
+          </div>
+        {%- else -%}
+          <div class="image-anchor-ml__placeholder">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Contenido textual {%- endcomment -%}
+      <div class="image-anchor-ml__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="image-anchor-ml__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="image-anchor-ml__heading image-anchor-ml__heading--{{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.text != blank -%}
+          <div class="image-anchor-ml__text">
+            {{ section.settings.text }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <div class="image-anchor-ml__button-wrapper">
+            <a href="{{ section.settings.button_link }}" class="image-anchor-ml__button">
+              {{ section.settings.button_label }}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ========== CONTENEDOR PRINCIPAL ========== */
+  .image-anchor-ml {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .image-anchor-ml__container {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+    min-height: 400px;
+  }
+
+  /* Layouts */
+  .image-anchor-ml__container--image-left {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .image-anchor-ml__container--image-right {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .image-anchor-ml__container--image-right .image-anchor-ml__media {
+    order: 2;
+  }
+
+  .image-anchor-ml__container--image-top {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .image-anchor-ml__container--full-width {
+    grid-template-columns: 1fr;
+    min-height: 500px;
+    position: relative;
+  }
+
+  .image-anchor-ml__container--full-width .image-anchor-ml__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .image-anchor-ml__container--full-width .image-anchor-ml__content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+  }
+
+  /* ========== IMAGEN ========== */
+  .image-anchor-ml__media {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  .image-anchor-ml__image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 66.67%; /* 3:2 ratio */
+    overflow: hidden;
+  }
+
+  .image-anchor-ml__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .image-anchor-ml:hover .image-anchor-ml__image {
+    transform: scale(1.05);
+  }
+
+  .image-anchor-ml__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%);
+    z-index: 1;
+  }
+
+  .image-anchor-ml__placeholder {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    border-radius: 16px;
+  }
+
+  /* ========== CONTENIDO ========== */
+  .image-anchor-ml__content {
+    padding: 24px 0;
+  }
+
+  .image-anchor-ml__eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #FF6600;
+    margin: 0 0 16px 0;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  }
+
+  .image-anchor-ml__heading {
+    font-weight: 300;
+    line-height: 1.2;
+    color: #1a1a1a;
+    margin: 0 0 20px 0;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+  }
+
+  .image-anchor-ml__heading--small { font-size: 32px; }
+  .image-anchor-ml__heading--medium { font-size: 42px; }
+  .image-anchor-ml__heading--large { font-size: 56px; }
+
+  .image-anchor-ml__text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #666;
+    margin: 0 0 32px 0;
+    max-width: 540px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.6s forwards;
+  }
+
+  .image-anchor-ml__button-wrapper {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.8s forwards;
+  }
+
+  .image-anchor-ml__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 36px;
+    background: linear-gradient(135deg, #FF6600 0%, #E85D00 100%);
+    color: #fff;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(255, 102, 0, 0.3);
+  }
+
+  .image-anchor-ml__button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(255, 102, 0, 0.4);
+  }
+
+  .image-anchor-ml__button svg {
+    transition: transform 0.3s ease;
+  }
+
+  .image-anchor-ml__button:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* ========== ANIMACIONES ========== */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 989px) {
+    .image-anchor-ml__container--image-left,
+    .image-anchor-ml__container--image-right {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .image-anchor-ml__container--image-right .image-anchor-ml__media {
+      order: 0;
+    }
+
+    .image-anchor-ml__heading--small { font-size: 28px; }
+    .image-anchor-ml__heading--medium { font-size: 36px; }
+    .image-anchor-ml__heading--large { font-size: 42px; }
+
+    .image-anchor-ml__container--full-width {
+      min-height: 400px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .image-anchor-ml__container {
+      min-height: 300px;
+    }
+
+    .image-anchor-ml__heading--small { font-size: 24px; }
+    .image-anchor-ml__heading--medium { font-size: 30px; }
+    .image-anchor-ml__heading--large { font-size: 36px; }
+
+    .image-anchor-ml__text {
+      font-size: 15px;
+    }
+
+    .image-anchor-ml__button {
+      padding: 14px 28px;
+      font-size: 14px;
+    }
+  }
+
+  /* ========== ACCESIBILIDAD ========== */
+  @media (prefers-reduced-motion: reduce) {
+    .image-anchor-ml__image {
+      transition: none;
+    }
+
+    .image-anchor-ml__eyebrow,
+    .image-anchor-ml__heading,
+    .image-anchor-ml__text,
+    .image-anchor-ml__button-wrapper {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "🧘 Sección Ancla ML",
+  "tag": "section",
+  "class": "image-anchor-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Disposición",
+      "options": [
+        { "value": "image-left", "label": "Imagen izquierda" },
+        { "value": "image-right", "label": "Imagen derecha" },
+        { "value": "image-top", "label": "Imagen arriba" },
+        { "value": "full-width", "label": "Imagen de fondo completa" }
+      ],
+      "default": "image-left"
+    },
+    {
+      "type": "header",
+      "content": "Imagen"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen",
+      "info": "Recomendado: 1200 x 800px (lifestyle, emocional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "Mostrar overlay oscuro",
+      "default": false,
+      "info": "Solo para layout de fondo completo"
+    },
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto superior (opcional)",
+      "default": "DESCUBRE",
+      "info": "Texto pequeño en mayúsculas"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Título principal",
+      "default": "Encuentra tu próxima aventura"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamaño del título",
+      "options": [
+        { "value": "small", "label": "Pequeño" },
+        { "value": "medium", "label": "Mediano" },
+        { "value": "large", "label": "Grande" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Descripción",
+      "default": "<p>Una frase corta y poderosa que conecte emocionalmente con tus clientes. Menos es más.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Botón (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "header",
+      "content": "Estilo"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#FAFAFA"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "🧘 Sección Ancla ML",
+      "settings": {
+        "layout": "image-left",
+        "eyebrow": "DESCUBRE",
+        "heading": "Encuentra tu próxima aventura",
+        "heading_size": "medium",
+        "background_color": "#FAFAFA",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  ]
+}
+{% endschema %}

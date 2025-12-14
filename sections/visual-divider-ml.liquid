@@ -1,0 +1,339 @@
+{{ 'theme-ml-visual-enhancements.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  SEPARADORES VISUALES - Para crear ritmo entre secciones
+  Versión mejorada con todas las personalizaciones
+{%- endcomment -%}
+
+{%- liquid
+  assign divider_type = section.settings.divider_type
+  assign height = section.settings.height
+  assign line_color = section.settings.line_color
+  assign wave_color = section.settings.wave_color
+  assign wave_inverted = section.settings.wave_inverted
+  assign background_color = section.settings.background_color
+  assign show_background = section.settings.show_background
+-%}
+
+<div class="visual-divider-ml"
+     style="
+       height: {{ height }}px;
+       {% if show_background %}background-color: {{ background_color }};{% else %}background: transparent;{% endif %}
+     ">
+
+  {%- case divider_type -%}
+
+    {%- when 'floating-line' -%}
+      {%- comment -%} Línea flotante con gradiente {%- endcomment -%}
+      <div class="visual-divider-ml__floating-line">
+        <div class="visual-divider-ml__line"
+             style="background: linear-gradient(90deg,
+               transparent 0%,
+               {{ line_color }}1a 20%,
+               {{ line_color }}4d 50%,
+               {{ line_color }}1a 80%,
+               transparent 100%);">
+        </div>
+      </div>
+
+    {%- when 'soft-shadow' -%}
+      {%- comment -%} Sombra suave - transición visual {%- endcomment -%}
+      <div class="visual-divider-ml__shadow"></div>
+
+    {%- when 'wave' -%}
+      {%- comment -%} Ola decorativa SVG {%- endcomment -%}
+      <div class="visual-divider-ml__wave {% if wave_inverted %}visual-divider-ml__wave--inverted{% endif %}">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+                fill="{{ wave_color }}"/>
+        </svg>
+      </div>
+
+    {%- when 'dots-pattern' -%}
+      {%- comment -%} Patrón de puntos decorativo {%- endcomment -%}
+      <div class="visual-divider-ml__dots"></div>
+
+    {%- when 'gradient-fade' -%}
+      {%- comment -%} Gradiente que se desvanece {%- endcomment -%}
+      <div class="visual-divider-ml__gradient"
+           style="background: linear-gradient(180deg,
+             {{ section.settings.gradient_start }} 0%,
+             {{ section.settings.gradient_end }} 100%);">
+      </div>
+
+    {%- when 'spacer' -%}
+      {%- comment -%} Solo espacio vacío {%- endcomment -%}
+      <div class="visual-divider-ml__spacer"></div>
+
+    {%- when 'double-line' -%}
+      {%- comment -%} Doble línea decorativa {%- endcomment -%}
+      <div class="visual-divider-ml__double-line">
+        <div class="visual-divider-ml__line-top" style="background-color: {{ line_color }};"></div>
+        <div class="visual-divider-ml__line-bottom" style="background-color: {{ line_color }};"></div>
+      </div>
+
+  {%- endcase -%}
+
+</div>
+
+<style>
+  /* ========== CONTENEDOR BASE ========== */
+  .visual-divider-ml {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ========== LÍNEA FLOTANTE ========== */
+  .visual-divider-ml__floating-line {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .visual-divider-ml__line {
+    width: 90%;
+    max-width: 1000px;
+    height: 2px;
+    border-radius: 1px;
+  }
+
+  /* ========== SOMBRA SUAVE ========== */
+  .visual-divider-ml__shadow {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(0,0,0,0.03) 50%,
+      transparent 100%
+    );
+  }
+
+  /* ========== OLA SVG ========== */
+  .visual-divider-ml__wave {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .visual-divider-ml__wave svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .visual-divider-ml__wave--inverted {
+    transform: rotate(180deg);
+  }
+
+  /* ========== PATRÓN DE PUNTOS ========== */
+  .visual-divider-ml__dots {
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(255,102,0,0.08) 2px, transparent 2px);
+    background-size: 30px 30px;
+    background-position: center;
+  }
+
+  /* ========== GRADIENTE ========== */
+  .visual-divider-ml__gradient {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ========== ESPACIADOR ========== */
+  .visual-divider-ml__spacer {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+
+  /* ========== DOBLE LÍNEA ========== */
+  .visual-divider-ml__double-line {
+    width: 90%;
+    max-width: 800px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .visual-divider-ml__line-top,
+  .visual-divider-ml__line-bottom {
+    width: 100%;
+    height: 1px;
+    opacity: 0.3;
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 749px) {
+    .visual-divider-ml {
+      min-height: 40px;
+    }
+
+    .visual-divider-ml__dots {
+      background-size: 20px 20px;
+    }
+
+    .visual-divider-ml__double-line {
+      gap: 6px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "➖ Separador Visual ML",
+  "tag": "section",
+  "class": "visual-divider-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎨 Tipo de separador"
+    },
+    {
+      "type": "select",
+      "id": "divider_type",
+      "label": "Estilo del separador",
+      "options": [
+        {
+          "value": "floating-line",
+          "label": "📏 Línea flotante (recomendado)"
+        },
+        {
+          "value": "wave",
+          "label": "🌊 Ola decorativa"
+        },
+        {
+          "value": "soft-shadow",
+          "label": "🌫️ Sombra suave"
+        },
+        {
+          "value": "dots-pattern",
+          "label": "⚫ Patrón de puntos"
+        },
+        {
+          "value": "double-line",
+          "label": "═ Doble línea"
+        },
+        {
+          "value": "gradient-fade",
+          "label": "🎨 Gradiente desvanecido"
+        },
+        {
+          "value": "spacer",
+          "label": "⬜ Solo espacio vacío"
+        }
+      ],
+      "default": "floating-line",
+      "info": "Cada estilo tiene un propósito diferente para crear ritmo visual"
+    },
+    {
+      "type": "header",
+      "content": "📐 Tamaño"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Altura del separador",
+      "default": 80,
+      "info": "Más altura = más respiro visual"
+    },
+    {
+      "type": "header",
+      "content": "🎨 Color de fondo general"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_background",
+      "label": "Mostrar color de fondo",
+      "default": false,
+      "info": "Activar para cambiar el fondo de toda la sección"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#FFFFFF",
+      "info": "Solo se aplica si 'Mostrar color de fondo' está activado"
+    },
+    {
+      "type": "header",
+      "content": "📏 Línea flotante - Configuración"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Color de la línea",
+      "default": "#FF6600",
+      "info": "Para estilos: Línea flotante y Doble línea"
+    },
+    {
+      "type": "header",
+      "content": "🌊 Ola decorativa - Configuración"
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Color de la ola",
+      "default": "#FFF9F5",
+      "info": "Solo para 'Ola decorativa'"
+    },
+    {
+      "type": "checkbox",
+      "id": "wave_inverted",
+      "label": "Invertir ola (voltear 180°)",
+      "default": false,
+      "info": "Cambia la dirección de la ola"
+    },
+    {
+      "type": "header",
+      "content": "🎨 Gradiente - Configuración"
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Color inicial del gradiente",
+      "default": "#FFFFFF",
+      "info": "Solo para 'Gradiente desvanecido'"
+    },
+    {
+      "type": "color",
+      "id": "gradient_end",
+      "label": "Color final del gradiente",
+      "default": "#F5F5F5",
+      "info": "Solo para 'Gradiente desvanecido'"
+    },
+    {
+      "type": "paragraph",
+      "content": "💡 CONSEJOS DE USO:"
+    },
+    {
+      "type": "paragraph",
+      "content": "• Línea flotante: Entre secciones del mismo color\n• Ola: Para transiciones de color de fondo\n• Sombra suave: Transiciones muy sutiles\n• Puntos: Crear textura decorativa\n• Doble línea: Separación más marcada\n• Gradiente: Cambio suave de un color a otro\n• Espaciador: Solo aire sin decoración"
+    }
+  ],
+  "presets": [
+    {
+      "name": "➖ Separador Visual ML",
+      "settings": {
+        "divider_type": "floating-line",
+        "height": 80,
+        "show_background": false,
+        "line_color": "#FF6600"
+      }
+    }
+  ]
+}
+{% endschema %}

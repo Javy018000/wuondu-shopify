@@ -1,8 +1,12 @@
 {{ 'product-card-ml.css' | asset_url | stylesheet_tag }}
+{{ 'theme-ml-visual-enhancements.css' | asset_url | stylesheet_tag }}
 
-<div class="featured-collection-ml section-{{ section.id }}-padding">
+<!-- Separador decorativo -->
+<div class="section-wave-divider section-wave-divider--white section-wave-divider--bottom"></div>
+
+<div class="featured-collection-ml section-{{ section.id }}-padding section-featured-products-ml">
   <div class="page-width">
-    {%- comment -%} Encabezado de la sección {%- endcomment -%}
+    {%- comment -%} Encabezado de la secciï¿½n {%- endcomment -%}
     {%- if section.settings.title != blank -%}
       <div class="featured-collection-ml__header">
         <h2 class="featured-collection-ml__title">{{ section.settings.title }}</h2>
@@ -40,7 +44,7 @@
         {%- endfor -%}
       </div>
 
-      {%- comment -%} Botón "Ver todos" en mobile {%- endcomment -%}
+      {%- comment -%} Botï¿½n "Ver todos" en mobile {%- endcomment -%}
       {%- if section.settings.show_view_all and section.settings.collection != blank -%}
         <div class="featured-collection-ml__view-all-mobile">
           <a href="{{ collections[section.settings.collection].url }}" class="featured-collection-ml__view-all-button">
@@ -161,14 +165,14 @@
     {
       "type": "text",
       "id": "title",
-      "label": "Título de la sección",
+      "label": "Tï¿½tulo de la secciï¿½n",
       "default": "Productos destacados"
     },
     {
       "type": "collection",
       "id": "collection",
-      "label": "Colección",
-      "info": "Selecciona la colección de productos a mostrar"
+      "label": "Colecciï¿½n",
+      "info": "Selecciona la colecciï¿½n de productos a mostrar"
     },
     {
       "type": "range",
@@ -181,7 +185,7 @@
     },
     {
       "type": "header",
-      "content": "Opciones de visualización"
+      "content": "Opciones de visualizaciï¿½n"
     },
     {
       "type": "checkbox",
@@ -193,7 +197,7 @@
     {
       "type": "checkbox",
       "id": "show_view_all",
-      "label": "Mostrar botón 'Ver todos'",
+      "label": "Mostrar botï¿½n 'Ver todos'",
       "default": true
     },
     {
@@ -205,29 +209,29 @@
       "id": "show_discount_badge",
       "label": "Mostrar badge de descuento (%OFF)",
       "default": true,
-      "info": "Muestra el porcentaje de descuento cuando el producto tiene precio de comparación"
+      "info": "Muestra el porcentaje de descuento cuando el producto tiene precio de comparaciï¿½n"
     },
     {
       "type": "header",
-      "content": "Envío gratis"
+      "content": "Envï¿½o gratis"
     },
     {
       "type": "checkbox",
       "id": "show_free_shipping_badge",
-      "label": "Mostrar badge de envío gratis",
+      "label": "Mostrar badge de envï¿½o gratis",
       "default": true,
       "info": "Muestra el badge solo en productos que superen el umbral"
     },
     {
       "type": "number",
       "id": "free_shipping_threshold",
-      "label": "Precio mínimo para envío gratis (en centavos)",
+      "label": "Precio mï¿½nimo para envï¿½o gratis (en centavos)",
       "default": 5000000,
       "info": "Ejemplo: 5000000 = $50.000 COP (50.000 x 100 centavos)"
     },
     {
       "type": "header",
-      "content": "Espaciado de la sección"
+      "content": "Espaciado de la secciï¿½n"
     },
     {
       "type": "range",
