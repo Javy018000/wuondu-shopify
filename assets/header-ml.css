@@ -1,267 +1,229 @@
-/* ============================================
- * HEADER MERCADO LIBRE - LIMPIO Y SIN CONFLICTOS
- * ============================================ */
-
-/* Contenedor principal del header */
-.shopify-section-header-ml {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
+/* ============================
+   GENERAL HEADER CONTAINER
+============================ */
+.header-ml {
+  width: 100%;
+  font-family: Arial, sans-serif;
 }
 
-/* ===== BARRA DE ANUNCIOS AMARILLA ===== */
-.ml-announcement-bar {
-  background: linear-gradient(135deg, #FFE600 0%, #FFD700 100%);
-  padding: 8px 0;
-  text-align: center;
+/* ============================
+   TOPBAR NARANJA (AMAZON STYLE)
+============================ */
+.ml-topbar {
+  background-color: #ff6a00; /* Naranja Amazon */
+  padding: 10px 0;
+  color: #fff;
 }
 
-.ml-announcement-bar__message {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: #000;
-}
-
-.ml-announcement-bar__message a {
-  color: #000;
-  text-decoration: none;
-}
-
-.ml-announcement-bar__message a:hover {
-  text-decoration: underline;
-}
-
-/* ===== HEADER PRINCIPAL NARANJA ===== */
-.ml-header {
-  background: linear-gradient(135deg, #FF6600 0%, #FF7722 100%);
-  padding: 16px 0;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-.ml-header__inner {
-  display: grid;
-  grid-template-columns: 180px 1fr auto;
-  gap: 24px;
-  align-items: center;
-}
-
-/* Logo */
-.ml-header__logo {
+.ml-topbar__inner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 15px;
 }
 
-.ml-logo-link {
-  display: block;
-  text-decoration: none;
-}
-
-.ml-logo-link img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+/* ============================
+   LOGO
+============================ */
+.ml-logo img {
+  height: 40px;
 }
 
 .ml-logo-text {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: #fff;
-  text-decoration: none;
 }
 
-/* Buscador */
-.ml-header__search {
+/* ============================
+   MENÚ HAMBURGUESA
+============================ */
+.ml-hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  color: #fff;
+}
+
+.ml-hamburger svg {
+  stroke: #fff;
+}
+
+/* ============================
+   BUSCADOR
+============================ */
+.ml-search-container {
+  display: flex;
   flex: 1;
+  max-width: 650px;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 40px;
+  border: 1px solid #ddd;
+}
+
+.ml-search-category select {
+  height: 100%;
+  border: none;
+  padding: 0 10px;
+  background-color: #e6e6e6;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ml-search-category select:focus {
+  outline: none;
 }
 
 .ml-search-form {
   display: flex;
-  background: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  transition: box-shadow 0.3s ease;
-}
-
-.ml-search-form:focus-within {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  align-items: center;
+  flex: 1;
 }
 
 .ml-search-input {
-  flex: 1;
+  width: 100%;
   border: none;
-  padding: 10px 16px;
+  padding: 0 10px;
   font-size: 14px;
-  outline: none;
-  font-family: inherit;
 }
 
-.ml-search-input::placeholder {
-  color: #999;
+.ml-search-input:focus {
+  outline: none;
 }
 
 .ml-search-button {
-  background: transparent;
+  background-color: #febd69; /* Botón amarillo Amazon */
   border: none;
-  padding: 0 16px;
-  cursor: pointer;
+  width: 45px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: #666;
-  transition: color 0.2s ease;
-}
-
-.ml-search-button:hover {
-  color: #FF6600;
-}
-
-/* Iconos de usuario y carrito */
-.ml-header__icons {
-  display: flex;
-  gap: 20px;
   align-items: center;
+  cursor: pointer;
 }
 
-.ml-header-icon {
+.ml-search-button svg {
+  stroke: #333;
+}
+
+/* ============================
+   ICONOS DERECHA
+============================ */
+.ml-right-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ml-account,
+.ml-returns,
+.ml-cart-icon {
+  color: #fff;
+  text-decoration: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  color: #fff;
+  font-size: 12px;
+  align-items: flex-start;
+}
+
+.ml-bold-text {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.ml-small-text {
   font-size: 11px;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
+  opacity: 0.9;
+}
+
+/* ============================
+   CARRITO
+============================ */
+.ml-cart-icon {
   position: relative;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
 
-.ml-header-icon:hover {
-  opacity: 0.85;
+.ml-cart-icon svg {
+  stroke: #fff;
 }
 
-.ml-header-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.ml-icon-label {
-  font-size: 11px;
-  line-height: 1.2;
-  text-align: center;
-}
-
-/* Contador del carrito */
 .ml-cart-count {
   position: absolute;
-  top: -4px;
+  top: -5px;
   right: -8px;
-  background: #3483FA;
-  color: #fff;
-  border-radius: 10px;
-  min-width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 0 4px;
-  border: 2px solid #FF6600;
+  background-color: #f90;
+  color: #000;
+  font-size: 12px;
+  padding: 1px 5px;
+  border-radius: 50%;
+  font-weight: bold;
 }
 
-/* ===== BARRA DE NAVEGACIÓN ===== */
+/* ============================
+   NAVIGATION BAR (SEGUNDA BARRA)
+============================ */
 .ml-nav-bar {
-  background: #fff;
-  border-bottom: 1px solid #EBEBEB;
-  padding: 0;
+  background-color: #e55e00; /* tono más oscuro para contraste */
+  padding: 8px 0;
 }
 
 .ml-nav-list {
   display: flex;
-  gap: 0;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.ml-nav-item {
-  position: relative;
+  align-items: center;
+  gap: 25px;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .ml-nav-link {
-  display: block;
-  padding: 12px 16px;
-  color: #666;
+  color: #fff;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
-  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.ml-nav-link:hover {
-  color: #FF6600;
-  background-color: #FFF5E6;
+.ml-nav-link:hover,
+.ml-active {
+  text-decoration: underline;
 }
 
-.ml-nav-link--active {
-  color: #FF6600;
-  border-bottom: 2px solid #FF6600;
-}
-
-/* ===== RESPONSIVE ===== */
-@media screen and (max-width: 989px) {
-  .ml-header__inner {
-    grid-template-columns: 1fr;
-    gap: 12px;
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 900px) {
+  .ml-right-icons {
+    gap: 10px;
   }
 
-  .ml-header__logo {
-    justify-content: center;
-  }
-
-  .ml-header__icons {
-    justify-content: center;
-  }
-
-  .ml-icon-label {
+  .ml-account, .ml-returns {
     display: none;
   }
+}
 
-  .ml-nav-bar {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .ml-nav-list {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-
-  .ml-nav-link {
-    white-space: nowrap;
-    font-size: 13px;
-    padding: 10px 12px;
+@media (max-width: 700px) {
+  .ml-search-container {
+    max-width: none;
   }
 }
 
-@media screen and (max-width: 749px) {
-  .ml-announcement-bar__message {
-    font-size: 12px;
+@media (max-width: 550px) {
+
+  .ml-topbar__inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
   }
 
-  .ml-header {
-    padding: 10px 0;
+  .ml-logo img {
+    height: 32px;
   }
 
-  .ml-search-input {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
-
-  .ml-search-button {
-    padding: 0 12px;
+  .ml-search-container {
+    width: 100%;
   }
 }
+

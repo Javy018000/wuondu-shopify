@@ -248,16 +248,7 @@
     },
     "price_range_ml": {
       "type": "price-range-products-ml",
-      "settings": {
-        "title": "Menos de",
-        "price_badge": 50000,
-        "collection": "all",
-        "products_to_show": 8,
-        "show_shipping_tag": true,
-        "show_view_all": true,
-        "view_all_text": "Ver todos los productos",
-        "background_color": "#f5f5f5"
-      }
+      "settings": {}
     },
     "benefits_ml": {
       "type": "benefits-ml",
@@ -266,7 +257,7 @@
           "type": "benefit",
           "settings": {
             "icon": "shipping",
-            "title": "Envío gratis",
+            "title": "Envío Gratis",
             "description": "En compras superiores a $50.000"
           }
         },
@@ -274,34 +265,29 @@
           "type": "benefit",
           "settings": {
             "icon": "payment",
-            "title": "Pago seguro",
-            "description": "Múltiples métodos de pago disponibles"
+            "title": "Pago Seguro",
+            "description": "Aceptamos múltiples métodos de pago"
           }
         },
         "benefit_3": {
           "type": "benefit",
           "settings": {
             "icon": "security",
-            "title": "Compra protegida",
+            "title": "Compra Protegida",
             "description": "Garantía en todos los productos"
-          }
-        },
-        "benefit_4": {
-          "type": "benefit",
-          "settings": {
-            "icon": "returns",
-            "title": "Devoluciones fáciles",
-            "description": "30 días para devoluciones sin costo"
           }
         }
       },
       "block_order": [
         "benefit_1",
         "benefit_2",
-        "benefit_3",
-        "benefit_4"
+        "benefit_3"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "¿Por qué elegirnos?",
+        "layout": "3",
+        "background_color": "#F7F7F7"
+      }
     },
     "newsletter": {
       "type": "newsletter",
