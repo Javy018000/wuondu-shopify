@@ -1,0 +1,430 @@
+{{ 'header-wuondu.css' | asset_url | stylesheet_tag }}
+
+<div class="header-wuondu">
+
+  {% comment %} === BARRA SUPERIOR NARANJA === {% endcomment %}
+  <header class="wuondu-topbar" style="background-color: {{ section.settings.topbar_bg_color }};">
+    <div class="wuondu-topbar__inner page-width">
+
+      {% comment %} MENÚ HAMBURGUESA {% endcomment %}
+      {% if section.settings.show_hamburger %}
+        <button class="wuondu-hamburger" aria-label="{{ section.settings.hamburger_label }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      {% endif %}
+
+      {% comment %} LOGO {% endcomment %}
+      <a href="{{ routes.root_url }}" class="wuondu-logo">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}"
+            alt="{{ shop.name }}"
+            loading="eager"
+            style="height: {{ section.settings.logo_height }}px;"
+          >
+        {% else %}
+          <span class="wuondu-logo-text" style="color: {{ section.settings.logo_text_color }};">
+            {{ section.settings.logo_text | default: shop.name }}
+          </span>
+        {% endif %}
+      </a>
+
+      {% comment %} BUSCADOR CON SELECTOR DE CATEGORÍA {% endcomment %}
+      {% if section.settings.show_search %}
+        <div class="wuondu-search-container">
+
+          {% if section.settings.show_category_selector %}
+            <div class="wuondu-search-category">
+              <select name="category" style="background-color: {{ section.settings.category_bg_color }};">
+                <option value="all">{{ section.settings.category_all_text }}</option>
+                {% for block in section.blocks %}
+                  {% if block.type == 'category' %}
+                    <option value="{{ block.settings.category_value }}">{{ block.settings.category_name }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          {% endif %}
+
+          <form action="{{ routes.search_url }}" method="get" role="search" class="wuondu-search-form">
+            <input
+              type="search"
+              name="q"
+              class="wuondu-search-input"
+              placeholder="{{ section.settings.search_placeholder }}"
+              value="{{ search.terms | escape }}"
+            >
+            <button
+              type="submit"
+              class="wuondu-search-button"
+              style="background-color: {{ section.settings.search_button_color }};"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      {% endif %}
+
+      {% comment %} ICONOS DERECHA {% endcomment %}
+      <div class="wuondu-right-icons">
+
+        {% comment %} CUENTA Y LISTAS {% endcomment %}
+        {% if section.settings.show_account %}
+          <a
+            class="wuondu-account"
+            href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+            style="color: {{ section.settings.topbar_text_color }};"
+          >
+            <span class="wuondu-small-text">
+              {{ section.settings.account_greeting }}{% if customer %} {{ customer.first_name }}{% else %} {{ section.settings.account_login_text }}{% endif %}
+            </span>
+            <span class="wuondu-bold-text">{{ section.settings.account_text }}</span>
+          </a>
+        {% endif %}
+
+        {% comment %} DEVOLUCIONES Y PEDIDOS {% endcomment %}
+        {% if section.settings.show_returns %}
+          <a
+            class="wuondu-returns"
+            href="{% if section.settings.returns_link != blank %}{{ section.settings.returns_link }}{% else %}{{ routes.account_url }}{% endif %}"
+            style="color: {{ section.settings.topbar_text_color }};"
+          >
+            <span class="wuondu-small-text">{{ section.settings.returns_small_text }}</span>
+            <span class="wuondu-bold-text">{{ section.settings.returns_bold_text }}</span>
+          </a>
+        {% endif %}
+
+        {% comment %} CARRITO {% endcomment %}
+        {% if section.settings.show_cart %}
+          <a
+            href="{{ routes.cart_url }}"
+            class="wuondu-cart-icon"
+            style="color: {{ section.settings.topbar_text_color }};"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+            </svg>
+            <span class="wuondu-bold-text">{{ section.settings.cart_text }}</span>
+
+            {% if cart.item_count > 0 %}
+              <span class="wuondu-cart-count" style="background-color: {{ section.settings.cart_count_bg }}; color: {{ section.settings.cart_count_color }};">
+                {{ cart.item_count }}
+              </span>
+            {% endif %}
+          </a>
+        {% endif %}
+
+      </div>
+
+    </div>
+  </header>
+
+  {% comment %} === BARRA DE NAVEGACIÓN SECUNDARIA === {% endcomment %}
+  {% if section.settings.show_nav_bar and section.settings.menu != blank %}
+    <nav class="wuondu-nav-bar" style="background-color: {{ section.settings.navbar_bg_color }}; padding: {{ section.settings.navbar_padding }}px 0;">
+      <div class="page-width">
+        <ul class="wuondu-nav-list">
+          {% for link in linklists[section.settings.menu].links %}
+            <li class="wuondu-nav-item">
+              <a
+                href="{{ link.url }}"
+                class="wuondu-nav-link{% if link.active %} wuondu-active{% endif %}"
+                style="color: {{ section.settings.navbar_text_color }}; font-size: {{ section.settings.navbar_font_size }}px;"
+              >
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  {% endif %}
+
+</div>
+
+{% schema %}
+{
+  "name": "Header Wuondu",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colores de la Barra Superior"
+    },
+    {
+      "type": "color",
+      "id": "topbar_bg_color",
+      "label": "Color de fondo barra superior",
+      "default": "#ff6a00"
+    },
+    {
+      "type": "color",
+      "id": "topbar_text_color",
+      "label": "Color de texto barra superior",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Menu Hamburguesa"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hamburger",
+      "label": "Mostrar menú hamburguesa",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hamburger_label",
+      "label": "Texto accesibilidad hamburguesa",
+      "default": "Menú"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Imagen del logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Ancho del logo (px)",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Altura del logo (px)",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texto del logo (si no hay imagen)",
+      "default": "Wuondu"
+    },
+    {
+      "type": "color",
+      "id": "logo_text_color",
+      "label": "Color texto del logo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Buscador"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Mostrar buscador",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder del buscador",
+      "default": "Buscar productos, marcas y más..."
+    },
+    {
+      "type": "color",
+      "id": "search_button_color",
+      "label": "Color del botón de búsqueda",
+      "default": "#febd69"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_selector",
+      "label": "Mostrar selector de categorías",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "category_all_text",
+      "label": "Texto para 'Todos'",
+      "default": "Todos"
+    },
+    {
+      "type": "color",
+      "id": "category_bg_color",
+      "label": "Color de fondo selector categorías",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Cuenta de Usuario"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Mostrar cuenta",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "account_greeting",
+      "label": "Saludo inicial",
+      "default": "Hola,"
+    },
+    {
+      "type": "text",
+      "id": "account_login_text",
+      "label": "Texto cuando NO está logueado",
+      "default": "Identifícate"
+    },
+    {
+      "type": "text",
+      "id": "account_text",
+      "label": "Texto principal cuenta",
+      "default": "Cuenta y Listas"
+    },
+    {
+      "type": "header",
+      "content": "Devoluciones y Pedidos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_returns",
+      "label": "Mostrar devoluciones",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "returns_link",
+      "label": "Enlace de devoluciones"
+    },
+    {
+      "type": "text",
+      "id": "returns_small_text",
+      "label": "Texto pequeño",
+      "default": "Devoluciones"
+    },
+    {
+      "type": "text",
+      "id": "returns_bold_text",
+      "label": "Texto en negrita",
+      "default": "y Pedidos"
+    },
+    {
+      "type": "header",
+      "content": "Carrito"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Mostrar carrito",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cart_text",
+      "label": "Texto del carrito",
+      "default": "Carrito"
+    },
+    {
+      "type": "color",
+      "id": "cart_count_bg",
+      "label": "Color fondo contador carrito",
+      "default": "#ff9900"
+    },
+    {
+      "type": "color",
+      "id": "cart_count_color",
+      "label": "Color texto contador carrito",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Barra de Navegacion Secundaria"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav_bar",
+      "label": "Mostrar barra de navegación",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menú de navegación",
+      "default": "main-menu"
+    },
+    {
+      "type": "color",
+      "id": "navbar_bg_color",
+      "label": "Color de fondo navegación",
+      "default": "#e55e00"
+    },
+    {
+      "type": "color",
+      "id": "navbar_text_color",
+      "label": "Color de texto navegación",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "navbar_padding",
+      "label": "Altura de la barra (padding vertical)",
+      "info": "Controla que tan alta o angosta es la barra",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "navbar_font_size",
+      "label": "Tamaño de fuente navegación",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categoría de Búsqueda",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Nombre de la categoría",
+          "default": "Categoría"
+        },
+        {
+          "type": "text",
+          "id": "category_value",
+          "label": "Valor de la categoría",
+          "info": "Se puede usar para filtrar búsquedas",
+          "default": "category"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header Wuondu",
+      "category": "header"
+    }
+  ]
+}
+{% endschema %}

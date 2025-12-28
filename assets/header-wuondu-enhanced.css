@@ -1,0 +1,670 @@
+/* =======================================
+   HEADER WUONDU ENHANCED - VERSION MEJORADA
+======================================= */
+
+/* CONTENEDOR GENERAL */
+.header-wuondu-enhanced {
+  width: 100%;
+  font-family: Arial, sans-serif;
+  position: relative;
+  z-index: 100;
+}
+
+/* =======================================
+   OVERLAY PARA DRAWER
+======================================= */
+.wuondu-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wuondu-drawer-overlay--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =======================================
+   DRAWER LATERAL (MENU HAMBURGUESA)
+======================================= */
+.wuondu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 320px;
+  max-width: 85%;
+  background-color: #fff;
+  z-index: 999;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.wuondu-drawer--open {
+  transform: translateX(0);
+}
+
+/* Header del drawer */
+.wuondu-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #ff6a00;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.wuondu-drawer-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.wuondu-drawer-close {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.wuondu-drawer-close:hover {
+  transform: rotate(90deg);
+}
+
+/* Contenido del drawer */
+.wuondu-drawer-content {
+  padding: 20px;
+}
+
+/* Usuario */
+.wuondu-drawer-user {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.wuondu-drawer-greeting {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.wuondu-drawer-login-btn {
+  display: inline-block;
+  background-color: #ff6a00;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.wuondu-drawer-login-btn:hover {
+  background-color: #e55e00;
+}
+
+/* Navegación del drawer */
+.wuondu-drawer-nav {
+  margin-bottom: 20px;
+}
+
+.wuondu-drawer-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.wuondu-drawer-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wuondu-drawer-menu-item {
+  margin-bottom: 8px;
+}
+
+.wuondu-drawer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.wuondu-drawer-link:hover,
+.wuondu-drawer-link--active {
+  background-color: #ff6a00;
+  color: #fff;
+}
+
+.wuondu-drawer-link svg {
+  transition: transform 0.2s ease;
+}
+
+.wuondu-drawer-link--active svg {
+  transform: rotate(90deg);
+}
+
+/* Submenú */
+.wuondu-drawer-submenu {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.wuondu-drawer-submenu--open {
+  max-height: 500px;
+}
+
+.wuondu-drawer-sublink {
+  display: block;
+  padding: 10px 15px 10px 30px;
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.wuondu-drawer-sublink:hover {
+  color: #ff6a00;
+  padding-left: 35px;
+}
+
+/* Enlaces rápidos */
+.wuondu-drawer-quick-links {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.wuondu-drawer-quick-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wuondu-drawer-quick-list li {
+  margin-bottom: 8px;
+}
+
+.wuondu-drawer-quick-list a {
+  display: block;
+  padding: 8px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+
+.wuondu-drawer-quick-list a:hover {
+  background-color: #f5f5f5;
+  padding-left: 20px;
+}
+
+/* Información adicional */
+.wuondu-drawer-info {
+  background-color: #fff3e0;
+  border-left: 4px solid #ff6a00;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.wuondu-drawer-info p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* =======================================
+   BARRA SUPERIOR (TOPBAR)
+======================================= */
+.wuondu-topbar {
+  padding: 10px 0;
+  transition: background-color 0.3s ease;
+}
+
+.wuondu-topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+/* =======================================
+   LOGO
+======================================= */
+.wuondu-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.wuondu-logo:hover {
+  opacity: 0.85;
+}
+
+.wuondu-logo img {
+  display: block;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.wuondu-logo:hover img {
+  transform: scale(1.05);
+}
+
+.wuondu-logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* =======================================
+   MENÚ HAMBURGUESA
+======================================= */
+.wuondu-hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+  border-radius: 4px;
+  color: inherit;
+}
+
+.wuondu-hamburger:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.wuondu-hamburger svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.wuondu-hamburger-text {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* =======================================
+   BUSCADOR MEJORADO
+======================================= */
+.wuondu-search-container {
+  display: flex;
+  flex: 1;
+  max-width: 650px;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 42px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wuondu-search-container:focus-within {
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.2);
+  border-color: #ff6a00;
+}
+
+.wuondu-search-category {
+  display: flex;
+  align-items: center;
+}
+
+.wuondu-search-category select {
+  height: 100%;
+  border: none;
+  border-right: 1px solid #ddd;
+  padding: 0 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.wuondu-search-category select:hover {
+  background-color: #d6d6d6;
+}
+
+.wuondu-search-category select:focus {
+  outline: none;
+}
+
+.wuondu-search-form {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.wuondu-search-input {
+  width: 100%;
+  border: none;
+  padding: 0 12px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.wuondu-search-input:focus {
+  outline: none;
+}
+
+.wuondu-search-input::placeholder {
+  color: #999;
+}
+
+.wuondu-search-button {
+  border: none;
+  width: 48px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.wuondu-search-button:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+.wuondu-search-button svg {
+  stroke: #333;
+}
+
+/* =======================================
+   ICONOS DERECHA
+======================================= */
+.wuondu-right-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.wuondu-account,
+.wuondu-returns,
+.wuondu-cart-icon {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  align-items: flex-start;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
+.wuondu-account:hover,
+.wuondu-returns:hover,
+.wuondu-cart-icon:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.wuondu-bold-text {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.wuondu-small-text {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+/* =======================================
+   CARRITO
+======================================= */
+.wuondu-cart-icon {
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.wuondu-cart-icon svg {
+  flex-shrink: 0;
+}
+
+.wuondu-cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: bold;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+  animation: cartBounce 0.5s ease;
+}
+
+@keyframes cartBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* =======================================
+   BARRA DE NAVEGACIÓN SECUNDARIA
+======================================= */
+.wuondu-nav-bar {
+  /* El padding se controla inline desde Shopify */
+  transition: background-color 0.3s ease;
+}
+
+.wuondu-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wuondu-nav-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.wuondu-nav-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.wuondu-nav-item {
+  margin: 0;
+  padding: 0;
+}
+
+.wuondu-nav-link {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.wuondu-nav-link:hover,
+.wuondu-nav-link.wuondu-active {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* =======================================
+   RESPONSIVE DESIGN
+======================================= */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .wuondu-right-icons {
+    gap: 10px;
+  }
+
+  .wuondu-account,
+  .wuondu-returns {
+    display: none;
+  }
+
+  .wuondu-search-container {
+    max-width: 500px;
+  }
+
+  .wuondu-hamburger-text {
+    display: none;
+  }
+}
+
+/* Pantallas pequeñas */
+@media (max-width: 700px) {
+  .wuondu-search-container {
+    max-width: none;
+  }
+
+  .wuondu-topbar__inner {
+    gap: 10px;
+  }
+
+  .wuondu-nav-list {
+    gap: 15px;
+  }
+}
+
+/* Móviles */
+@media (max-width: 550px) {
+  .wuondu-topbar__inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .wuondu-logo {
+    order: 1;
+  }
+
+  .wuondu-hamburger {
+    order: 0;
+  }
+
+  .wuondu-right-icons {
+    order: 2;
+  }
+
+  .wuondu-search-container {
+    width: 100%;
+    order: 3;
+  }
+
+  .wuondu-logo img {
+    height: 32px !important;
+  }
+
+  .wuondu-logo-text {
+    font-size: 18px;
+  }
+
+  .wuondu-search-category select {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+
+  .wuondu-search-input {
+    font-size: 13px;
+    padding: 0 8px;
+  }
+
+  .wuondu-search-button {
+    width: 42px;
+  }
+
+  .wuondu-nav-bar {
+    padding: 8px 0;
+  }
+
+  .wuondu-nav-link {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+
+  .wuondu-drawer {
+    width: 280px;
+  }
+}
+
+/* Extra pequeños */
+@media (max-width: 400px) {
+  .wuondu-cart-icon .wuondu-bold-text {
+    display: none;
+  }
+
+  .wuondu-search-category {
+    display: none;
+  }
+
+  .wuondu-right-icons {
+    gap: 8px;
+  }
+}
+
+/* =======================================
+   UTILIDADES
+======================================= */
+
+/* SVG hereda color */
+.wuondu-hamburger svg,
+.wuondu-cart-icon svg,
+.wuondu-drawer-close svg {
+  stroke: currentColor;
+}
+
+/* Prevenir scroll cuando drawer está abierto */
+body:has(.wuondu-drawer--open) {
+  overflow: hidden;
+}
+
+/* Animación suave para transiciones */
+* {
+  -webkit-tap-highlight-color: transparent;
+}

@@ -1,0 +1,718 @@
+{{ 'header-wuondu-enhanced.css' | asset_url | stylesheet_tag }}
+
+<div class="header-wuondu-enhanced">
+
+  {% comment %} === OVERLAY PARA CERRAR DRAWER === {% endcomment %}
+  <div class="wuondu-drawer-overlay" id="wuonduDrawerOverlay"></div>
+
+  {% comment %} === MENÚ LATERAL (DRAWER) === {% endcomment %}
+  <aside class="wuondu-drawer" id="wuonduDrawer">
+    <div class="wuondu-drawer-header">
+      <h2 class="wuondu-drawer-title">{{ section.settings.drawer_title }}</h2>
+      <button class="wuondu-drawer-close" id="wuonduDrawerClose" aria-label="Cerrar menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="wuondu-drawer-content">
+      {% comment %} Usuario logueado {% endcomment %}
+      <div class="wuondu-drawer-user">
+        {% if customer %}
+          <p class="wuondu-drawer-greeting">Hola, <strong>{{ customer.first_name }}</strong></p>
+        {% else %}
+          <a href="{{ routes.account_login_url }}" class="wuondu-drawer-login-btn">
+            Iniciar sesión
+          </a>
+        {% endif %}
+      </div>
+
+      {% comment %} Categorías principales {% endcomment %}
+      {% if section.settings.drawer_menu != blank %}
+        <nav class="wuondu-drawer-nav">
+          <h3 class="wuondu-drawer-section-title">{{ section.settings.categories_title }}</h3>
+          <ul class="wuondu-drawer-menu">
+            {% for link in linklists[section.settings.drawer_menu].links %}
+              <li class="wuondu-drawer-menu-item">
+                <a href="{{ link.url }}" class="wuondu-drawer-link">
+                  {{ link.title }}
+                  {% if link.links.size > 0 %}
+                    <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  {% endif %}
+                </a>
+                {% if link.links.size > 0 %}
+                  <ul class="wuondu-drawer-submenu">
+                    {% for child_link in link.links %}
+                      <li>
+                        <a href="{{ child_link.url }}" class="wuondu-drawer-sublink">
+                          {{ child_link.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+
+      {% comment %} Enlaces rápidos {% endcomment %}
+      <div class="wuondu-drawer-quick-links">
+        <h3 class="wuondu-drawer-section-title">{{ section.settings.quick_links_title }}</h3>
+        <ul class="wuondu-drawer-quick-list">
+          <li><a href="{{ routes.account_url }}">Mi cuenta</a></li>
+          <li><a href="{{ routes.account_url }}">Mis pedidos</a></li>
+          {% if section.settings.show_wishlist %}
+            <li><a href="{{ section.settings.wishlist_url }}">Lista de deseos</a></li>
+          {% endif %}
+          <li><a href="{{ routes.cart_url }}">Carrito</a></li>
+        </ul>
+      </div>
+
+      {% comment %} Información adicional {% endcomment %}
+      {% if section.settings.show_drawer_info %}
+        <div class="wuondu-drawer-info">
+          <p>{{ section.settings.drawer_info_text }}</p>
+        </div>
+      {% endif %}
+    </div>
+  </aside>
+
+  {% comment %} === BARRA SUPERIOR === {% endcomment %}
+  <header class="wuondu-topbar" style="background-color: {{ section.settings.topbar_bg_color }};">
+    <div class="wuondu-topbar__inner page-width">
+
+      {% comment %} MENÚ HAMBURGUESA {% endcomment %}
+      {% if section.settings.show_hamburger %}
+        <button class="wuondu-hamburger" id="wuonduHamburger" aria-label="{{ section.settings.hamburger_label }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+          {% if section.settings.show_hamburger_text %}
+            <span class="wuondu-hamburger-text">{{ section.settings.hamburger_text }}</span>
+          {% endif %}
+        </button>
+      {% endif %}
+
+      {% comment %} LOGO {% endcomment %}
+      <a href="{{ routes.root_url }}" class="wuondu-logo">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}"
+            alt="{{ shop.name }}"
+            loading="eager"
+            style="height: {{ section.settings.logo_height }}px;"
+          >
+        {% else %}
+          <span class="wuondu-logo-text" style="color: {{ section.settings.logo_text_color }};">
+            {{ section.settings.logo_text | default: shop.name }}
+          </span>
+        {% endif %}
+      </a>
+
+      {% comment %} BUSCADOR CON SELECTOR DE CATEGORÍA MEJORADO {% endcomment %}
+      {% if section.settings.show_search %}
+        <div class="wuondu-search-container">
+
+          {% if section.settings.show_category_selector %}
+            <div class="wuondu-search-category">
+              <select
+                name="category"
+                id="wuonduCategorySelect"
+                style="background-color: {{ section.settings.category_bg_color }};"
+              >
+                <option value="" data-url="{{ routes.search_url }}">{{ section.settings.category_all_text }}</option>
+
+                {% comment %} Colecciones dinámicas {% endcomment %}
+                {% if section.settings.use_collections %}
+                  {% for collection in collections limit: 10 %}
+                    {% if collection.all_products_count > 0 %}
+                      <option value="{{ collection.handle }}" data-url="{{ collection.url }}">
+                        {{ collection.title }}
+                      </option>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+
+                {% comment %} Categorías personalizadas de bloques {% endcomment %}
+                {% for block in section.blocks %}
+                  {% if block.type == 'category' %}
+                    <option
+                      value="{{ block.settings.category_value }}"
+                      data-url="{{ block.settings.category_url }}"
+                      data-type="{{ block.settings.search_type }}"
+                    >
+                      {{ block.settings.category_name }}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          {% endif %}
+
+          <form action="{{ routes.search_url }}" method="get" role="search" class="wuondu-search-form" id="wuonduSearchForm">
+            <input
+              type="search"
+              name="q"
+              class="wuondu-search-input"
+              id="wuonduSearchInput"
+              placeholder="{{ section.settings.search_placeholder }}"
+              value="{{ search.terms | escape }}"
+              autocomplete="off"
+            >
+            <input type="hidden" name="type" id="wuonduSearchType" value="">
+            <input type="hidden" name="options[prefix]" value="last">
+
+            <button type="submit" class="wuondu-search-button" style="background-color: {{ section.settings.search_button_color }};">
+              <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      {% endif %}
+
+      {% comment %} ICONOS DERECHA {% endcomment %}
+      <div class="wuondu-right-icons">
+
+        {% comment %} CUENTA Y LISTAS {% endcomment %}
+        {% if section.settings.show_account %}
+          <a
+            class="wuondu-account"
+            href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+            style="color: {{ section.settings.topbar_text_color }};"
+          >
+            <span class="wuondu-small-text">
+              {{ section.settings.account_greeting }}{% if customer %} {{ customer.first_name }}{% else %} {{ section.settings.account_login_text }}{% endif %}
+            </span>
+            <span class="wuondu-bold-text">{{ section.settings.account_text }}</span>
+          </a>
+        {% endif %}
+
+        {% comment %} DEVOLUCIONES Y PEDIDOS {% endcomment %}
+        {% if section.settings.show_returns %}
+          <a
+            class="wuondu-returns"
+            href="{% if section.settings.returns_link != blank %}{{ section.settings.returns_link }}{% else %}{{ routes.account_url }}{% endif %}"
+            style="color: {{ section.settings.topbar_text_color }};"
+          >
+            <span class="wuondu-small-text">{{ section.settings.returns_small_text }}</span>
+            <span class="wuondu-bold-text">{{ section.settings.returns_bold_text }}</span>
+          </a>
+        {% endif %}
+
+        {% comment %} CARRITO {% endcomment %}
+        {% if section.settings.show_cart %}
+          <a
+            href="{{ routes.cart_url }}"
+            class="wuondu-cart-icon"
+            style="color: {{ section.settings.topbar_text_color }};"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+            </svg>
+            <span class="wuondu-bold-text">{{ section.settings.cart_text }}</span>
+
+            {% if cart.item_count > 0 %}
+              <span class="wuondu-cart-count" style="background-color: {{ section.settings.cart_count_bg }}; color: {{ section.settings.cart_count_color }};">
+                {{ cart.item_count }}
+              </span>
+            {% endif %}
+          </a>
+        {% endif %}
+
+      </div>
+
+    </div>
+  </header>
+
+  {% comment %} === BARRA DE NAVEGACIÓN SECUNDARIA === {% endcomment %}
+  {% if section.settings.show_nav_bar and section.settings.menu != blank %}
+    <nav class="wuondu-nav-bar" style="background-color: {{ section.settings.navbar_bg_color }}; padding: {{ section.settings.navbar_padding }}px 0;">
+      <div class="page-width">
+        <ul class="wuondu-nav-list">
+          {% for link in linklists[section.settings.menu].links %}
+            <li class="wuondu-nav-item">
+              <a
+                href="{{ link.url }}"
+                class="wuondu-nav-link{% if link.active %} wuondu-active{% endif %}"
+                style="color: {{ section.settings.navbar_text_color }}; font-size: {{ section.settings.navbar_font_size }}px;"
+              >
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  {% endif %}
+
+</div>
+
+<script>
+  (function() {
+    const hamburger = document.getElementById('wuonduHamburger');
+    const drawer = document.getElementById('wuonduDrawer');
+    const drawerClose = document.getElementById('wuonduDrawerClose');
+    const overlay = document.getElementById('wuonduDrawerOverlay');
+    const categorySelect = document.getElementById('wuonduCategorySelect');
+    const searchForm = document.getElementById('wuonduSearchForm');
+    const searchInput = document.getElementById('wuonduSearchInput');
+    const searchType = document.getElementById('wuonduSearchType');
+
+    // Abrir drawer
+    if (hamburger) {
+      hamburger.addEventListener('click', function() {
+        drawer.classList.add('wuondu-drawer--open');
+        overlay.classList.add('wuondu-drawer-overlay--visible');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    // Cerrar drawer
+    function closeDrawer() {
+      drawer.classList.remove('wuondu-drawer--open');
+      overlay.classList.remove('wuondu-drawer-overlay--visible');
+      document.body.style.overflow = '';
+    }
+
+    if (drawerClose) {
+      drawerClose.addEventListener('click', closeDrawer);
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', closeDrawer);
+    }
+
+    // Cerrar con tecla ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && drawer.classList.contains('wuondu-drawer--open')) {
+        closeDrawer();
+      }
+    });
+
+    // Manejar búsqueda por categoría
+    if (categorySelect && searchForm) {
+      categorySelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const searchTypeValue = selectedOption.getAttribute('data-type');
+
+        if (searchTypeValue) {
+          searchType.value = searchTypeValue;
+        } else {
+          searchType.value = '';
+        }
+      });
+
+      // Al enviar el formulario, redirigir si hay URL específica
+      searchForm.addEventListener('submit', function(e) {
+        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+        const categoryUrl = selectedOption.getAttribute('data-url');
+        const searchValue = searchInput.value.trim();
+
+        if (categoryUrl && categoryUrl !== '{{ routes.search_url }}' && searchValue) {
+          e.preventDefault();
+          // Redirigir a la colección con parámetro de búsqueda
+          window.location.href = categoryUrl + '?q=' + encodeURIComponent(searchValue);
+        }
+      });
+    }
+
+    // Expandir/colapsar submenús en drawer
+    const drawerLinks = document.querySelectorAll('.wuondu-drawer-link');
+    drawerLinks.forEach(function(link) {
+      const submenu = link.nextElementSibling;
+      if (submenu && submenu.classList.contains('wuondu-drawer-submenu')) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          submenu.classList.toggle('wuondu-drawer-submenu--open');
+          link.classList.toggle('wuondu-drawer-link--active');
+        });
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header Wuondu Enhanced",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colores de la Barra Superior"
+    },
+    {
+      "type": "color",
+      "id": "topbar_bg_color",
+      "label": "Color de fondo barra superior",
+      "default": "#ff6a00"
+    },
+    {
+      "type": "color",
+      "id": "topbar_text_color",
+      "label": "Color de texto barra superior",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Menu Hamburguesa y Drawer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hamburger",
+      "label": "Mostrar menu hamburguesa",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hamburger_label",
+      "label": "Texto accesibilidad hamburguesa",
+      "default": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hamburger_text",
+      "label": "Mostrar texto junto al icono",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "hamburger_text",
+      "label": "Texto del boton",
+      "default": "Menu"
+    },
+    {
+      "type": "text",
+      "id": "drawer_title",
+      "label": "Titulo del menu lateral",
+      "default": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "drawer_menu",
+      "label": "Menu del drawer (categorias)",
+      "info": "Menu principal que aparece en el drawer lateral"
+    },
+    {
+      "type": "text",
+      "id": "categories_title",
+      "label": "Titulo de categorias",
+      "default": "Categorias"
+    },
+    {
+      "type": "text",
+      "id": "quick_links_title",
+      "label": "Titulo enlaces rapidos",
+      "default": "Enlaces rapidos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Mostrar lista de deseos",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "URL lista de deseos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_drawer_info",
+      "label": "Mostrar informacion adicional",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "drawer_info_text",
+      "label": "Texto informativo",
+      "default": "Envios gratis en pedidos mayores a $50"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Imagen del logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Ancho del logo (px)",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Altura del logo (px)",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texto del logo (si no hay imagen)",
+      "default": "Wuondu"
+    },
+    {
+      "type": "color",
+      "id": "logo_text_color",
+      "label": "Color texto del logo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Buscador Inteligente"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Mostrar buscador",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder del buscador",
+      "default": "Buscar productos, marcas y mas..."
+    },
+    {
+      "type": "color",
+      "id": "search_button_color",
+      "label": "Color del boton de busqueda",
+      "default": "#febd69"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_selector",
+      "label": "Mostrar selector de categorias",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "use_collections",
+      "label": "Usar colecciones de Shopify",
+      "info": "Muestra automaticamente tus colecciones en el selector",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "category_all_text",
+      "label": "Texto para Todos",
+      "default": "Todos"
+    },
+    {
+      "type": "color",
+      "id": "category_bg_color",
+      "label": "Color de fondo selector categorias",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "header",
+      "content": "Cuenta de Usuario"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Mostrar cuenta",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "account_greeting",
+      "label": "Saludo inicial",
+      "default": "Hola,"
+    },
+    {
+      "type": "text",
+      "id": "account_login_text",
+      "label": "Texto cuando NO esta logueado",
+      "default": "Identificate"
+    },
+    {
+      "type": "text",
+      "id": "account_text",
+      "label": "Texto principal cuenta",
+      "default": "Cuenta y Listas"
+    },
+    {
+      "type": "header",
+      "content": "Devoluciones y Pedidos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_returns",
+      "label": "Mostrar devoluciones",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "returns_link",
+      "label": "Enlace de devoluciones"
+    },
+    {
+      "type": "text",
+      "id": "returns_small_text",
+      "label": "Texto pequeno",
+      "default": "Devoluciones"
+    },
+    {
+      "type": "text",
+      "id": "returns_bold_text",
+      "label": "Texto en negrita",
+      "default": "y Pedidos"
+    },
+    {
+      "type": "header",
+      "content": "Carrito"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Mostrar carrito",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cart_text",
+      "label": "Texto del carrito",
+      "default": "Carrito"
+    },
+    {
+      "type": "color",
+      "id": "cart_count_bg",
+      "label": "Color fondo contador carrito",
+      "default": "#ff9900"
+    },
+    {
+      "type": "color",
+      "id": "cart_count_color",
+      "label": "Color texto contador carrito",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Barra de Navegacion Secundaria"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav_bar",
+      "label": "Mostrar barra de navegacion",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu de navegacion",
+      "default": "main-menu"
+    },
+    {
+      "type": "color",
+      "id": "navbar_bg_color",
+      "label": "Color de fondo navegacion",
+      "default": "#e55e00"
+    },
+    {
+      "type": "color",
+      "id": "navbar_text_color",
+      "label": "Color de texto navegacion",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "navbar_padding",
+      "label": "Altura de la barra (padding vertical)",
+      "info": "Controla que tan alta o angosta es la barra",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "navbar_font_size",
+      "label": "Tamaño de fuente navegacion",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categoria Personalizada",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Nombre de la categoria",
+          "default": "Categoria"
+        },
+        {
+          "type": "text",
+          "id": "category_value",
+          "label": "Valor de busqueda",
+          "info": "Palabra clave para filtrar",
+          "default": "category"
+        },
+        {
+          "type": "url",
+          "id": "category_url",
+          "label": "URL de la categoria",
+          "info": "Puede ser una coleccion o pagina"
+        },
+        {
+          "type": "select",
+          "id": "search_type",
+          "label": "Tipo de busqueda",
+          "options": [
+            {
+              "value": "",
+              "label": "Todos los productos"
+            },
+            {
+              "value": "product",
+              "label": "Solo productos"
+            },
+            {
+              "value": "article",
+              "label": "Solo articulos"
+            },
+            {
+              "value": "page",
+              "label": "Solo paginas"
+            }
+          ],
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header Wuondu Enhanced",
+      "category": "header"
+    }
+  ]
+}
+{% endschema %}

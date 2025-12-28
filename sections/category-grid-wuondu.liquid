@@ -1,0 +1,741 @@
+{{ 'category-grid-wuondu.css' | asset_url | stylesheet_tag }}
+
+<div class="category-grid-wuondu" style="background-color: {{ section.settings.section_bg_color }};">
+  <div class="page-width">
+
+    {% comment %} TÍTULO DE LA SECCIÓN {% endcomment %}
+    {% if section.settings.show_title %}
+      <div class="category-grid-header">
+        <h2 class="category-grid-title" style="color: {{ section.settings.title_color }};">
+          {{ section.settings.section_title }}
+        </h2>
+        {% if section.settings.show_subtitle %}
+          <p class="category-grid-subtitle" style="color: {{ section.settings.subtitle_color }};">
+            {{ section.settings.section_subtitle }}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} GRID DE CATEGORÍAS {% endcomment %}
+    <div
+      class="category-grid-container"
+      style="--grid-columns-desktop: {{ section.settings.columns_desktop }}; --grid-columns-mobile: {{ section.settings.columns_mobile }}; gap: {{ section.settings.grid_gap }}px;"
+    >
+      {% for block in section.blocks %}
+        {% case block.type %}
+
+          {% comment %} TARJETA GRANDE {% endcomment %}
+          {% when 'large_card' %}
+            <a
+              href="{{ block.settings.card_link }}"
+              class="category-card category-card--large"
+              style="
+                background-image: linear-gradient({{ block.settings.overlay_direction }}, {{ block.settings.overlay_color }}, {{ block.settings.overlay_color_end }}), url('{{ block.settings.card_image | image_url: width: 800 }}');
+                grid-column: span {{ block.settings.card_width }};
+                grid-row: span {{ block.settings.card_height }};
+              "
+              {{ block.shopify_attributes }}
+            >
+              <div class="category-card-content">
+                {% if block.settings.show_badge %}
+                  <span class="category-badge" style="background-color: {{ block.settings.badge_bg }}; color: {{ block.settings.badge_text_color }};">
+                    {% if block.settings.badge_icon == 'lightning' %}⚡{% endif %}
+                    {% if block.settings.badge_icon == 'fire' %}🔥{% endif %}
+                    {% if block.settings.badge_icon == 'star' %}⭐{% endif %}
+                    {% if block.settings.badge_icon == 'gift' %}🎁{% endif %}
+                    {{ block.settings.badge_text }}
+                  </span>
+                {% endif %}
+
+                <div class="category-card-text">
+                  <h3 class="category-card-title" style="color: {{ block.settings.title_color }}; font-size: {{ block.settings.title_size }}px;">
+                    {{ block.settings.card_title }}
+                  </h3>
+                  {% if block.settings.show_description %}
+                    <p class="category-card-description" style="color: {{ block.settings.description_color }};">
+                      {{ block.settings.card_description }}
+                    </p>
+                  {% endif %}
+                  {% if block.settings.show_button %}
+                    <span class="category-card-button" style="background-color: {{ block.settings.button_bg }}; color: {{ block.settings.button_text_color }};">
+                      {{ block.settings.button_text }}
+                    </span>
+                  {% endif %}
+                </div>
+
+                {% if block.settings.show_icon %}
+                  <div class="category-card-icon">
+                    {% if block.settings.icon_image != blank %}
+                      <img src="{{ block.settings.icon_image | image_url: width: 100 }}" alt="{{ block.settings.card_title }}">
+                    {% else %}
+                      <div class="category-card-icon-placeholder" style="background-color: {{ block.settings.icon_bg }}; color: {{ block.settings.icon_color }};">
+                        {{ block.settings.icon_text }}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {% if block.settings.show_countdown %}
+                  <div class="category-countdown" data-end-date="{{ block.settings.countdown_date }}">
+                    <div class="countdown-item">
+                      <span class="countdown-value" data-days>00</span>
+                      <span class="countdown-label">D</span>
+                    </div>
+                    <span class="countdown-separator">:</span>
+                    <div class="countdown-item">
+                      <span class="countdown-value" data-hours>00</span>
+                      <span class="countdown-label">H</span>
+                    </div>
+                    <span class="countdown-separator">:</span>
+                    <div class="countdown-item">
+                      <span class="countdown-value" data-minutes>00</span>
+                      <span class="countdown-label">M</span>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </a>
+
+          {% comment %} TARJETA PEQUEÑA/NORMAL {% endcomment %}
+          {% when 'small_card' %}
+            <a
+              href="{{ block.settings.card_link }}"
+              class="category-card category-card--small"
+              style="
+                background-color: {{ block.settings.card_bg }};
+                background-image: {% if block.settings.card_image != blank %}linear-gradient({{ block.settings.overlay_direction }}, {{ block.settings.overlay_color }}, {{ block.settings.overlay_color_end }}), url('{{ block.settings.card_image | image_url: width: 400 }}'){% endif %};
+                grid-column: span {{ block.settings.card_width }};
+              "
+              {{ block.shopify_attributes }}
+            >
+              <div class="category-card-content category-card-content--{{ block.settings.content_alignment }}">
+                {% if block.settings.show_badge %}
+                  <span class="category-badge category-badge--small" style="background-color: {{ block.settings.badge_bg }}; color: {{ block.settings.badge_text_color }};">
+                    {{ block.settings.badge_text }}
+                  </span>
+                {% endif %}
+
+                <div class="category-card-text">
+                  <h3 class="category-card-title category-card-title--small" style="color: {{ block.settings.title_color }};">
+                    {{ block.settings.card_title }}
+                  </h3>
+                  {% if block.settings.show_description %}
+                    <p class="category-card-description category-card-description--small" style="color: {{ block.settings.description_color }};">
+                      {{ block.settings.card_description }}
+                    </p>
+                  {% endif %}
+                </div>
+
+                {% if block.settings.show_icon %}
+                  <div class="category-card-icon category-card-icon--small">
+                    {% if block.settings.icon_image != blank %}
+                      <img src="{{ block.settings.icon_image | image_url: width: 60 }}" alt="{{ block.settings.card_title }}">
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </div>
+            </a>
+
+        {% endcase %}
+      {% endfor %}
+    </div>
+
+    {% comment %} BOTÓN VER MÁS {% endcomment %}
+    {% if section.settings.show_view_all %}
+      <div class="category-grid-footer">
+        <a
+          href="{{ section.settings.view_all_link }}"
+          class="category-view-all-btn"
+          style="
+            background-color: {{ section.settings.button_bg }};
+            color: {{ section.settings.button_text_color }};
+            border-color: {{ section.settings.button_border_color }};
+          "
+        >
+          {{ section.settings.view_all_text }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<script>
+  // Countdown timer
+  document.addEventListener('DOMContentLoaded', function() {
+    const countdowns = document.querySelectorAll('.category-countdown');
+
+    countdowns.forEach(function(countdown) {
+      const endDate = new Date(countdown.dataset.endDate).getTime();
+
+      const updateCountdown = function() {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
+        if (distance < 0) {
+          countdown.innerHTML = '<div class="countdown-expired">¡Oferta finalizada!</div>';
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+        const daysEl = countdown.querySelector('[data-days]');
+        const hoursEl = countdown.querySelector('[data-hours]');
+        const minutesEl = countdown.querySelector('[data-minutes]');
+
+        if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+        if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+      };
+
+      updateCountdown();
+      setInterval(updateCountdown, 60000); // Actualizar cada minuto
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Grid de Categorias Wuondu",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Configuracion General"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Color de fondo seccion",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Mostrar titulo",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Titulo de la seccion",
+      "default": "Categorias Destacadas"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color del titulo",
+      "default": "#333333"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Mostrar subtitulo",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Subtitulo",
+      "default": "Descubre nuestras mejores ofertas"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Color del subtitulo",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columnas en escritorio",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columnas en movil",
+      "options": [
+        {"value": "1", "label": "1 columna"},
+        {"value": "2", "label": "2 columnas"}
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Espacio entre tarjetas",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Boton Ver Todo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Mostrar boton ver todo",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Texto del boton",
+      "default": "Ver todas las categorias"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Enlace del boton"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Color de fondo boton",
+      "default": "#ff6a00"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Color de texto boton",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Color de borde boton",
+      "default": "#ff6a00"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "large_card",
+      "name": "Tarjeta Grande",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Contenido"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Titulo",
+          "default": "Estilo de Vida"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "label": "Tamano del titulo",
+          "min": 16,
+          "max": 48,
+          "step": 2,
+          "unit": "px",
+          "default": 32
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Color del titulo",
+          "default": "#ffffff"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Mostrar descripcion",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "card_description",
+          "label": "Descripcion",
+          "default": "Ver mas"
+        },
+        {
+          "type": "color",
+          "id": "description_color",
+          "label": "Color descripcion",
+          "default": "#ffffff"
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "Enlace de la tarjeta"
+        },
+        {
+          "type": "header",
+          "content": "Imagen y Fondo"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Imagen de fondo"
+        },
+        {
+          "type": "select",
+          "id": "overlay_direction",
+          "label": "Direccion del degradado",
+          "options": [
+            {"value": "to bottom", "label": "De arriba a abajo"},
+            {"value": "to top", "label": "De abajo a arriba"},
+            {"value": "to right", "label": "De izquierda a derecha"},
+            {"value": "to left", "label": "De derecha a izquierda"},
+            {"value": "135deg", "label": "Diagonal"}
+          ],
+          "default": "to bottom"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Color overlay inicio",
+          "default": "rgba(0, 0, 0, 0.4)"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color_end",
+          "label": "Color overlay final",
+          "default": "rgba(0, 0, 0, 0.1)"
+        },
+        {
+          "type": "header",
+          "content": "Tamano de Tarjeta"
+        },
+        {
+          "type": "range",
+          "id": "card_width",
+          "label": "Ancho (columnas)",
+          "info": "Cuantas columnas ocupa la tarjeta",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "card_height",
+          "label": "Alto (filas)",
+          "info": "Cuantas filas ocupa la tarjeta",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "header",
+          "content": "Badge/Etiqueta"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge",
+          "label": "Mostrar badge",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "badge_icon",
+          "label": "Icono del badge",
+          "options": [
+            {"value": "lightning", "label": "Relampago"},
+            {"value": "fire", "label": "Fuego"},
+            {"value": "star", "label": "Estrella"},
+            {"value": "gift", "label": "Regalo"}
+          ],
+          "default": "lightning"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Texto del badge",
+          "default": "OFERTAS RELAMPAGO"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Color fondo badge",
+          "default": "#ff0000"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Color texto badge",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Boton"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "label": "Mostrar boton",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto del boton",
+          "default": "Ver coleccion"
+        },
+        {
+          "type": "color",
+          "id": "button_bg",
+          "label": "Color fondo boton",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Color texto boton",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Icono/Imagen"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Mostrar icono",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Imagen del icono"
+        },
+        {
+          "type": "text",
+          "id": "icon_text",
+          "label": "Texto del icono (si no hay imagen)",
+          "default": "🎮"
+        },
+        {
+          "type": "color",
+          "id": "icon_bg",
+          "label": "Color fondo icono",
+          "default": "#ffeb3b"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Color del icono",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Cuenta Regresiva"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_countdown",
+          "label": "Mostrar cuenta regresiva",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "countdown_date",
+          "label": "Fecha final (YYYY-MM-DD HH:MM)",
+          "info": "Ejemplo: 2025-12-31 23:59",
+          "default": "2025-12-31 23:59"
+        }
+      ]
+    },
+    {
+      "type": "small_card",
+      "name": "Tarjeta Pequena",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Contenido"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Titulo",
+          "default": "Tecnologia"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Color del titulo",
+          "default": "#333333"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Mostrar descripcion",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "card_description",
+          "label": "Descripcion",
+          "default": "Ver mas"
+        },
+        {
+          "type": "color",
+          "id": "description_color",
+          "label": "Color descripcion",
+          "default": "#666666"
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "Enlace de la tarjeta"
+        },
+        {
+          "type": "header",
+          "content": "Fondo"
+        },
+        {
+          "type": "color",
+          "id": "card_bg",
+          "label": "Color de fondo",
+          "default": "#ffffff"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Imagen de fondo (opcional)"
+        },
+        {
+          "type": "select",
+          "id": "overlay_direction",
+          "label": "Direccion del degradado",
+          "options": [
+            {"value": "to bottom", "label": "De arriba a abajo"},
+            {"value": "to right", "label": "De izquierda a derecha"},
+            {"value": "135deg", "label": "Diagonal"}
+          ],
+          "default": "to right"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Color overlay inicio",
+          "default": "rgba(255, 255, 255, 0.9)"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color_end",
+          "label": "Color overlay final",
+          "default": "rgba(255, 255, 255, 0.7)"
+        },
+        {
+          "type": "header",
+          "content": "Tamano y Alineacion"
+        },
+        {
+          "type": "range",
+          "id": "card_width",
+          "label": "Ancho (columnas)",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Alineacion del contenido",
+          "options": [
+            {"value": "left", "label": "Izquierda"},
+            {"value": "center", "label": "Centro"},
+            {"value": "right", "label": "Derecha"}
+          ],
+          "default": "left"
+        },
+        {
+          "type": "header",
+          "content": "Badge"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge",
+          "label": "Mostrar badge",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Texto del badge",
+          "default": "NUEVO"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Color fondo badge",
+          "default": "#ff6a00"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Color texto badge",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Icono"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Mostrar icono",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Imagen del icono"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grid de Categorias Wuondu",
+      "blocks": [
+        {
+          "type": "large_card",
+          "settings": {
+            "card_title": "Estilo de Vida",
+            "card_description": "Ver coleccion",
+            "card_width": 2,
+            "card_height": 2
+          }
+        },
+        {
+          "type": "small_card",
+          "settings": {
+            "card_title": "Tecnologia",
+            "card_description": "Ver mas"
+          }
+        },
+        {
+          "type": "small_card",
+          "settings": {
+            "card_title": "Gaming",
+            "card_description": "Equipate"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
